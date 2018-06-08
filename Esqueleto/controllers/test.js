@@ -6,8 +6,15 @@ Por ejemplo: controllers_web.test.testFunc.
 Si se declaran de la forma tradicional 'function <nombre_funcion> () no
 será accesible desde router.js'*/
 exports.testFunc = function (req, res)
-{
-    res.render('test/test');
+{   
+    var lista=[];
+    for(i=0;i<10;i++)
+    {
+        lista.push(i);
+    }
+    console.log('LISTA: ' + lista);
+    res.render('test/test',
+    {title: 'CUSTOM TITLE', myvar: lista});
 }
 
 function testFunc2(req, res)
