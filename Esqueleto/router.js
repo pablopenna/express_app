@@ -91,6 +91,11 @@ module.exports = function () {
     //No funciona. testFunc2() no esta declarado (undefined)
     //app.route('/test2').get(controllers_web.test.testFunc2);
 
+    //DB
+    //import router
+    var DbWorkerRouter = require('./controllers/db_worker');
+    //añado rutas empleando el router importado
+    app.use('/db',DbWorkerRouter);
 
     /*FIN PRUEBAS*/
 
