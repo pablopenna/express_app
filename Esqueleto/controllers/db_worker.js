@@ -43,15 +43,30 @@ router.post('/', function(req,res,next)
 });
 
 /*TEMPLATE*/
-router.get('/render', function(req,res,next)
+//Al utilizar la funcion asincrona getAllData(),
+//esta funcion que la llama tambien debe ser asyncrona
+//para esperar por el resultado.
+router.get('/render', async function(req,res,next)
 {
-    var datos = getAllData();
+    var datos = await getAllData();
     console.log("THE TRUE TEST: <" + datos + ">");
+    
     res.render('test/dbtest.html');
 }); 
 
 
-//Get data in the DB
+//Get data in the DB. Devuelve objeto Promise.
+async function getAllData() {
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function
+    const datos = await MiModelo.find().exec();
+
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map
+    const miLista = datos.map(dato => dato.numero)
+
+    return miLista;
+}
+
+/*
 function getAllData()
 {
     //Funciona ya que con require('mongoose')
@@ -81,7 +96,7 @@ function getAllData()
     //
     return miLista;
 }
-
+*/
 //exporto la instancia router con las rutas y los
 //métodos definidors. Importaremos esta intancia en
 //router.js para emplearla en la aplicación.
