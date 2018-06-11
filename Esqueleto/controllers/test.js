@@ -17,6 +17,11 @@ exports.testFunc = function (req, res)
     {title: 'CUSTOM TITLE', myvar: lista});
 }
 
+exports.testAng = function (req, res)
+{
+    res.render('test/angulartest.html');
+}
+
 function testFunc2(req, res)
 {
     res.send('funciona?');

@@ -88,6 +88,7 @@ module.exports = function () {
     app.route('/wiki/').get(controllers_web.wiki.home);
     app.route('/wiki/about').get(controllers_web.wiki.about);
     app.route('/test').get(controllers_web.test.testFunc);
+    app.route('/ang').get(controllers_web.test.testAng);
     //No funciona. testFunc2() no esta declarado (undefined)
     //app.route('/test2').get(controllers_web.test.testFunc2);
 
