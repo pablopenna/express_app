@@ -1,7 +1,7 @@
 ﻿module.exports = {
-    name: "Esquelo de Proyecto",
+    name: "Comparador",
     version: "0.0.0",
-    description: "Esqueleto para proyecto nodejs",
+    description: "Aplicación en Express que hace y comprueba peticiones",
     domain: "",
     url: "",
     env: "development",
@@ -15,13 +15,5 @@
         domain: 'ds016128.mlab.com',
         port: 16128,
         name: 'express_mongo'
-    },
-    //bd produccion
-    //database: {
-    //    user: 'verderuserdb',
-    //    password: 'maEATsK47E2B6eEusEqN2j4d2JK',
-    //    domain: '127.0.0.1',
-    //    port: 27017,
-    //    name: 'verderdb'
-    //},
+    }
 }

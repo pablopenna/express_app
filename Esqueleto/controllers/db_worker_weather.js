@@ -1,5 +1,5 @@
 //var express = require('express');
-var MiModelo = require('../models/model_test.js');
+var MiModelo = require('../models/weather.js');
 
 //exporto la instancia router con las rutas y los
 //métodos definidors. Importaremos esta intancia en
@@ -29,6 +29,7 @@ module.exports = {
             if (err)
             {
                 console.log("ERROR: " + err);
+                res.send(err);
                 return err;
             }
             //Respuesta
@@ -38,8 +39,8 @@ module.exports = {
 
     /* Post data to DB */
     /*Desde terminal:
-    curl -i -X POST -H "Content-Type: application/json" -d '{"numero":"cuatro","cadena":"cuarta variable"}' localhost:3000/db
-    */
+curl -i -X POST -H "Content-Type: appjson" 
+-d '{"temp.media":50}' localhost:3000/weather    */
     setData : function(req,res,next)
     {
         MiModelo.create(req.body, function(err, datos)
@@ -48,6 +49,26 @@ module.exports = {
             if (err)
             {
                 console.log("ERROR: " + err);
+                res.send(err);
+                return err;
+            }
+            //Respuesta
+            res.json(datos);
+        })
+    },
+
+    /* Borra todos los datos */
+    /* curl -X DELETE localhost:3000/db */
+
+    clearData : function(req, res)
+    {
+        MiModelo.remove().exec(function(err, datos)
+        {
+            console.log('RESULTADO: ' + datos);
+            if (err)
+            {
+                console.log("ERROR: " + err);
+                res.send(err);
                 return err;
             }
             //Respuesta

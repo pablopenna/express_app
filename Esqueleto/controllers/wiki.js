@@ -1,24 +1,14 @@
 // wiki.js - Wiki route module
 
-var express = require('express');
-var router = express.Router();
-//var app = require(path.join(process.cwd(), 'server'));
+module.exports = {
+  // Home page route
+  home : function(req, res) {
+    res.render('test/pages/index.ejs');
+  },
 
+  // About page route
+  about : function(req, res) {
+    res.render('test/pages/about.ejs');
+  }
+}
 
-// Home page route
-router.get('/', function(req, res) {
-  res.send('Wiki home page');
-});
-
-// About page route
-router.get('/about', function(req, res) {
-  res.send('About this wiki');
-});
-
-exports.home = function(req ,res){
-    res.send('Wiki home page');
-};
-
-exports.about = function(req ,res){
-    res.send('About this wiki');
-};

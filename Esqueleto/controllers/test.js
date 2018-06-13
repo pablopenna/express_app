@@ -5,24 +5,22 @@ Por ejemplo: controllers_web.test.testFunc.
 
 Si se declaran de la forma tradicional 'function <nombre_funcion> () no
 será accesible desde router.js'*/
-exports.testFunc = function (req, res)
-{   
-    var lista=[];
-    for(i=0;i<10;i++)
+
+module.exports = {
+    testFunc : function (req, res)
+    {   
+        var lista=[];
+        for(i=0;i<10;i++)
+        {
+            lista.push(i);
+        }
+        console.log('LISTA: ' + lista);
+        res.render('test/test',
+        {title: 'CUSTOM TITLE', myvar: lista});
+    },
+
+    testAng : function (req, res)
     {
-        lista.push(i);
+        res.render('test/angulartest.html');
     }
-    console.log('LISTA: ' + lista);
-    res.render('test/test',
-    {title: 'CUSTOM TITLE', myvar: lista});
-}
-
-exports.testAng = function (req, res)
-{
-    res.render('test/angulartest.html');
-}
-
-function testFunc2(req, res)
-{
-    res.send('funciona?');
-}
+};
