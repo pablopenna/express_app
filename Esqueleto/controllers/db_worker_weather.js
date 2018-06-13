@@ -1,5 +1,6 @@
-//var express = require('express');
-var MiModelo = require('../models/weather.js');
+//var MiModelo = require('../models/weather.js');
+var path = require('path');
+var MiModelo = require(path.resolve(__dirname, path.join(process.cwd(), 'models', 'weather.js')));
 
 //exporto la instancia router con las rutas y los
 //métodos definidors. Importaremos esta intancia en
