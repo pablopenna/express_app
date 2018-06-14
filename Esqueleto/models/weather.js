@@ -1,5 +1,8 @@
 var mongoose = require('mongoose');
-
+//lista con las direcciones del viento
+var path = require('path');
+var direccionesViento = require(path.resolve(__dirname, path.join(process.cwd(), 'models', 'direccionesViento.js')));
+//console.log('DIRECCIONES: ' + direccionesViento);
 //defino Schema 
 var Schema = mongoose.Schema
 
@@ -50,7 +53,8 @@ var weatherSchema = new Schema(
             required: true,
             //default
             uppercase: true,
-            enum: ["N","S","E","W","NW","NE","SW","SE"],
+            //enum: ["N","S","E","W","NW","NE","SW","SE"],
+            enum: direccionesViento,
             default: "N"
         },
         //Temperaturas media, maxima y minima.

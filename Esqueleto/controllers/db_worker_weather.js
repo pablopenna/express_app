@@ -21,12 +21,11 @@ module.exports = {
     /*Desde terminal:
     curl -X GET localhost:3000/db
     */
-    //Le añado prefijo al llamarlo desde router.js
     getData : function(req,res,next)
     {
         MiModelo.find().exec(function(err, datos)
         {
-            console.log('RESULTADO: ' + datos);
+            //console.log('RESULTADO: ' + datos);
             if (err)
             {
                 console.log("ERROR: " + err);
@@ -40,13 +39,13 @@ module.exports = {
 
     /* Post data to DB */
     /*Desde terminal:
-curl -i -X POST -H "Content-Type: appjson" 
--d '{"temp.media":50}' localhost:3000/weather    */
+    curl -i -X POST -H "Content-Type: appjson" 
+        -d '{"temp.media":50}' localhost:3000/weather    */
     setData : function(req,res,next)
     {
         MiModelo.create(req.body, function(err, datos)
         {
-            console.log('RESULTADO: ' + datos);
+            //console.log('RESULTADO: ' + datos);
             if (err)
             {
                 console.log("ERROR: " + err);
@@ -55,7 +54,7 @@ curl -i -X POST -H "Content-Type: appjson"
             }
             //Respuesta
             res.json(datos);
-        })
+        });
     },
 
     /* Borra todos los datos */
@@ -65,15 +64,21 @@ curl -i -X POST -H "Content-Type: appjson"
     {
         MiModelo.remove().exec(function(err, datos)
         {
-            console.log('RESULTADO: ' + datos);
+            //console.log('RESULTADO: ' + datos);
             if (err)
             {
                 console.log("ERROR: " + err);
-                res.send(err);
+                if(res!=undefined)
+                {
+                    res.send(err);
+                }
                 return err;
             }
             //Respuesta
-            res.json(datos);
+            if(res!=undefined)
+            {
+                res.json(datos);
+            }
         })
     },
 

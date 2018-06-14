@@ -8,13 +8,15 @@ var glob = require('glob');
 //este es el proceso encargado de establecer los controladores y asignarlos a su carpeta
 var controllers = {};
 var files = glob.sync(path.join(process.cwd(), 'controllers', '**', '*.js'));
+
 //DEBUG
-console.log("FILES: " + files);
+//console.log("FILES: " + files);
+
 files.forEach(function (file) {
     var temp = controllers;
-    console.log("temp: " + temp);
+    //console.log("temp: " + temp);
     var parts = path.relative(path.join(process.cwd(), 'controllers'), file).slice(0, -3).split(path.sep);
-    console.log("parts: " + parts);
+    //console.log("parts: " + parts);
 
     while (parts.length) {
         if (parts.length === 1) {
@@ -26,6 +28,7 @@ files.forEach(function (file) {
     }
 });
 //DEBUG
+/*
 for (i in controllers)
 {
     console.log("CONTROLLER " + i + ": " + controllers[i]);
@@ -33,6 +36,7 @@ for (i in controllers)
 console.log("WIKI: " + controllers.db_worker);
 console.log("WIKI.HOME: " + controllers.db_worker.getData);
 console.log("WIKI.ABOUT: " + controllers.db_worker.setData);
+*/
 
 //Proceso para asociar las peticiones a los métodos del controlador
 module.exports = function () {
