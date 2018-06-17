@@ -21,6 +21,7 @@ module.exports = {
 
     testAng : function (req, res)
     {
-        res.render('test/angulartest.html');
+        //res.render('test/angulartest.html');
+        res.render('test/angularmain.html');
     }
 };
