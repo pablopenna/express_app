@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>
+        ExpressApp
+    </title>
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>-->
+    <script src="/js/angular.js"></script>
+    <script src="/js/angular/mainApp.js"></script>
+    <script src="/js/angular/mainController.js"></script>
+</head>
+<body>
+    <h2>AngularJS Main Menu</h2>
+    <div ng-app="MainApp" ng-controller="MainCtrl">
+        <div class="myMenuEntry"> 
+            <span>Adress : </span><input ng-model="address" /><br/><br/>
+            <input type="button" value="Send" ng-click="postdata()" /> 
+        </div>
+        <br/><br/>
+        <div class="datosDebug">
+            <p>Output Message : {{msg}}</p>
+            <p>StatusCode: {{statusval}}</p>
+            <p>Status: {{statustext}}</p>
+            <p>Response Headers: {{headers}}</p>
+            <p>RESPUESTA: {{resData}}
+        </div>
+    </div>
+</body>
+</html>

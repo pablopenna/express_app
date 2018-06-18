@@ -51,7 +51,8 @@ module.exports = function () {
     /*Pruebas*/
 
     /*Lo aceptable.*/
-    app.route('/').get(controllers.wiki.home);
+    app.route('/').get(controllers.main_menu.menu);
+    app.route('/home').get(controllers.wiki.home);
     app.route('/about').get(controllers.wiki.about);
     app.route('/test').get(controllers.test.testFunc);
     app.route('/ang').get(controllers.test.testAng);
