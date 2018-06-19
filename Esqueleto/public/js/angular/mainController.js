@@ -1,10 +1,11 @@
 app.controller('MainCtrl', function ($scope, $http) {
     $scope.address = 'placeholder';
     $scope.lblMsg = null;
-    $scope.postdata = function () {
+    /**Envío de datos */
+    $scope.postdata = function (url) {
         //Call the services 
         //$http.post('/ops/mediaLluvia')
-        $http.post($scope.address)
+        $http.post(url)
         .then(function onSuccess(response) 
         {
             if (response.data)
@@ -20,5 +21,19 @@ app.controller('MainCtrl', function ($scope, $http) {
             $scope.statustext = response.statusText;
             $scope.headers = response.headers();
         });
+    };
+    /**Entradas */
+    $scope.entryCounter=0;
+    $scope.entries = [{ id : 'defaultEntry', url : 'xxx'}];
+    $scope.addEntry = function() {
+        $scope.inputTemplate = {
+            //id: 'input-' + $scope.entryCounter,
+            id: 'input-' + $scope.entryCounter,
+            name: '',
+            custom: 'yeahboi',
+            url: 'new'
+        };
+        $scope.entryCounter += 1;
+        $scope.entries.push($scope.inputTemplate);
     };
 });
