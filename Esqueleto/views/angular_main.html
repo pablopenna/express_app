@@ -13,16 +13,20 @@
     <h2>AngularJS Main Menu</h2>
     <div ng-app="MainApp" ng-controller="MainCtrl">
         <div id="menu" ng-repeat="entry in entries track by entry['id']">
+            <!--Este div es el que marca la estructura de 
+            todas las entradas que se carguen de 'entries'.
+            Los atributos 'class' e 'id' son irrelevantes.
+            Este div marca la VISTA de las entradas.-->
             <div class="myMenuEntry" id="defaultEntry"> 
                 <span>Adress : </span><input ng-model="entries[$index].url"/>
                 <input type="button" value="Send" ng-click="postdata(entries[$index].url)" />
                 <p>Address : {{entries[$index].url}}</p>
+                <p>ID : {{entries[$index].id}}</p>
             </div>
         </div>
         <br/><br/>
         <div class="datosDebug">
             <input type="button" value="Add" ng-click="addEntry()" />
-            <p>Address : {{address}}</p>
             <p>Output Message : {{msg}}</p>
             <p>StatusCode: {{statusval}}</p>
             <p>Status: {{statustext}}</p>

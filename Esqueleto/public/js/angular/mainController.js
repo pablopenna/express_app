@@ -24,13 +24,27 @@ app.controller('MainCtrl', function ($scope, $http) {
     };
     /**Entradas */
     $scope.entryCounter=0;
+    /**Definimos unicamente los atributos que 
+     * queremos que posea cada entrada de 'entries' 
+     * (modelo).
+     * No influye en la estructura del html (vista).
+     */
     $scope.entries = [{ id : 'defaultEntry', url : 'xxx'}];
+    //$scope.entries = [{url : 'xxx'}];
     $scope.addEntry = function() {
+        //atributos de la entrada a añadir (modelo)
         $scope.inputTemplate = {
-            //id: 'input-' + $scope.entryCounter,
-            id: 'input-' + $scope.entryCounter,
-            name: '',
-            custom: 'yeahboi',
+            /**Necesitamos id porque se utiliza en la
+             * cláusula ng-repeat en la vista.
+             */
+            id: 'entry-' + $scope.entryCounter,
+            //name: '',
+            /**Por ejemplo, al añadir este
+             * atributo 'custom' el div que se corresponda
+             * a la nueva entrada creada no poseerá este 
+             * atributo en el html (vista).
+             */
+            //custom: 'yeahboi',
             url: 'new'
         };
         $scope.entryCounter += 1;
