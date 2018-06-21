@@ -9,11 +9,16 @@ var Schema = mongoose.Schema
 var weatherSchema = new Schema(
 {
         //Dia de la toma de medidas (fecha)
-        //Date.now -> fecha en ms
+        //Date.now() -> fecha en ms
         //Obtener dia: 
-        //var t = Date.now
+        //var t = Date.now()
         //var f = new Date(t)
         //var dia = f.getDate()
+        //var mes = f.getMonth()
+        //var anio = f.getFullYear()
+        //Para crear objeto Date() para un año determinaod
+        //var miAnio = new Date("2018")
+
         dia: {
             type: Date,
             required: true,

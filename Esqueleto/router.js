@@ -69,11 +69,15 @@ module.exports = function () {
     app.route('/weather').delete(controllers.db_worker_weather.clearData);
     //
     app.route('/reset').get(controllers.db_weather_filler.resetDB);
-    //
+    //---
+    //OPERACIONES
     //Accesible desde navegador
-    app.route('/ops/mediaLLuvia').get(controllers.ops.mediaProbLluvia.mediaLluvia);
+    app.route('/ops/mediaLluvia').get(controllers.ops.mediaProbLluvia.mediaLluvia);
     //Accesible mediante POST
-    app.route('/ops/mediaLLuvia').post(controllers.ops.mediaProbLluvia.mediaLluvia);
+    app.route('/ops/mediaLluvia').post(controllers.ops.mediaProbLluvia.mediaLluvia);
+    app.route('/ops/maxLluvia').post(controllers.ops.maxProbLluvia.maxLluvia);
+    //Prueba
+    app.route('/ops/mediaLluvia2').post(controllers.ops.prototypeMediaProbLluvia.mediaLluvia);
     
 
     /*FIN PRUEBAS*/
