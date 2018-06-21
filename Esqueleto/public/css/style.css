@@ -1,0 +1,11 @@
+h2 {
+    color: brown;
+}
+
+ul {
+    columns: 2;
+}
+
+li{
+    list-style: none;
+}
