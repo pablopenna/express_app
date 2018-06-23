@@ -4,6 +4,9 @@ var app = require(path.join(process.cwd(), 'server'));
 var fs = require('fs');
 var glob = require('glob');
 
+//CORS
+var cors = require('cors')
+//---
 
 //este es el proceso encargado de establecer los controladores y asignarlos a su carpeta
 var controllers = {};
@@ -49,7 +52,8 @@ module.exports = function () {
     app.route('/admin/edit/:id').get(auth.check, controllers.admin.edit);*/
     
     /*Pruebas*/
-
+    //CORS
+    app.use(cors());
     /*Lo aceptable.*/
     app.route('/').get(controllers.main_menu.menu);
     app.route('/home').get(controllers.wiki.home);
