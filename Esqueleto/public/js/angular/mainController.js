@@ -5,16 +5,9 @@ app.controller('MainCtrl', function ($scope, $http) {
     /**Wrapper */
     $scope.enviarPeticion = function(url)
     {
-        const data = $scope.parseURL(url);
-        //Tengo que añadir 'http://' para que el post se envía
-        //a otra máquina (cross domain POST).
-        //http://192.168.1.38:3000/ops/mediaLluvia -> Se envia POST correctamente
-        //192.168.1.38:3000/ops/mediaLluvia -> Se envia POST a  localhost:3000/192.168.1.38:3000/ops/mediaLluvia
-
-        var miURL = 'http://' + data['host']+data['pathname'];
-        //var miURL = '10.0.0.1:3000/ops/media';
-        //console.log('MIURL: ' + miURL);
-        $scope.postdata(miURL);
+        var data = $scope.checkURL(url);
+        var miUrl = data['protocol']+data['host']+data['pathname'];
+        $scope.postdata(miUrl);
     }
 
     /**Envío de datos */
@@ -28,6 +21,9 @@ app.controller('MainCtrl', function ($scope, $http) {
             if (response.data)
             {
                 $scope.msg = "Post Data Submitted Successfully!";
+                $scope.statusval = response.status;
+                $scope.statustext = response.statusText;
+                $scope.headers = response.headers();
                 $scope.resData = response.data;
             }
         },
@@ -37,8 +33,13 @@ app.controller('MainCtrl', function ($scope, $http) {
             $scope.statusval = response.status;
             $scope.statustext = response.statusText;
             $scope.headers = response.headers();
+            $scope.resData = response.data;
+            console.log
         });
     };
+
+    //ENTRIES
+    //------------------------------------------------------------------
     /**Entradas */
     $scope.entryCounter=0;
     /**Definimos unicamente los atributos que 
@@ -92,7 +93,8 @@ app.controller('MainCtrl', function ($scope, $http) {
             }
         }
     }
-
+    //------------------------------------------------------------------
+    //URLS
     /**Para parsear una cadena y sacar info si es URL */
     $scope.parseURL = function(href) {
         var match = href.match(/^((https?\:)\/\/)?(([^:\/?#]*)(?:\:([0-9]+))?)([\/]{0,1}[^?#]*)(\?[^#]*|)(#.*|)$/);
@@ -110,7 +112,46 @@ app.controller('MainCtrl', function ($scope, $http) {
             //hostname + port = host
             //host + pathname = miUrl
         };
+
+        return data;
+    }
+
+    /**Recibe la salida de la funcion parseURL y añade campos si faltan */
+    $scope.fixURLData = function(data)
+    {
+        //Tengo que añadir 'http://' para que el post se envía
+        //a otra máquina (cross domain POST).
+        //http://192.168.1.38:3000/ops/mediaLluvia -> Se envia POST correctamente
+        //192.168.1.38:3000/ops/mediaLluvia -> Se envia POST a  localhost:3000/192.168.1.38:3000/ops/mediaLluvia
+        //Compruebo si hay campos vacios.
+        //Si no se especifica protocolo doy por sentado que es http
+        if(data['protocol']==undefined || data['protocol']=='')
+        {
+            data.protocol='http://';
+        }
+        //Si no se especifica hostname doy por sentado que es localhost
+        if(data['hostname']==undefined || data['hostname']=='')
+        {
+            data['hostname']='localhost';
+        }
+        //Si no se especifica puerto doy por sentado que es 80
+        if(data['port']==undefined || data['port']=='')
+        {
+            data['port']='3000';
+        }
+        data['host']= data['hostname']+':'+data['port'];
+
+        return data;
+    }
+
+    /**Envoltorio de las dos funcione sprevias */
+    $scope.checkURL = function(url)
+    {
+        var data = $scope.parseURL(url);
+        data = $scope.fixURLData(data);
+        //DEBUG---
         $scope.parsedURL = data;
+        //---
         return data;
     }
 });

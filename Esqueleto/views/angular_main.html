@@ -24,7 +24,7 @@
                 <span>Address : {{entries[$index].url}}</span>
                 <span>ID : {{entries[$index].id}}</span>
                 <input type="button" value="Delete" ng-click="deleteEntry(entries[$index].id)"/>
-                <input type="button" value="Parse" ng-click="parseURL(entries[$index].url)"/>
+                <input type="button" value="Parse" ng-click="checkURL(entries[$index].url)"/>
             </li>
         </ul>
         </div>
