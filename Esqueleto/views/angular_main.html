@@ -5,6 +5,7 @@
         ExpressApp
     </title>
     <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>-->
+    <script src="/js/jquery.js"></script>
     <script src="/js/angular.js"></script>
     <script src="/js/angular/mainApp.js"></script>
     <script src="/js/angular/mainController.js"></script>
@@ -14,37 +15,48 @@
 <body>
     <h2>AngularJS Main Menu</h2>
     <div ng-app="MainApp" ng-controller="MainCtrl">
-        <ul id="menu" ng-repeat="entry in entries track by entry['id']">
-            <!--Este div es el que marca la estructura de 
-            todas las entradas que se carguen de 'entries'.
-            Los atributos 'class' e 'id' son irrelevantes.
-            Este div marca la VISTA de las entradas.-->
-            <!--LEGACY
-            <div class="myMenuEntry" id="defaultEntry"> 
-                <span>Adress : </span><input ng-model="entries[$index].url"/>
-                <input type="button" value="Send" ng-click="postdata(entries[$index].url)" />
-                <p>Address : {{entries[$index].url}}</p>
-                <p>ID : {{entries[$index].id}}</p>
-            </div>
-            -->
-            <!--NEW-->
+        <div id="menuWrapper">
+        <ul id="menu" ng-repeat="entry in entries track by entry['id']">    
             <li class="myMenuEntry" id="defaultEntry"> 
-                <span>Adress : </span><input ng-model="entries[$index].url"/>
-                <input type="button" value="Send" ng-click="postdata(entries[$index].url)" />
-                <p>Address : {{entries[$index].url}}</p>
-                <p>ID : {{entries[$index].id}}</p>
+                <span>Adress : </span>
+                <input type="text" ng-model="entries[$index].url"/>
+                <input type="button" value="Send" ng-click="enviarPeticion(entries[$index].url)"/>
+                <span>Address : {{entries[$index].url}}</span>
+                <span>ID : {{entries[$index].id}}</span>
+                <input type="button" value="Delete" ng-click="deleteEntry(entries[$index].id)"/>
+                <input type="button" value="Parse" ng-click="parseURL(entries[$index].url)"/>
             </li>
-            <!--NEW-End-->
         </ul>
-        <br/><br/>
+        </div>
         <div class="datosDebug">
             <input type="button" value="Add" ng-click="addEntry()" />
+            <p></p>
             <p>Output Message : {{msg}}</p>
             <p>StatusCode: {{statusval}}</p>
             <p>Status: {{statustext}}</p>
             <p>Response Headers: {{headers}}</p>
-            <p>RESPUESTA: {{resData}}
+            <p>RESPUESTA: {{resData}}</p>
+            <p>Parsed URL: {{parsedURL}}</p>
         </div>
     </div>
+    <script>
+        function getLocation(href) {
+            var match = href.match(/^((https?\:)\/\/)?(([^:\/?#]*)(?:\:([0-9]+))?)([\/]{0,1}[^?#]*)(\?[^#]*|)(#.*|)$/);
+            return match && {
+                href: href,
+                protocol: match[2],
+                host: match[3],
+                hostname: match[4],
+                port: match[5],
+                pathname: match[6],
+                search: match[7],
+                hash: match[8]
+                //Los relevantes en mi caso
+                //son hostname, port y pathname
+                //hostname + port = host
+                //host + pathname = miUrl
+            }
+    }
+    </script>
 </body>
 </html>
