@@ -20,12 +20,12 @@
             <li class="myMenuEntry" id="defaultEntry"> 
                 <span>Adress : </span>
                 <input type="text" ng-model="entries[$index].url"/>
-                <input type="button" value="Send" ng-click="enviarPeticion(entries[$index].url)"/>
+                <input type="button" value="Send" ng-click="enviarPeticion(entries[$index].id, entries[$index].url)"/>
                 <p>Address : {{entries[$index].url}}</p>
                 <p>ID : {{entries[$index].id}}</p>
-                <p>Local Resp: {{localResponse}}</p>
-                <p>Remote Resp: {{remoteResponse}}</p>
-                <p>Coinciden?: {{areRespEqual}}</p>
+                <p>Local Resp: {{entries[$index].localResponse}}</p>
+                <p>Remote Resp: {{entries[$index].remoteResponse}}</p>
+                <p>Coinciden?: {{entries[$index].areRespEqual}}</p>
                 <input type="button" value="Delete" ng-click="deleteEntry(entries[$index].id)"/>
                 <input type="button" value="Parse" ng-click="checkURL(entries[$index].url)"/>
             </li>
@@ -40,6 +40,7 @@
             <p>Response Headers: {{headers}}</p>
             <p>RESPUESTA: {{resData}}</p>
             <p>Parsed URL: {{parsedURL}}</p>
+            <p>ENTRIES: {{entries}}</p>
         </div>
     </div>
     <script>
