@@ -21,8 +21,11 @@
                 <span>Adress : </span>
                 <input type="text" ng-model="entries[$index].url"/>
                 <input type="button" value="Send" ng-click="enviarPeticion(entries[$index].url)"/>
-                <span>Address : {{entries[$index].url}}</span>
-                <span>ID : {{entries[$index].id}}</span>
+                <p>Address : {{entries[$index].url}}</p>
+                <p>ID : {{entries[$index].id}}</p>
+                <p>Local Resp: {{localResponse}}</p>
+                <p>Remote Resp: {{remoteResponse}}</p>
+                <p>Coinciden?: {{areRespEqual}}</p>
                 <input type="button" value="Delete" ng-click="deleteEntry(entries[$index].id)"/>
                 <input type="button" value="Parse" ng-click="checkURL(entries[$index].url)"/>
             </li>

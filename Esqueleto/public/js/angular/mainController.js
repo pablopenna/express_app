@@ -6,8 +6,15 @@ app.controller('MainCtrl', function ($scope, $http) {
     $scope.enviarPeticion = function(url)
     {
         var data = $scope.checkURL(url);
+        //Petición Remota
         var miUrl = data['protocol']+data['host']+data['pathname'];
         $scope.postdata(miUrl);
+        //Petición Local
+        var localUrl = data['protocol']+'localhost:3000'+data['pathname'];
+        $scope.postdata(localUrl);
+        //Ambas respuestas se han registrado dentro de la funcion postdata().
+        //Se emplean las variables $scope.localResponse y $scope.remoteResponse
+        //para almacenar las respuestas recibidas.    
     }
 
     /**Envío de datos */
@@ -25,6 +32,8 @@ app.controller('MainCtrl', function ($scope, $http) {
                 $scope.statustext = response.statusText;
                 $scope.headers = response.headers();
                 $scope.resData = response.data;
+                //
+                $scope.registrarRespuesta(response, $scope.compararRespuestas);
             }
         },
         function onError(response) 
@@ -34,9 +43,52 @@ app.controller('MainCtrl', function ($scope, $http) {
             $scope.statustext = response.statusText;
             $scope.headers = response.headers();
             $scope.resData = response.data;
-            console.log
+            //
+            $scope.registrarRespuesta(response, $scope.compararRespuestas);
         });
     };
+
+    /**Dependiendo de si la respuesta es a una 
+     * petición a la misma máquina o a otra, 
+     * registra la respuesta en una variable u otra.
+     * Recibe una función callback. De esta forma,
+     * puedo pasar la funcion comparar respuestas
+     * opcionalmente para compararlas tras haberlas registrado.
+     * Tengo que hacerlo de esta forma para que sea sincrono,
+     * es decir, que se comparen las respuestas tras
+     * haberlas registrado.
+     */
+    $scope.registrarRespuesta = function(response, callback)
+    {
+        //Local o Remota
+        const url = response.config.url;
+        console.log('la url: ' + url);
+        if($scope.isLocalUrl(url))
+        {
+            $scope.localResponse = response.data;
+        }
+        else
+        {
+            $scope.remoteResponse = response.data;
+        }
+        if(typeof callback == "function")
+        {
+            callback();
+        }
+    }
+
+    /**Función empleada para comparar las respuestas recibidas:
+     * local y remota.
+     */
+    $scope.compararRespuestas = function()
+    {
+        const resp1 = JSON.stringify($scope.localResponse);
+        const resp2 = JSON.stringify($scope.remoteResponse);
+        console.log("json resp1: " + resp1);
+        console.log("json resp2: " + resp2);
+        console.log("iguales: " + (resp1==resp2));
+        $scope.areRespEqual = resp1 == resp2;
+    }
 
     //ENTRIES
     //------------------------------------------------------------------
@@ -153,5 +205,15 @@ app.controller('MainCtrl', function ($scope, $http) {
         $scope.parsedURL = data;
         //---
         return data;
+    }
+
+    /**Función que determina si una url se refiere a
+     * la máquina local o no. SImplemente
+     * compruebo si el hostname es 'localhost'
+     */
+    $scope.isLocalUrl = function(url)
+    {
+        var urlData = $scope.parseURL(url);
+        return urlData['hostname']=='localhost';
     }
 });
