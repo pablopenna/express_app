@@ -2,13 +2,16 @@
 <html>
 <head>
     <title>
-        ExpressApp
+        Esqueleto
     </title>
     <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>-->
     <script src="/js/jquery.js"></script>
-    <script src="/js/angular.js"></script>
+    <script src="/js/angular-1.7.js"></script>
     <script src="/js/angular/mainApp.js"></script>
     <script src="/js/angular/mainController.js"></script>
+    <script src="/js/angular/graphController.js"></script>
+    <script src="/js/angular/entriesService.js"></script>
+    <script src="/js/angular/urlFactory.js"></script>
     <!--Gráficas-->
     <script src="/js/plotly.js"></script>
     <script src="/js/crearGrafica.js"></script>
@@ -16,36 +19,45 @@
     <LINK href="/css/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-    <h2>AngularJS Main Menu</h2>
-    <div ng-app="MainApp" ng-controller="MainCtrl">
-        <div id="menuWrapper">
-        <ul id="menu" ng-repeat="entry in entries track by entry['id']">    
-            <li class="myMenuEntry" id="defaultEntry"> 
-                <span>Adress : </span>
-                <input type="text" ng-model="entries[$index].url"
-                ng-blur="enviarPeticion(entries[$index].id, entries[$index].url)">
-                <input type="button" value="Send" ng-click="enviarPeticion(entries[$index].id, entries[$index].url)"/>
-                <p>Address : {{entries[$index].url}}</p>
-                <p>ID : {{entries[$index].id}}</p>
-                <p>Local Resp: {{entries[$index].localResponse}}</p>
-                <p>Remote Resp: {{entries[$index].remoteResponse}}</p>
-                <p>Coinciden?: {{entries[$index].areRespEqual}}</p>
-                <input type="button" value="Delete" ng-click="deleteEntry(entries[$index].id)"/>
-                <input type="button" value="Parse" ng-click="checkURL(entries[$index].url)"/>
-                <input type="button" value="Graph" ng-click="testGraph()"/>
-            </li>
-        </ul>
+    <h2>Esqueleto - Main Menu</h2>
+    <div ng-app="MainApp">
+        <div id="tempWrapper" ng-controller="MainCtrl">
+            <div id="menuWrapper">
+            <ul id="menu" ng-repeat="entry in entriesService.entries track by entry['id']">    
+                <li class="myMenuEntry" id="defaultEntry"> 
+                    <span>Adress : </span>
+                    <input type="text" ng-model="entriesService.entries[$index].url"
+                    <!--ng-blur="enviarPeticion(entriesService.entries[$index].id, entriesService.entries[$index].url)"-->
+                    >
+                    <input type="button" value="Send" ng-click="enviarPeticion(entriesService.entries[$index].id, entriesService.entries[$index].url)"/>
+                    <p>Address : {{entriesService.entries[$index].url}}</p>
+                    <p>ID : {{entriesService.entries[$index].id}}</p>
+                    <p>Local Resp: {{entriesService.entries[$index].localResponse}}</p>
+                    <p>Remote Resp: {{entriesService.entries[$index].remoteResponse}}</p>
+                    <p>Coinciden?: {{entriesService.entries[$index].areRespEqual}}</p>
+                    <input type="button" value="Delete" ng-click="entriesService.deleteEntry(entriesService.entries[$index].id)"/>
+                    <input type="button" value="Parse" ng-click="checkURL(entriesService.entries[$index].url)"/>
+                    <input type="button" value="Graph" ng-click="testGraph()"/>
+                </li>
+            </ul>
+            </div>
+            <div>
+                <input type="button" value="Add" ng-click="entriesService.addEntry()" />
+                <div class="datosDebug" ng-show="showDebug">
+                <p>Output Message : {{msg}}</p>
+                <p>StatusCode: {{statusval}}</p>
+                <p>Status: {{statustext}}</p>
+                <p>Response Headers: {{headers}}</p>
+                <p>RESPUESTA: {{resData}}</p>
+                <p>Parsed URL: {{parsedURL}}</p>
+                <p>entriesService.entries: {{entriesService.entries}}</p>
+                </div>
+                <input type="button" value="DEBUG" ng-click="switchDebug()" />
+                <input type="button" value="PRUEBA FACT URL" ng-click="urlService.method1()"/>
+            </div>
         </div>
-        <div class="datosDebug">
-            <input type="button" value="Add" ng-click="addEntry()" />
-            <p></p>
-            <p>Output Message : {{msg}}</p>
-            <p>StatusCode: {{statusval}}</p>
-            <p>Status: {{statustext}}</p>
-            <p>Response Headers: {{headers}}</p>
-            <p>RESPUESTA: {{resData}}</p>
-            <p>Parsed URL: {{parsedURL}}</p>
-            <p>ENTRIES: {{entries}}</p>
+        <div ng-controller="GraphCtrl">
+            <input type="button" value="Graph" ng-click="testGraph()"/>
             <div id="tester">
             </div>
         </div>

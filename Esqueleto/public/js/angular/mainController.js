@@ -1,7 +1,19 @@
-app.controller('MainCtrl', function ($scope, $http) {
+app.controller('MainCtrl', function ($scope, $http, entriesService, urlService) {
     $scope.address = 'placeholder';
     $scope.lblMsg = null;
+    //Vinculo Servicio con variable del controlador
+    //para poder acceder a los recursos del primero.
+    //$scope.entries = entriesService.entries;
+    $scope.entriesService = entriesService;
 
+    $scope.urlService = urlService;
+
+    //Variable que indica si se quieren mostrar datos de DEBUG o no
+    $scope.showDebug=true;
+    $scope.switchDebug = function()
+    {
+        $scope.showDebug = !$scope.showDebug;
+    }
 /*
   ____                            _       
  |  _ \ ___  __ _ _   _  ___  ___| |_ ___ 
@@ -45,23 +57,25 @@ app.controller('MainCtrl', function ($scope, $http) {
         {
             if (response.data)
             {
+                //DEBUG---
                 $scope.msg = "Post Data Submitted Successfully!";
                 $scope.statusval = response.status;
                 $scope.statustext = response.statusText;
                 $scope.headers = response.headers();
                 $scope.resData = response.data;
-                //
+                //---------
                 $scope.registrarRespuesta(id, response, $scope.compararRespuestas);
             }
         },
         function onError(response) 
         {
+            //DEBUG---
             $scope.msg = "Service not Exists";
             $scope.statusval = response.status;
             $scope.statustext = response.statusText;
             $scope.headers = response.headers();
             $scope.resData = response.data;
-            //
+            //---------
             $scope.registrarRespuesta(id, response, $scope.compararRespuestas);
         });
     };
@@ -83,11 +97,11 @@ app.controller('MainCtrl', function ($scope, $http) {
         console.log('la url: ' + url);
         if($scope.isLocalUrl(url))
         {
-            $scope.setEntryLocalResponse(id,response);
+            $scope.entriesService.setEntryLocalResponse(id,response);
         }
         else
         {
-            $scope.setEntryRemoteResponse(id,response);
+            $scope.entriesService.setEntryRemoteResponse(id,response);
         }
         if(typeof callback == "function")
         {
@@ -102,223 +116,16 @@ app.controller('MainCtrl', function ($scope, $http) {
      */
     $scope.compararRespuestas = function(id)
     {
-        const resp1 = JSON.stringify($scope.getEntryLocalResponse(id));
-        const resp2 = JSON.stringify($scope.getEntryRemoteResponse(id));
+        const resp1 = JSON.stringify($scope.entriesService.getEntryLocalResponse(id));
+        const resp2 = JSON.stringify($scope.entriesService.getEntryRemoteResponse(id));
         console.log("json resp1: " + resp1);
         console.log("json resp2: " + resp2);
         console.log("iguales: " + (resp1==resp2));
         const areRespEqual = resp1 == resp2;
-        $scope.setEntryResponseComp(id, areRespEqual);
+        $scope.entriesService.setEntryResponseComp(id, areRespEqual);
     }
 
-    /*
-     _____       _        _           
-    | ____|_ __ | |_ _ __(_) ___  ___ 
-    |  _| | '_ \| __| '__| |/ _ \/ __|
-    | |___| | | | |_| |  | |  __/\__ \
-    |_____|_| |_|\__|_|  |_|\___||___/
-                                   
-    */
-    //ENTRIES
-    //------------------------------------------------------------------
-    /**Entradas */
-    $scope.entryCounter=0;
-    /**Definimos unicamente los atributos que 
-     * queremos que posea cada entrada de 'entries' 
-     * (modelo).
-     * No influye en la estructura del html (vista).
-     * - id: identificador unico de la entrada
-     * - url: url a la que la entrada hace referencia
-     * para enviar la peticion
-     * - localResponse: respuesta a la petición local.
-     * - remoteResponse: respuesta a la petición remota.
-     * - areRespEqual: indica si las dos respuestas son iguales
-     */
-    $scope.entries = [{ id : 'defaultEntry', 
-    url : 'xxx',
-    localResponse : 'placeholder',
-    remoteResponse : 'placeholder',
-    areRespEqual : false}];
-
-    /**Añade una entrada al array 'entries' creando
-     * una nueva entrada en el menú.
-     */
-    $scope.addEntry = function() {
-        //atributos de la entrada a añadir (modelo)
-        $scope.inputTemplate = {
-            /**Necesitamos id porque se utiliza en la
-             * cláusula ng-repeat en la vista.
-             */
-            id: 'entry-' + $scope.entryCounter,
-            //name: '',
-            /**Por ejemplo, al añadir este
-             * atributo 'custom' el div que se corresponda
-             * a la nueva entrada creada no poseerá este 
-             * atributo en el html (vista).
-             */
-            //custom: 'yeahboi',
-            url: 'new',
-            localResponse : 'placeholder',
-            remoteResponse : 'placeholder',
-            areRespEqual : false
-        };
-        $scope.entryCounter += 1;
-        $scope.entries.push($scope.inputTemplate);
-    };
-
-    /**Recibe la id de una de las entradas del menú.
-     * Borrará la entrada con esa id.
-     */
-    $scope.deleteEntry = function(id) {
-        //$scope.entries es una lista de objetos.
-        //Debemos buscar la entrada de 'entries'
-        //que tenga como propiedad 'id' la id
-        //que queremos borrar
-        for(i in $scope.entries)
-        {
-            var element = $scope.entries[i]
-            if($scope.entries[i]['id'] == id)
-            {
-                //SI coincide, borramos entrada
-                //de la lista. Como borramos un 
-                //elemento de un Array utilizamos
-                //el método splice()
-                //array.splice(index, howmany)
-                $scope.entries.splice(i,1);
-            }
-        }
-    }
-
-    //SET
-    /**Recibe la id de la entrada a la que se le va a añadir
-     * respuesta local.
-     */
-    $scope.setEntryLocalResponse = function(id,response)
-    {
-        //$scope.entries es una lista de objetos.
-        //Debemos buscar la entrada de 'entries'
-        //que tenga como propiedad 'id' la id
-        //que queremos borrar
-        for(i in $scope.entries)
-        {
-            var element = $scope.entries[i]
-            if($scope.entries[i]['id'] == id)
-            {
-                //SI coincide, en entries[i]
-                //tendremos la entrada con la
-                //id especificada
-                $scope.entries[i]['localResponse']=response.data;
-            }
-        }
-    }
-
-    /**Recibe la id de la entrada a la que se le va a añadir
-     * respuesta remota.
-     */
-    $scope.setEntryRemoteResponse = function(id,response)
-    {
-        //$scope.entries es una lista de objetos.
-        //Debemos buscar la entrada de 'entries'
-        //que tenga como propiedad 'id' la id
-        //que queremos borrar
-        for(i in $scope.entries)
-        {
-            var element = $scope.entries[i]
-            if($scope.entries[i]['id'] == id)
-            {
-                //SI coincide, en entries[i]
-                //tendremos la entrada con la
-                //id especificada
-                $scope.entries[i]['remoteResponse']=response.data;
-            }
-        }
-    }
-
-    /**Asigna valor a la variable de la entrada
-     * que indica si las respuestas son iguales.
-      */
-    $scope.setEntryResponseComp = function(id,areEqual)
-    {
-        //$scope.entries es una lista de objetos.
-        //Debemos buscar la entrada de 'entries'
-        //que tenga como propiedad 'id' la id
-        //que queremos borrar
-        for(i in $scope.entries)
-        {
-            var element = $scope.entries[i]
-            if($scope.entries[i]['id'] == id)
-            {
-                //SI coincide, en entries[i]
-                //tendremos la entrada con la
-                //id especificada
-                $scope.entries[i]['areRespEqual']=areEqual;
-            }
-        }
-    }
-
-    //GET
-    $scope.getEntryLocalResponse = function(id)
-    {
-        //$scope.entries es una lista de objetos.
-        //Debemos buscar la entrada de 'entries'
-        //que tenga como propiedad 'id' la id
-        //que queremos borrar
-        for(i in $scope.entries)
-        {
-            var element = $scope.entries[i]
-            if($scope.entries[i]['id'] == id)
-            {
-                //SI coincide, en entries[i]
-                //tendremos la entrada con la
-                //id especificada
-                return $scope.entries[i]['localResponse'];
-            }
-        }
-    }
-
-    /**Recibe la id de la entrada a la que se le va a añadir
-     * respuesta remota.
-     */
-    $scope.getEntryRemoteResponse = function(id)
-    {
-        //$scope.entries es una lista de objetos.
-        //Debemos buscar la entrada de 'entries'
-        //que tenga como propiedad 'id' la id
-        //que queremos borrar
-        for(i in $scope.entries)
-        {
-            var element = $scope.entries[i]
-            if($scope.entries[i]['id'] == id)
-            {
-                //SI coincide, en entries[i]
-                //tendremos la entrada con la
-                //id especificada
-                return $scope.entries[i]['remoteResponse'];
-            }
-        }
-    }
-
-    /**Devuelve valor a la variable de la entrada
-     * que indica si las respuestas son iguales.
-      */
-     $scope.getEntryResponseComp = function(id)
-     {
-         //$scope.entries es una lista de objetos.
-         //Debemos buscar la entrada de 'entries'
-         //que tenga como propiedad 'id' la id
-         //que queremos borrar
-         for(i in $scope.entries)
-         {
-             var element = $scope.entries[i]
-             if($scope.entries[i]['id'] == id)
-             {
-                 //SI coincide, en entries[i]
-                 //tendremos la entrada con la
-                 //id especificada
-                 $scope.entries[i]['areRespEqual'];
-             }
-         }
-     }
+    
 
     //------------------------------------------------------------------
     /*
@@ -402,6 +209,7 @@ app.controller('MainCtrl', function ($scope, $http) {
 
 
     //----------------
+    /*
     $scope.testGraph = function()
     {
         //var TESTER = document.getElementById('tester');
@@ -417,5 +225,6 @@ app.controller('MainCtrl', function ($scope, $http) {
         y: [1, 2, 4, 8, 16] }], {
         margin: { t: 0 } } );
     }
+    */
 
 });
