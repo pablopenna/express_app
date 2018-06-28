@@ -1,4 +1,4 @@
-app.controller('MainCtrl', function ($scope, $http, entriesService, urlService) {
+app.controller('MainCtrl', function ($scope, $http, entriesService, urlService, debugService) {
     $scope.address = 'placeholder';
     $scope.lblMsg = null;
     //Vinculo Servicio con variable del controlador
@@ -8,12 +8,21 @@ app.controller('MainCtrl', function ($scope, $http, entriesService, urlService) 
 
     $scope.urlService = urlService;
 
+    $scope.debugService = debugService;
+
     //Variable que indica si se quieren mostrar datos de DEBUG o no
     $scope.showDebug=true;
     $scope.switchDebug = function()
     {
         $scope.showDebug = !$scope.showDebug;
     }
+
+    //DEBUG. para mostrar parse de la url.
+    $scope.debugURL = function(url)
+    {
+        $scope.debuggedURL = $scope.urlService.checkURL(url);
+    }
+    
 /*
   ____                            _       
  |  _ \ ___  __ _ _   _  ___  ___| |_ ___ 
@@ -30,7 +39,7 @@ app.controller('MainCtrl', function ($scope, $http, entriesService, urlService) 
      */
     $scope.enviarPeticion = function(id,url)
     {
-        var data = $scope.checkURL(url);
+        var data = $scope.urlService.checkURL(url);
         //Petición Remota
         var miUrl = data['protocol']+data['host']+data['pathname'];
         $scope.postdata(id,miUrl);
@@ -58,11 +67,11 @@ app.controller('MainCtrl', function ($scope, $http, entriesService, urlService) 
             if (response.data)
             {
                 //DEBUG---
-                $scope.msg = "Post Data Submitted Successfully!";
-                $scope.statusval = response.status;
-                $scope.statustext = response.statusText;
-                $scope.headers = response.headers();
-                $scope.resData = response.data;
+                $scope.debugService.msg = "Post Data Submitted Successfully!";
+                $scope.debugService.statusval = response.status;
+                $scope.debugService.statustext = response.statusText;
+                $scope.debugService.headers = response.headers();
+                $scope.debugService.resData = response.data;
                 //---------
                 $scope.registrarRespuesta(id, response, $scope.compararRespuestas);
             }
@@ -70,11 +79,11 @@ app.controller('MainCtrl', function ($scope, $http, entriesService, urlService) 
         function onError(response) 
         {
             //DEBUG---
-            $scope.msg = "Service not Exists";
-            $scope.statusval = response.status;
-            $scope.statustext = response.statusText;
-            $scope.headers = response.headers();
-            $scope.resData = response.data;
+            $scope.debugService.msg = "Service not Exists";
+            $scope.debugService.statusval = response.status;
+            $scope.debugService.statustext = response.statusText;
+            $scope.debugService.headers = response.headers();
+            $scope.debugService.resData = response.data;
             //---------
             $scope.registrarRespuesta(id, response, $scope.compararRespuestas);
         });
@@ -95,7 +104,7 @@ app.controller('MainCtrl', function ($scope, $http, entriesService, urlService) 
         //Local o Remota
         const url = response.config.url;
         console.log('la url: ' + url);
-        if($scope.isLocalUrl(url))
+        if($scope.urlService.isLocalUrl(url))
         {
             $scope.entriesService.setEntryLocalResponse(id,response);
         }
@@ -126,86 +135,6 @@ app.controller('MainCtrl', function ($scope, $http, entriesService, urlService) 
     }
 
     
-
-    //------------------------------------------------------------------
-    /*
-     _   _ ____  _         
-    | | | |  _ \| |    ___ 
-    | | | | |_) | |   / __|
-    | |_| |  _ <| |___\__ \
-     \___/|_| \_\_____|___/
-                        
-    */
-    //URLS
-    /**Para parsear una cadena y sacar info si es URL */
-    $scope.parseURL = function(href) {
-        var match = href.match(/^((https?\:)\/\/)?(([^:\/?#]*)(?:\:([0-9]+))?)([\/]{0,1}[^?#]*)(\?[^#]*|)(#.*|)$/);
-        var data = {
-            href: href,
-            protocol: match[2],
-            host: match[3],
-            hostname: match[4],
-            port: match[5],
-            pathname: match[6],
-            search: match[7],
-            hash: match[8]
-            //Los relevantes en mi caso
-            //son hostname, port y pathname
-            //hostname + port = host
-            //host + pathname = miUrl
-        };
-
-        return data;
-    }
-
-    /**Recibe la salida de la funcion parseURL y añade campos si faltan */
-    $scope.fixURLData = function(data)
-    {
-        //Tengo que añadir 'http://' para que el post se envía
-        //a otra máquina (cross domain POST).
-        //http://192.168.1.38:3000/ops/mediaLluvia -> Se envia POST correctamente
-        //192.168.1.38:3000/ops/mediaLluvia -> Se envia POST a  localhost:3000/192.168.1.38:3000/ops/mediaLluvia
-        //Compruebo si hay campos vacios.
-        //Si no se especifica protocolo doy por sentado que es http
-        if(data['protocol']==undefined || data['protocol']=='')
-        {
-            data.protocol='http://';
-        }
-        //Si no se especifica hostname doy por sentado que es localhost
-        if(data['hostname']==undefined || data['hostname']=='')
-        {
-            data['hostname']='localhost';
-        }
-        //Si no se especifica puerto doy por sentado que es 80
-        if(data['port']==undefined || data['port']=='')
-        {
-            data['port']='3000';
-        }
-        data['host']= data['hostname']+':'+data['port'];
-
-        return data;
-    }
-
-    /**Envoltorio de las dos funcione sprevias */
-    $scope.checkURL = function(url)
-    {
-        var data = $scope.parseURL(url);
-        data = $scope.fixURLData(data);
-        //DEBUG---
-        $scope.parsedURL = data;
-        //---
-        return data;
-    }
-
-    /**Función que determina si una url se refiere a
-     * la máquina local o no. SImplemente
-     * compruebo si el hostname es 'localhost'
-     */
-    $scope.isLocalUrl = function(url)
-    {
-        var urlData = $scope.parseURL(url);
-        return urlData['hostname']=='localhost';
-    }
 
 
     //----------------

@@ -12,6 +12,7 @@
     <script src="/js/angular/graphController.js"></script>
     <script src="/js/angular/entriesService.js"></script>
     <script src="/js/angular/urlFactory.js"></script>
+    <script src="/js/angular/debugService.js"></script>
     <!--Gráficas-->
     <script src="/js/plotly.js"></script>
     <script src="/js/crearGrafica.js"></script>
@@ -29,27 +30,33 @@
                     <input type="text" ng-model="entriesService.entries[$index].url"
                     <!--ng-blur="enviarPeticion(entriesService.entries[$index].id, entriesService.entries[$index].url)"-->
                     >
-                    <input type="button" value="Send" ng-click="enviarPeticion(entriesService.entries[$index].id, entriesService.entries[$index].url)"/>
+                    <input type="button" value="Send" 
+                        ng-click="enviarPeticion(entriesService.entries[$index].id,
+                        entriesService.entries[$index].url)"/>
                     <p>Address : {{entriesService.entries[$index].url}}</p>
                     <p>ID : {{entriesService.entries[$index].id}}</p>
                     <p>Local Resp: {{entriesService.entries[$index].localResponse}}</p>
                     <p>Remote Resp: {{entriesService.entries[$index].remoteResponse}}</p>
                     <p>Coinciden?: {{entriesService.entries[$index].areRespEqual}}</p>
-                    <input type="button" value="Delete" ng-click="entriesService.deleteEntry(entriesService.entries[$index].id)"/>
-                    <input type="button" value="Parse" ng-click="checkURL(entriesService.entries[$index].url)"/>
-                    <input type="button" value="Graph" ng-click="testGraph()"/>
+                    <input type="button" value="Delete" 
+                        ng-click="entriesService.deleteEntry(entriesService.entries[$index].id)"/>
+                    <input type="button" value="Parse" 
+                        ng-click="debugURL(entriesService.entries[$index].url)"
+                        ng-show="showDebug"/>
+                    <input type="button" value="Graph" 
+                        ng-click="testGraph()"/>
                 </li>
             </ul>
             </div>
             <div>
                 <input type="button" value="Add" ng-click="entriesService.addEntry()" />
                 <div class="datosDebug" ng-show="showDebug">
-                <p>Output Message : {{msg}}</p>
-                <p>StatusCode: {{statusval}}</p>
-                <p>Status: {{statustext}}</p>
-                <p>Response Headers: {{headers}}</p>
-                <p>RESPUESTA: {{resData}}</p>
-                <p>Parsed URL: {{parsedURL}}</p>
+                <p>Output Message : {{debugService.msg}}</p>
+                <p>StatusCode: {{debugService.statusval}}</p>
+                <p>Status: {{debugService.statustext}}</p>
+                <p>Response Headers: {{debugService.headers}}</p>
+                <p>RESPUESTA: {{debugService.resData}}</p>
+                <p>Parsed URL: {{debuggedURL}}</p>
                 <p>entriesService.entries: {{entriesService.entries}}</p>
                 </div>
                 <input type="button" value="DEBUG" ng-click="switchDebug()" />
@@ -62,24 +69,5 @@
             </div>
         </div>
     </div>
-    <script>
-        function getLocation(href) {
-            var match = href.match(/^((https?\:)\/\/)?(([^:\/?#]*)(?:\:([0-9]+))?)([\/]{0,1}[^?#]*)(\?[^#]*|)(#.*|)$/);
-            return match && {
-                href: href,
-                protocol: match[2],
-                host: match[3],
-                hostname: match[4],
-                port: match[5],
-                pathname: match[6],
-                search: match[7],
-                hash: match[8]
-                //Los relevantes en mi caso
-                //son hostname, port y pathname
-                //hostname + port = host
-                //host + pathname = miUrl
-            }
-    }
-    </script>
 </body>
 </html>
