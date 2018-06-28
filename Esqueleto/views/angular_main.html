@@ -6,13 +6,18 @@
     </title>
     <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>-->
     <script src="/js/jquery.js"></script>
+    <!--ANGULARJS-->
     <script src="/js/angular-1.7.js"></script>
+    <!--Aplicacion-->
     <script src="/js/angular/mainApp.js"></script>
+    <!--Controlador principal-->
     <script src="/js/angular/mainController.js"></script>
     <script src="/js/angular/graphController.js"></script>
+    <!--Servicios-->
     <script src="/js/angular/entriesService.js"></script>
     <script src="/js/angular/urlFactory.js"></script>
     <script src="/js/angular/debugService.js"></script>
+    <script src="/js/angular/requestFactory.js"></script>
     <!--Gráficas-->
     <script src="/js/plotly.js"></script>
     <script src="/js/crearGrafica.js"></script>
@@ -31,7 +36,7 @@
                     <!--ng-blur="enviarPeticion(entriesService.entries[$index].id, entriesService.entries[$index].url)"-->
                     >
                     <input type="button" value="Send" 
-                        ng-click="enviarPeticion(entriesService.entries[$index].id,
+                        ng-click="requestService.enviarPeticion(entriesService.entries[$index].id,
                         entriesService.entries[$index].url)"/>
                     <p>Address : {{entriesService.entries[$index].url}}</p>
                     <p>ID : {{entriesService.entries[$index].id}}</p>
