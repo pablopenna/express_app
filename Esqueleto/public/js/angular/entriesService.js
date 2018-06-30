@@ -29,7 +29,7 @@ app.service('entriesService',function()
      * - areRespEqual: indica si las dos respuestas son iguales
      */
     this.entries = [{ id : 'defaultEntry', 
-    url : 'xxx',
+    url : '127.0.0.1/ops/random',
     localResponse : 'placeholder',
     remoteResponse : 'placeholder',
     areRespEqual : false}];

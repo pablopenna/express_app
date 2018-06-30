@@ -12,12 +12,12 @@
     <script src="/js/angular/mainApp.js"></script>
     <!--Controlador principal-->
     <script src="/js/angular/mainController.js"></script>
-    <script src="/js/angular/graphController.js"></script>
     <!--Servicios-->
     <script src="/js/angular/entriesService.js"></script>
     <script src="/js/angular/urlFactory.js"></script>
     <script src="/js/angular/debugService.js"></script>
     <script src="/js/angular/requestFactory.js"></script>
+    <script src="/js/angular/graphService.js"></script>
     <!--Gráficas-->
     <script src="/js/plotly.js"></script>
     <script src="/js/crearGrafica.js"></script>
@@ -26,8 +26,8 @@
 </head>
 <body>
     <h2>Esqueleto - Main Menu</h2>
-    <div ng-app="MainApp">
-        <div id="tempWrapper" ng-controller="MainCtrl">
+    <div ng-app="MainApp" ng-controller="MainCtrl">
+        <div id="tempWrapper">
             <div id="menuWrapper">
             <ul id="menu" ng-repeat="entry in entriesService.entries track by entry['id']">    
                 <li class="myMenuEntry" id="defaultEntry"> 
@@ -38,38 +38,39 @@
                     <input type="button" value="Send" 
                         ng-click="requestService.enviarPeticion(entriesService.entries[$index].id,
                         entriesService.entries[$index].url)"/>
-                    <p>Address : {{entriesService.entries[$index].url}}</p>
-                    <p>ID : {{entriesService.entries[$index].id}}</p>
-                    <p>Local Resp: {{entriesService.entries[$index].localResponse}}</p>
-                    <p>Remote Resp: {{entriesService.entries[$index].remoteResponse}}</p>
-                    <p>Coinciden?: {{entriesService.entries[$index].areRespEqual}}</p>
+                    <div ng-show="showDebug">
+                        <p>Address : {{entriesService.entries[$index].url}}</p>
+                        <p>ID : {{entriesService.entries[$index].id}}</p>
+                        <p>Local Resp: {{entriesService.entries[$index].localResponse}}</p>
+                        <p>Remote Resp: {{entriesService.entries[$index].remoteResponse}}</p>
+                        <p>Coinciden?: {{entriesService.entries[$index].areRespEqual}}</p>
+                    </div>
                     <input type="button" value="Delete" 
                         ng-click="entriesService.deleteEntry(entriesService.entries[$index].id)"/>
                     <input type="button" value="Parse" 
                         ng-click="debugURL(entriesService.entries[$index].url)"
                         ng-show="showDebug"/>
                     <input type="button" value="Graph" 
-                        ng-click="testGraph()"/>
+                        ng-click="graphService.dibujarGraficaRespuestas(entriesService.entries[$index].id)"/>
                 </li>
             </ul>
             </div>
             <div>
                 <input type="button" value="Add" ng-click="entriesService.addEntry()" />
                 <div class="datosDebug" ng-show="showDebug">
-                <p>Output Message : {{debugService.msg}}</p>
-                <p>StatusCode: {{debugService.statusval}}</p>
-                <p>Status: {{debugService.statustext}}</p>
-                <p>Response Headers: {{debugService.headers}}</p>
-                <p>RESPUESTA: {{debugService.resData}}</p>
-                <p>Parsed URL: {{debuggedURL}}</p>
-                <p>entriesService.entries: {{entriesService.entries}}</p>
+                    <p>Output Message : {{debugService.msg}}</p>
+                    <p>StatusCode: {{debugService.statusval}}</p>
+                    <p>Status: {{debugService.statustext}}</p>
+                    <p>Response Headers: {{debugService.headers}}</p>
+                    <p>RESPUESTA: {{debugService.resData}}</p>
+                    <p>Parsed URL: {{debuggedURL}}</p>
+                    <p>entriesService.entries: {{entriesService.entries}}</p>
                 </div>
                 <input type="button" value="DEBUG" ng-click="switchDebug()" />
-                <input type="button" value="PRUEBA FACT URL" ng-click="urlService.method1()"/>
             </div>
         </div>
-        <div ng-controller="GraphCtrl">
-            <input type="button" value="Graph" ng-click="testGraph()"/>
+        <!--GRAFO-->
+        <div>
             <div id="tester">
             </div>
         </div>

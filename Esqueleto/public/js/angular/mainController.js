@@ -1,4 +1,4 @@
-app.controller('MainCtrl', function ($scope, entriesService, urlService, debugService, requestService) {
+app.controller('MainCtrl', function ($scope, entriesService, urlService, debugService, requestService, graphService) {
     $scope.address = 'placeholder';
     $scope.lblMsg = null;
     //Vinculo Servicio con variable del controlador
@@ -11,6 +11,8 @@ app.controller('MainCtrl', function ($scope, entriesService, urlService, debugSe
     $scope.debugService = debugService;
 
     $scope.requestService = requestService;
+
+    $scope.graphService = graphService;
 
     //Variable que indica si se quieren mostrar datos de DEBUG o no
     $scope.showDebug=true;
