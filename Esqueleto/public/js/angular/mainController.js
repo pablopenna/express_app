@@ -14,6 +14,10 @@ app.controller('MainCtrl', function ($scope, entriesService, urlService, debugSe
 
     $scope.graphService = graphService;
 
+    //Inicializo las entradas (creo initNumEntry entradas)
+    $scope.initNumEntry = 1;
+    $scope.entriesService.initEntries($scope.initNumEntry);
+
     //Variable que indica si se quieren mostrar datos de DEBUG o no
     $scope.showDebug=true;
     $scope.switchDebug = function()

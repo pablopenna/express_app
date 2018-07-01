@@ -16,7 +16,7 @@ app.service('entriesService',function()
     //ENTRIES
     //------------------------------------------------------------------
     /**Entradas */
-    this.entryCounter=0;
+    
     /**Definimos unicamente los atributos que 
      * queremos que posea cada entrada de 'entries' 
      * (modelo).
@@ -28,11 +28,29 @@ app.service('entriesService',function()
      * - remoteResponse: respuesta a la petición remota.
      * - areRespEqual: indica si las dos respuestas son iguales
      */
+
+    /*
     this.entries = [{ id : 'defaultEntry', 
     url : '127.0.0.1/ops/random',
     localResponse : 'placeholder',
     remoteResponse : 'placeholder',
     areRespEqual : false}];
+    */
+    //Lista que contiene datos de todas las entradas
+    this.entries = [];
+    //Contador de entradas. Se emplea para crear id unico.
+    this.entryCounter=0;
+    
+    /**Añade tantas entradas a la
+     * lista 'entries' como indique
+     * la var 'counter'.*/
+    this.initEntries = function(counter)
+    {
+        for(i=0;i<counter;i++)
+        {
+            this.addEntry();
+        }
+    }
 
     /**Añade una entrada al array 'entries' creando
      * una nueva entrada en el menú.
@@ -51,9 +69,9 @@ app.service('entriesService',function()
              * atributo en el html (vista).
              */
             //custom: 'yeahboi',
-            url: 'new',
-            localResponse : 'placeholder',
-            remoteResponse : 'placeholder',
+            url: '127.0.0.1/ops/random',
+            localResponse : {},
+            remoteResponse : {},
             areRespEqual : false
         };
         this.entryCounter += 1;
@@ -83,12 +101,11 @@ app.service('entriesService',function()
         }
     }
 
-    //SET
-    /**Recibe la id de la entrada a la que se le va a añadir
-     * respuesta local.
-     */
-    this.setEntryLocalResponse = function(id,response)
-    {
+     /**GETTERS Y SETTERS */
+
+     /**Set generico */
+     this.setEntryAttr = function(id, attr, valor)
+     {
         //this.entries es una lista de objetos.
         //Debemos buscar la entrada de 'entries'
         //que tenga como propiedad 'id' la id
@@ -101,101 +118,13 @@ app.service('entriesService',function()
                 //SI coincide, en entries[i]
                 //tendremos la entrada con la
                 //id especificada
-                this.entries[i]['localResponse']=response.data;
+                this.entries[i][attr]=valor;
             }
         }
-    }
+     }
 
-    /**Recibe la id de la entrada a la que se le va a añadir
-     * respuesta remota.
-     */
-    this.setEntryRemoteResponse = function(id,response)
-    {
-        //this.entries es una lista de objetos.
-        //Debemos buscar la entrada de 'entries'
-        //que tenga como propiedad 'id' la id
-        //que queremos borrar
-        for(i in this.entries)
-        {
-            var element = this.entries[i]
-            if(this.entries[i]['id'] == id)
-            {
-                //SI coincide, en entries[i]
-                //tendremos la entrada con la
-                //id especificada
-                this.entries[i]['remoteResponse']=response.data;
-            }
-        }
-    }
-
-    /**Asigna valor a la variable de la entrada
-     * que indica si las respuestas son iguales.
-      */
-    this.setEntryResponseComp = function(id,areEqual)
-    {
-        //this.entries es una lista de objetos.
-        //Debemos buscar la entrada de 'entries'
-        //que tenga como propiedad 'id' la id
-        //que queremos borrar
-        for(i in this.entries)
-        {
-            var element = this.entries[i]
-            if(this.entries[i]['id'] == id)
-            {
-                //SI coincide, en entries[i]
-                //tendremos la entrada con la
-                //id especificada
-                this.entries[i]['areRespEqual']=areEqual;
-            }
-        }
-    }
-
-    //GET
-    this.getEntryLocalResponse = function(id)
-    {
-        //this.entries es una lista de objetos.
-        //Debemos buscar la entrada de 'entries'
-        //que tenga como propiedad 'id' la id
-        //que queremos borrar
-        for(i in this.entries)
-        {
-            var element = this.entries[i]
-            if(this.entries[i]['id'] == id)
-            {
-                //SI coincide, en entries[i]
-                //tendremos la entrada con la
-                //id especificada
-                return this.entries[i]['localResponse'];
-            }
-        }
-    }
-
-    /**Recibe la id de la entrada a la que se le va a añadir
-     * respuesta remota.
-     */
-    this.getEntryRemoteResponse = function(id)
-    {
-        //this.entries es una lista de objetos.
-        //Debemos buscar la entrada de 'entries'
-        //que tenga como propiedad 'id' la id
-        //que queremos borrar
-        for(i in this.entries)
-        {
-            var element = this.entries[i]
-            if(this.entries[i]['id'] == id)
-            {
-                //SI coincide, en entries[i]
-                //tendremos la entrada con la
-                //id especificada
-                return this.entries[i]['remoteResponse'];
-            }
-        }
-    }
-
-    /**Devuelve valor a la variable de la entrada
-     * que indica si las respuestas son iguales.
-      */
-     this.getEntryResponseComp = function(id)
+     /**Get generico */
+     this.getEntryAttr = function(id, attr)
      {
          //this.entries es una lista de objetos.
          //Debemos buscar la entrada de 'entries'
@@ -209,8 +138,56 @@ app.service('entriesService',function()
                  //SI coincide, en entries[i]
                  //tendremos la entrada con la
                  //id especificada
-                 this.entries[i]['areRespEqual'];
+                 return this.entries[i][attr];
              }
          }
      }
+
+     //SET
+    /**Recibe la id de la entrada a la que se le va a añadir
+     * respuesta local.
+     */
+    this.setEntryLocalResponse = function(id,response)
+    {
+        this.setEntryAttr(id,'localResponse',response.data);
+    }
+
+    /**Recibe la id de la entrada a la que se le va a añadir
+     * respuesta remota.
+     */
+    this.setEntryRemoteResponse = function(id,response)
+    {
+        this.setEntryAttr(id,'remoteResponse',response.data);
+    }
+
+    /**Asigna valor a la variable de la entrada
+     * que indica si las respuestas son iguales.
+      */
+    this.setEntryResponseComp = function(id,areEqual)
+    {
+        this.setEntryAttr(id,'areRespEqual',areEqual);
+    }
+
+    //GET
+    this.getEntryLocalResponse = function(id)
+    {
+        return this.getEntryAttr(id,'localResponse');
+    }
+
+    /**Recibe la id de la entrada a la que se le va a añadir
+     * respuesta remota.
+     */
+    this.getEntryRemoteResponse = function(id)
+    {
+        return this.getEntryAttr(id,'remoteResponse');
+    }
+
+    /**Devuelve valor a la variable de la entrada
+     * que indica si las respuestas son iguales.
+      */
+     this.getEntryResponseComp = function(id)
+     {
+        return this.getEntryAttr(id,'areRespEqual');
+     }
+
 });

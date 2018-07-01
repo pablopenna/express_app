@@ -4,7 +4,7 @@ app.factory('graphService', ['entriesService',function (entriesService) {
 
     /*ID del elemento en el que dibujaré la gráfica.
     También definimos get y set.*/
-    factory.graphElem = 'tester';
+    factory.graphElem = 'compGraph';
     factory.setGraphElem = function(elemId)
     {
         factory.graphElem = elemId;
@@ -12,6 +12,16 @@ app.factory('graphService', ['entriesService',function (entriesService) {
     factory.getGraphElem = function()
     {
         return factory.graphElem;
+    }
+    /*ID del elemento para dibujar la gráfica de la diferencia. */
+    factory.diffGraphElem = 'diffGraph';
+    factory.setDiffGraphElem = function(elemId)
+    {
+        factory.diffGraphElem = elemId;
+    }
+    factory.getDiffGraphElem = function()
+    {
+        return factory.diffGraphElem;
     }
 
     /*Función para dibujar una gráfica de prueba. */
@@ -76,10 +86,12 @@ app.factory('graphService', ['entriesService',function (entriesService) {
     */
     factory.dibujarGraficaRespuestas = function(ind)
     {
-        console.log("indice - " + ind);
+        //DEBUG
+        console.log("entrada empleada para dibujar: - " + ind);
         
         //Datos locales
         var localRes = entriesService.getEntryLocalResponse(ind);
+        if(remoteRes == null) remoteRes = {};
         var datosXlocal = localRes['op'];
         var datosYlocal = localRes['res'];
         var fixedData = factory.fixGraphData(datosXlocal,datosYlocal)
@@ -88,6 +100,8 @@ app.factory('graphService', ['entriesService',function (entriesService) {
 
         //Datos remotos
         var remoteRes = entriesService.getEntryRemoteResponse(ind);
+        //En caso de ser null lo inicializo para que no salte error.
+        if(remoteRes == null) remoteRes = {};
         var datosXremoto = remoteRes['op'];
         var datosYremoto = remoteRes['res'];
         fixedData = factory.fixGraphData(datosXremoto,datosYremoto)
@@ -95,19 +109,20 @@ app.factory('graphService', ['entriesService',function (entriesService) {
         datosYremoto = fixedData[1];
 
         //DEBUG
-        //datosXremoto[0] = datosXremoto[0] + "Remoto";
-
         console.log("datos - " + fixedData);
         console.log("datosX - " + datosXlocal);
         console.log("datosY - " + datosYlocal);
         console.log("datosXr - " + datosXremoto);
         console.log("datosYr - " + datosYremoto);
         
-
-        var myLayout = factory.getScatterLayout();
-        //factory.crearGrafica(factory.graphElem,datosX,datosY,'scatter','markers', myLayout);
+        //LAYOUT
+        var myLayout = factory.getScatterLayout(datosXlocal[0]);
+        //Grafica comparativa
         factory.crearGraficaComp(factory.graphElem,datosXlocal,datosYlocal,
             datosXremoto,datosYremoto,'bar',myLayout);
+        //Grafica de diferencias
+        factory.crearGraficaDiff(factory.diffGraphElem,datosXlocal,datosYlocal,
+            datosXremoto,datosYremoto,'line',myLayout);
     }
 
     /*
@@ -133,6 +148,8 @@ app.factory('graphService', ['entriesService',function (entriesService) {
             name: 'local'
             //Para color barra
             //,marker: {color: '#000'}
+            //Dibujar solo puntos, no lineas
+            //,mode: 'markers'
         }
 
         var traceB = {
@@ -142,12 +159,14 @@ app.factory('graphService', ['entriesService',function (entriesService) {
             name: 'remoto'
             //Para color barra
             //,marker: {color: '#000'}
+            //Dibujar solo puntos, no lineas
+            //,mode: 'markers'
         }
 
-        var traceC = factory.getDiffTrace(traceA,traceB);
-        console.log('trza: ' + traceC);
+        //var traceC = factory.getDiffTrace(traceA,traceB,tipo);
         //Lista con todas las trazas
-        var datos = [traceA, traceB, traceC];
+        //var datos = [traceA, traceB, traceC];
+        var datos = [traceA, traceB];
         //Si se emplea Plotly.plot en lugar de 
         //Plotly.newPlot, la gráfica generada se
         //añadirá a la ya existente en vez de
@@ -160,11 +179,53 @@ app.factory('graphService', ['entriesService',function (entriesService) {
         );
     }
 
+    /*Recibe los datos de las dos trazas y crea una nueva a partir
+    de las diferencias entre ambas. Esta nueva traza se empleará
+    para dibujar una gráfica a parte.*/
+    factory.crearGraficaDiff = function(elem, datosXa, datosYa,
+        datosXb, datosYb, tipo='bar', myLayout = {margin:{t:0}} )
+    {
+        
+        console.log("GRAPHDIFF: ");
+        console.log(myLayout);
+        //Añado diff al titulo.
+        myLayout.title = myLayout.title + " - DIFF";
+        console.log("GRAPHDIFF -title: ");
+        console.log(myLayout.title);
 
+        var traceA = {
+            x: datosXa,
+            y: datosYa
+        }
+        var traceB = {
+            x: datosXb,
+            y: datosYb
+        }
+        var traceC = factory.getDiffTrace(traceA,traceB,tipo);
+        //Lista con todas las trazas
+        var datos = [traceC];
+        //Si se emplea Plotly.plot en lugar de 
+        //Plotly.newPlot, la gráfica generada se
+        //añadirá a la ya existente en vez de
+        //sobrescribirla.
+        Plotly.newPlot( 
+            elem, 
+            datos, 
+            //{ margin: { t: 0 } } 
+            myLayout
+        );
+    }
 
-    /**Los casos que contempla e intenta arreglar son:
+    /**FUNCIONES AUXILIARES EMPLEADAS POR LAS ANTERIORES.*/
+
+    /**Recibe los datos (listas) de los ejes X e Y y los
+     * comprueba en busca de fallos e intenta arregarlos.
+     * Los casos que contempla e intenta arreglar son:
      * - datosX inexistente.
      * - datosY no es una lista (único elemento).
+     * Devuelve una lista con dos elementos. El primero
+     * se corresponde con los datosX "arreglados" y la
+     * segunda posición con los datosY.
      */
     factory.fixGraphData = function(datosX, datosY)
     {
@@ -220,8 +281,9 @@ app.factory('graphService', ['entriesService',function (entriesService) {
     }
 
     /*Devuelve la traza que muestra la diferencia entre
-    las dos trazas recibidas por paráemtros. */
-    factory.getDiffTrace = function(traceA,traceB,tipo='bar')
+    las dos trazas recibidas por parámetros.
+    Esta traza se empleará para dibujar la gráfica de diferencias.*/
+    factory.getDiffTrace = function(traceA,traceB,tipo='line')
     {
         console.log("probando datos[a]: " + traceA['x']);
         var traceDiff = {
@@ -237,7 +299,9 @@ app.factory('graphService', ['entriesService',function (entriesService) {
 
     /*Devuelve la lista que muestra la diferencia entre
     las dos listas de datos recibidos. Se emplea para obtener los
-    datos X e Y para la traza.*/
+    datos X e Y para la traza. Empleado por getDiffTrace() para
+    obtener las diferencias entre datosX y datosY de las
+    dos trazas.*/
     factory.getDataDiff = function(datosA, datosB)
     {
         var datosDiff = [];
@@ -286,7 +350,7 @@ app.factory('graphService', ['entriesService',function (entriesService) {
 
     /*Devuelve layout para la gráfica simple
     con los números registrados en la base de datos.*/
-    factory.getScatterLayout = function() {
+    factory.getScatterLayout = function(myTitle = 'Comparación') {
         //Layout
         var myLayout = {
             //agrupadors
@@ -299,61 +363,53 @@ app.factory('graphService', ['entriesService',function (entriesService) {
                 t: 100,
                 pad: 2
             },
-            title: "Comparación",
+            title: myTitle,
             font: {
                 family: 'Helvetica',
                 size: 20,
                 color: '#373737'
             }
-            /*
             ,
             xaxis: {
-                title: 'Fecha',
+                //title: 'xaxis',
                 titlefont: {
-                family: 'Helvetica',
-                size: 18,
-                color: '#DCD0C0'
+                    family: 'Helvetica',
+                    size: 18,
+                    color: '#C0B283'
                 },
                 //Oculto fehcas en el eje X
                 showticklabels: true,
                 tickfont: {
-                family: 'Helvetica',
-                size: 14,
-                color: '#373737'
-                },
-                
+                    family: 'Helvetica',
+                    size: 14,
+                    color: '#373737'
+                },        
+                /*
                 tickangle: 20,
                 dtick: 10,
                 ticklen: 8,
                 tickwidth: 4,
                 tickcolor: '#000',
-                
-                showgrid: true,
+                */
+                showgrid: false,
                 zerolinewidth: 1,
                 zerolinecolor: '#000',
                 gridwidth: 1,
                 gridcolor: '#000'
             },
             yaxis: {
-                zerolinewidth: 1,
+                showgrid: true,
+                zerolinewidth: 3,
                 zerolinecolor: '#373737',
                 gridwidth: 1,
-                gridcolor: '#373737',
-                title: 'Número',
-                titlefont: {
-                family: 'Helvetica',
-                size: 18,
-                color: '#DCD0C0'
-                },
-                showticklabels: true,
-                //tickangle: 45,
+                gridcolor: '#373737',      
                 tickfont: {
-                family: 'Helvetica',
-                size: 14,
-                color: '#373737'
-                }
+                    family: 'Helvetica',
+                    size: 14,
+                    color: '#373737'
+                },
             }
-            */
+            
         };
         return myLayout
     }

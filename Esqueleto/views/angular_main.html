@@ -5,9 +5,12 @@
         Esqueleto
     </title>
     <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>-->
-    <script src="/js/jquery.js"></script>
+    <!--JQUERY-->
+    <script src="/js/3rdparty/jquery.js"></script>
     <!--ANGULARJS-->
-    <script src="/js/angular-1.7.js"></script>
+    <script src="/js/3rdparty/angular-1.7.js"></script>
+    <!--Gráficas-->
+    <script src="/js/3rdparty/plotly.js"></script>
     <!--Aplicacion-->
     <script src="/js/angular/mainApp.js"></script>
     <!--Controlador principal-->
@@ -18,9 +21,7 @@
     <script src="/js/angular/debugService.js"></script>
     <script src="/js/angular/requestFactory.js"></script>
     <script src="/js/angular/graphService.js"></script>
-    <!--Gráficas-->
-    <script src="/js/plotly.js"></script>
-    <script src="/js/crearGrafica.js"></script>
+    <!--<script src="/js/crearGrafica.js"></script>-->
     <!--Estilo-->
     <LINK href="/css/style.css" rel="stylesheet" type="text/css">
 </head>
@@ -33,7 +34,8 @@
                 <li class="myMenuEntry" id="defaultEntry"> 
                     <span>Adress : </span>
                     <input type="text" ng-model="entriesService.entries[$index].url"
-                    <!--ng-blur="enviarPeticion(entriesService.entries[$index].id, entriesService.entries[$index].url)"-->
+                    <!--ng-blur="requestService.enviarPeticion(entriesService.entries[$index].id,
+                        entriesService.entries[$index].url)"-->
                     >
                     <input type="button" value="Send" 
                         ng-click="requestService.enviarPeticion(entriesService.entries[$index].id,
@@ -71,7 +73,9 @@
         </div>
         <!--GRAFO-->
         <div>
-            <div id="tester">
+            <div id="compGraph" class="graphDiv">
+            </div>
+            <div id="diffGraph" class="graphDiv">
             </div>
         </div>
     </div>
