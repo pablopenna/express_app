@@ -122,7 +122,7 @@ app.factory('graphService', ['entriesService',function (entriesService) {
             datosXremoto,datosYremoto,'bar',myLayout);
         //Grafica de diferencias
         factory.crearGraficaDiff(factory.diffGraphElem,datosXlocal,datosYlocal,
-            datosXremoto,datosYremoto,'line',myLayout);
+            datosXremoto,datosYremoto,'bar',myLayout);
     }
 
     /*
@@ -412,6 +412,35 @@ app.factory('graphService', ['entriesService',function (entriesService) {
             
         };
         return myLayout
+    }
+
+    //Redimensionar las gráficas.
+    //Redimensiona graficas de los elementos en la lista
+    //global con los elementos que contienen graficas.
+    factory.redimensionar = function()
+    {
+        //selector
+        var d3 = Plotly.d3;
+        //Lista con los identificadores de los elementos
+        //que contienen las graficas.
+        var listaGraphElem = [factory.graphElem,factory.diffGraphElem]
+        /*Por cada elemento en la lista de elementos (elementos que 
+        contienen gráficas), lo selecciono y redimensiono*/
+        for(i in listaGraphElem)
+        {
+            //Hay que tener cuidado por si esta funcion se ejecuta cuando
+            //las gráficas no se han dibujado. En este caso saltará un
+            //error de plotly diciento que 't.layout' no esta definido
+            //Sólo redimensiono si se han creado las gráficas.
+            if($("#" + listaGraphElem[i]).html().trim() != "")
+            {
+                //Selecciono elemento
+                var grafica = d3.select("#" + listaGraphElem[i]).node();
+                //Redimension
+                Plotly.Plots.resize(grafica);
+            }
+        }
+    
     }
 
     return factory;

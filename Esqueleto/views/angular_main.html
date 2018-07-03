@@ -21,13 +21,23 @@
     <script src="/js/angular/debugService.js"></script>
     <script src="/js/angular/requestFactory.js"></script>
     <script src="/js/angular/graphService.js"></script>
+    <script src="/js/angular/resizeDirective.js"></script>
     <!--<script src="/js/crearGrafica.js"></script>-->
     <!--Estilo-->
     <LINK href="/css/style.css" rel="stylesheet" type="text/css">
+    <!--JQUERY-UI-->
+    <script src="/js/3rdparty/jquery-ui.js"></script>
+    <link href="/css/jquery-ui.css" rel="stylesheet" type= "text/css">
+    <!--Carga script que configura el Dialog.
+    La id del elemento debe ser 'miDialogo'.
+    En caso de ser otra modificar el script initDialog.js-->
+	<script src="/js/initDialog.js"></script>
+    <!--__-->
 </head>
 <body>
     <h2>Esqueleto - Main Menu</h2>
-    <div ng-app="MainApp" ng-controller="MainCtrl">
+    <div ng-app="MainApp" ng-controller="MainCtrl" custom-resize-directive>
+        <p ng-show="showDebug">ANCHURA {{width}}</p>
         <div id="tempWrapper">
             <div id="menuWrapper">
             <ul id="menu" ng-repeat="entry in entriesService.entries track by entry['id']">    
@@ -72,12 +82,48 @@
             </div>
         </div>
         <!--GRAFO-->
-        <div>
+        <div id="miDialogo">
             <div id="compGraph" class="graphDiv">
             </div>
             <div id="diffGraph" class="graphDiv">
             </div>
         </div>
+        <!--DIALOG-->
+	    <div id="miDialogo2" title="Atención">
+		    <p id="miDialogoTexto">This is an animated dialog which is useful for displaying information. The dialog window can be moved, resized and closed with the 'x' icon.</p>
+	    </div>
     </div>
+
+    <!--
+    <script>
+        //Redimensiona graficas de los elementos en la lista
+        //global con los elementos que contienen graficas.
+        function redimensionar()
+        {
+            /*
+            console.log("lista elem.: " + listaGlobalElementos);
+            for(i in listaGlobalElementos)
+            {
+                console.log("elem " + i + " : " + listaGlobalElementos[i].id);
+            }
+            */
+            //selector
+            var d3 = Plotly.d3;
+            var listaGraphElem = ['compGraph','diffGraph']
+            /*Por cada elemento en la lista de elementos (elementos que 
+            contienen gráficas), lo selecciono y redimensiono*/
+            for(i in listaGraphElem)
+            {
+                //Selecciono elemento
+                var grafica = d3.select("#" + listaGraphElem[i]).node();
+                //Redimension
+                Plotly.Plots.resize(grafica);
+            }
+        }
+        window.onresize = function() {
+            redimensionar();
+        };
+    </script>
+    -->
 </body>
 </html>

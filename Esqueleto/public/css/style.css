@@ -98,3 +98,39 @@ input[type=text] {
     width: auto;
 /*height: 50px;*/
 }
+
+/* DIALOGS */
+
+
+.ui-dialog-buttonpane {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	float: center;
+}
+
+#dialogOkBoton
+{
+/*
+	height: 40px;
+	margin: 0 auto;
+	display: block;
+	width: 150px;
+*/
+	color: #F4F4F4;
+	background-color: #C0B283;
+}
+
+#dialogOkBoton:hover
+{
+	background-color: #DCD0C0;
+}
+
+/*
+Muted Tones Theme:
+    Pale Gold: #C0B283
+    Silk: #DCD0C0
+    Paper: #F4F4F4
+    Charcoal: #373737
+
+*/
