@@ -4,8 +4,8 @@ Muted Tones Theme:
     Silk: #DCD0C0
     Paper: #F4F4F4
     Charcoal: #373737
-
 */
+
 body {
     /*Fondo*/
     background-color: #F4F4F4;
@@ -101,7 +101,6 @@ input[type=text] {
 
 /* DIALOGS */
 
-
 .ui-dialog-buttonpane {
 	display: flex;
 	align-items: center;
@@ -125,12 +124,3 @@ input[type=text] {
 {
 	background-color: #DCD0C0;
 }
-
-/*
-Muted Tones Theme:
-    Pale Gold: #C0B283
-    Silk: #DCD0C0
-    Paper: #F4F4F4
-    Charcoal: #373737
-
-*/

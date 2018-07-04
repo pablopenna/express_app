@@ -1,25 +1,52 @@
-app.controller('MainCtrl', function ($scope, entriesService, urlService, debugService, requestService, graphService) {
+app.controller('MainCtrl', function ($scope, entriesService, urlService,
+    debugService, requestService, graphService, dialogService) {
     $scope.address = 'placeholder';
     $scope.lblMsg = null;
-    //Vinculo Servicio con variable del controlador
-    //para poder acceder a los recursos del primero.
-    //$scope.entries = entriesService.entries;
-    $scope.entriesService = entriesService;
 
+    //Vinculo Servicios con variables del controlador
+    //para poder acceder a los recursos de los primeros.
+
+    //Servicio de entradas
+    $scope.entriesService = entriesService;
+    
+    //Servicio de parseo de URLs
     $scope.urlService = urlService;
 
+    //Servicio para manejar variables debug
     $scope.debugService = debugService;
 
+    //Servicio para la realización de peticiones.
     $scope.requestService = requestService;
 
+    //Servicio para la creación de los grafos
     $scope.graphService = graphService;
+
+    //Servicio para utilizar dialogs
+    $scope.dialogService = dialogService;
+
+    //Al iniciar el controlador, inicializo el dialogo
+    //para su uso posterior.
+    $scope.dialogService.initDialog();
+
+    //Función que llama simultáneamente
+    //a diversas funciones para:
+    //> Crear gráfica con los datos de la entrada cuya id
+    //es la recibida como parámetro
+    //> Ajustar la gráfica creada al tamaño del dialog.
+    //> Mostrar dialog con la gráfica.
+    $scope.printGraph = function(id)
+    {
+        $scope.graphService.dibujarGraficaRespuestas(id);
+        $scope.graphService.redimensionar();
+        $scope.dialogService.showDialog();
+    }
 
     //Inicializo las entradas (creo initNumEntry entradas)
     $scope.initNumEntry = 1;
     $scope.entriesService.initEntries($scope.initNumEntry);
 
     //Variable que indica si se quieren mostrar datos de DEBUG o no
-    $scope.showDebug=true;
+    $scope.showDebug=false;
     $scope.switchDebug = function()
     {
         $scope.showDebug = !$scope.showDebug;
@@ -30,29 +57,5 @@ app.controller('MainCtrl', function ($scope, entriesService, urlService, debugSe
     {
         $scope.debuggedURL = $scope.urlService.checkURL(url);
     }
-    
-
-
-    
-
-
-    //----------------
-    /*
-    $scope.testGraph = function()
-    {
-        //var TESTER = document.getElementById('tester');
-        //PLOTLY necesita recibir el id del elemento DOM que
-        //va a emplear para dibujar la gráfica.
-        //En este caso le indicaremos el id del 
-        //elemento deseado con la variable 
-        //$scope.TESTER.
-        $scope.TESTER = 'tester';
-        console.log("graph - " + $scope.TESTER);
-        Plotly.plot( $scope.TESTER, [{
-        x: [1, 2, 3, 4, 5],
-        y: [1, 2, 4, 8, 16] }], {
-        margin: { t: 0 } } );
-    }
-    */
 
 });
