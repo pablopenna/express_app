@@ -106,17 +106,36 @@ function($http, entriesService, debugService, urlService)
         }
         console.log('la url: ' + url);
 
+        console.log("Estado respuesta:" + response.status);
+        console.log(response);
+
+        //No considero que la respuesta sea válida si el status no es 200
+        if(response.status != 200)
+        {
+            isErrorFree = false;
+        }
+
         //Solo registro si la URL esta bien y no se ha producido un error.
         //Si se produce un error al hacer 'response.config.url' significa
         //que el parámetro recibido como response no es una respuesta válida
-        if(isErrorFree)
+        //if(isErrorFree)
         {
             if(urlService.isLocalUrl(url))
             {
+                console.log("SETTING LOCAL RESP...");
+                if(!isErrorFree)
+                {
+                    response.data = {};
+                } 
                 entriesService.setEntryLocalResponse(id,response);
             }
             else
             {
+                console.log("SETTING REMOTE RESP...");
+                if(!isErrorFree)
+                {
+                    response.data = {};
+                } 
                 entriesService.setEntryRemoteResponse(id,response);
             }
             if(typeof callback == "function")
@@ -138,11 +157,10 @@ function($http, entriesService, debugService, urlService)
         const resp2 = JSON.stringify(entriesService.getEntryRemoteResponse(id));
         console.log("json resp1: " + resp1);
         console.log("json resp2: " + resp2);
-        console.log("iguales: " + (resp1==resp2));
-        const areRespEqual = resp1 == resp2;
+        const areRespEqual = (resp1 == resp2 && resp1 != '{}');
+        console.log("iguales: " + areRespEqual);
         entriesService.setEntryResponseComp(id, areRespEqual);
     }
-
 
     return factory;
 }]);

@@ -189,9 +189,11 @@ app.factory('graphService', ['entriesService',function (entriesService) {
         console.log("GRAPHDIFF: ");
         console.log(myLayout);
         //Añado diff al titulo.
-        myLayout.title = myLayout.title + " - DIFF";
+        //Creo una copia para no afectar al objecto original
+        var clonedLayout = Object.assign({}, myLayout);
+        clonedLayout.title = clonedLayout.title + " - DIFF";
         console.log("GRAPHDIFF -title: ");
-        console.log(myLayout.title);
+        console.log(clonedLayout.title);
 
         var traceA = {
             x: datosXa,
@@ -212,7 +214,7 @@ app.factory('graphService', ['entriesService',function (entriesService) {
             elem, 
             datos, 
             //{ margin: { t: 0 } } 
-            myLayout
+            clonedLayout
         );
     }
 

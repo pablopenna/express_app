@@ -19,7 +19,7 @@
     <script src="/js/angular/urlFactory.js"></script>
     <script src="/js/angular/debugService.js"></script>
     <script src="/js/angular/requestFactory.js"></script>
-    <script src="/js/angular/graphService.js"></script>
+    <script src="/js/angular/graphFactory.js"></script>
     <script src="/js/angular/resizeDirective.js"></script>
     <!--<script src="/js/crearGrafica.js"></script>-->
     <!--Estilo-->
@@ -30,11 +30,16 @@
     <!--Carga script que configura el Dialog.
     La id del elemento debe ser 'miDialogo'.
     En caso de ser otra modificar el script dialogService.js-->
-	<script src="/js/angular/dialogService.js"></script>
+	<script src="/js/angular/dialogFactory.js"></script>
     <!--__-->
 </head>
 <body>
-    <h2>Esqueleto - Main Menu</h2>
+    <div id="topbar">
+    <h2>
+        <img id="logo" src="/image/Esqueleto.png">
+        <span>Esqueleto</span>
+    </h2>
+    </div>
     <div ng-app="MainApp" ng-controller="MainCtrl" custom-resize-directive>
         <p ng-show="showDebug">ANCHURA {{width}}</p>
         <div id="tempWrapper">
@@ -46,6 +51,12 @@
                     <!--ng-blur="requestService.enviarPeticion(entriesService.entries[$index].id,
                         entriesService.entries[$index].url)"-->
                     >
+                    <img class="imgMark" 
+                        src="/image/bolaverde.png" 
+                        ng-show="entriesService.entries[$index].areRespEqual">
+                    <img class="imgMark" 
+                        src="/image/bolaroja.png" 
+                        ng-hide="entriesService.entries[$index].areRespEqual">
                     <input type="button" value="Send" 
                         ng-click="requestService.enviarPeticion(entriesService.entries[$index].id,
                         entriesService.entries[$index].url)"/>

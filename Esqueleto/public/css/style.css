@@ -11,6 +11,8 @@ body {
     background-color: #F4F4F4;
     /*Texto*/
     color: #373737;
+    /*Margen*/
+    margin: 0;
 }
 h2 {
     color: #C0B283;
@@ -123,4 +125,42 @@ input[type=text] {
 #dialogOkBoton:hover
 {
 	background-color: #DCD0C0;
+}
+
+/*Imagenes de los circulos*/
+.imgMark
+{
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+}
+
+/*Barra superior*/
+#logo
+{
+    width:40px;
+    vertical-align: middle;
+    padding-left: 15px;
+    padding-right: 10px;
+    float: left;
+    /*margin-top: -10px;*/
+}
+
+#topbar
+{
+    background-color: #DCD0C0;
+    overflow: hidden;
+    display: block;
+    text-align: center;
+}
+
+#topbar h2
+{
+    font-size: 32px;
+    /*Contorno*/
+    text-shadow:
+    -1px -1px 0 #373737,
+    1px -1px 0 #373737,
+    -1px 1px 0 #373737,
+    1px 1px 0 #373737;
 }
