@@ -19,7 +19,8 @@ function getRandom(min, max) {
     
         min = Math.ceil(min);
         //Maximo exclusivo por lo que sumo 1
-        //para que sea inclusivo.
+        //para que sea inclusivo en la operación 
+        //de la línea 26.
         max = Math.floor(max) + 1;
         //The maximum is exclusive and the minimum is inclusive
         return Math.floor(Math.random() * (max - min)) + min; 
