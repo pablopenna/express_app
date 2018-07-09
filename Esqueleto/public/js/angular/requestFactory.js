@@ -155,12 +155,40 @@ function($http, entriesService, debugService, urlService)
         console.log("COMPARANDO...");
         const resp1 = JSON.stringify(entriesService.getEntryLocalResponse(id));
         const resp2 = JSON.stringify(entriesService.getEntryRemoteResponse(id));
+        //Variables que contendrán sólo el atributo 'res' de las respuestas.
+        const resResp1 = JSON.stringify(entriesService.getEntryLocalResponse(id)['res']);
+        const resResp2 = JSON.stringify(entriesService.getEntryRemoteResponse(id)['res']);
         console.log("json resp1: " + resp1);
         console.log("json resp2: " + resp2);
-        const areRespEqual = (resp1 == resp2 && resp1 != '{}');
+        console.log("json res1: " + resResp1);
+        console.log("json res2: " + resResp2);
+        //const areRespEqual = (resp1 == resp2 && resp1 != '{}');
+        const areRespEqual = (resResp1 == resResp2 && resp1 != '{}');
         console.log("iguales: " + areRespEqual);
         entriesService.setEntryResponseComp(id, areRespEqual);
     }
+
+
+    /**Petición al servidor para resetear la base de datos.
+     * Por defecto es '/reset'.
+    */
+    factory.postDataReset = function (url="/reset") 
+    {
+        console.log("postDataReset() - url: " + url);
+        //Call the services 
+        //$http.post('/ops/mediaLluvia')
+        $http.post(url)
+        .then(function onSuccess(response) 
+        {
+            console.log("RESET response: " + response);
+            console.log(response);
+        },
+        function onError(response) 
+        {
+            console.log("RESET response ERROR: " + response);
+            console.log(response);
+        });
+    };
 
     return factory;
 }]);

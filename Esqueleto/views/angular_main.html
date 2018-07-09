@@ -45,21 +45,30 @@
         <div id="tempWrapper">
             <div id="menuWrapper">
             <ul id="menu" ng-repeat="entry in entriesService.entries track by entry['id']">    
-                <li class="myMenuEntry" id="defaultEntry"> 
+                <li class="myMenuEntry" id="defaultEntry">
+                    <!--Muestra el índice de la entrada. Parseamos ID para mostrarlo.-->
+                    <span id="indiceEntrada">
+                        {{entriesService.entries[$index].id.split("-")[1]+"."}}
+                    </span>
+                    <!--Direccion a la que enviar las peticiones.-->
                     <span>Adress : </span>
-                    <input type="text" ng-model="entriesService.entries[$index].url"
-                    <!--ng-blur="requestService.enviarPeticion(entriesService.entries[$index].id,
-                        entriesService.entries[$index].url)"-->
+                    <input type="text" ng-model="entriesService.entries[$index].url">
+                        <!--Para enviar peticiones cuando input text pierda focus.-->
+                        <!--ng-blur="requestService.enviarPeticion(entriesService.entries[$index].id,
+                            entriesService.entries[$index].url)"-->
                     >
+                    <!--Imagenes para mostrar si las respuestas coinciden.-->
                     <img class="imgMark" 
                         src="/image/bolaverde.png" 
                         ng-show="entriesService.entries[$index].areRespEqual">
                     <img class="imgMark" 
                         src="/image/bolaroja.png" 
                         ng-hide="entriesService.entries[$index].areRespEqual">
+                    <!--Botón para enviar las peticiones-->
                     <input type="button" value="Send" 
                         ng-click="requestService.enviarPeticion(entriesService.entries[$index].id,
                         entriesService.entries[$index].url)"/>
+                    <!--Datos de debug de la entrada.-->
                     <div ng-show="showDebug">
                         <p>Address : {{entriesService.entries[$index].url}}</p>
                         <p>ID : {{entriesService.entries[$index].id}}</p>
@@ -67,11 +76,14 @@
                         <p>Remote Resp: {{entriesService.entries[$index].remoteResponse}}</p>
                         <p>Coinciden?: {{entriesService.entries[$index].areRespEqual}}</p>
                     </div>
+                    <!--Botón para borrar la entrada.-->
                     <input type="button" value="Delete" 
                         ng-click="entriesService.deleteEntry(entriesService.entries[$index].id)"/>
+                    <!--Botón para parsear la url de la entrada y mostrarla en debug-->
                     <input type="button" value="Parse" 
                         ng-click="debugURL(entriesService.entries[$index].url)"
                         ng-show="showDebug"/>
+                    <!--Botón para crear gráficas con las respuestas.-->
                     <input type="button" value="Graph" 
                         ng-click="printGraph(entriesService.entries[$index].id)"/>
                         <!--ng-click="graphService.dibujarGraficaRespuestas(entriesService.entries[$index].id)"-->
@@ -79,7 +91,13 @@
             </ul>
             </div>
             <div>
+                <!--Botón para añadir entrada-->
                 <input type="button" value="Add" ng-click="entriesService.addEntry()" />
+                <!--Botón para resetear datos en la base de datos.-->
+                <input type="button" value="RESET" ng-click="requestService.postDataReset()"/>
+                <!--Botón para alternar entre modo debug y modo normal.-->
+                <input type="button" value="DEBUG" ng-click="switchDebug()" />  
+                <!--Datos de debug-->
                 <div class="datosDebug" ng-show="showDebug">
                     <p>Output Message : {{debugService.msg}}</p>
                     <p>StatusCode: {{debugService.statusval}}</p>
@@ -89,11 +107,13 @@
                     <p>Parsed URL: {{debuggedURL}}</p>
                     <p>entriesService.entries: {{entriesService.entries}}</p>
                 </div>
-                <input type="button" value="DEBUG" ng-click="switchDebug()" />
+                
             </div>
         </div>
-        <!--DIALGO GRAFO-->
+        <!--DIALOGO GRAFO-->
+        <!--Este div se empleará para crear el dialog.-->
         <div id="miDialogo">
+            <!--Divs en los que se crearán las gráficas.-->
             <div id="compGraph" class="graphDiv">
             </div>
             <div id="diffGraph" class="graphDiv">

@@ -72,7 +72,10 @@ module.exports = function () {
     app.route('/weather').post(controllers.db_worker_weather.setData);
     app.route('/weather').delete(controllers.db_worker_weather.clearData);
     //
+    //GET -> Accesible a través del navegador. PRUEBA.
     app.route('/reset').get(controllers.db_weather_filler.resetDB);
+    //POST -> Accesible a través de la aplicacion.
+    app.route('/reset').post(controllers.db_weather_filler.resetDB);
     //---
     //OPERACIONES
     //Accesible desde navegador
