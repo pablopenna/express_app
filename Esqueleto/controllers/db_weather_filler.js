@@ -5,6 +5,9 @@ var ClimaBasicOps = require(path.resolve(__dirname, path.join(process.cwd(), 'co
 var direccionesViento = require(path.resolve(__dirname, path.join(process.cwd(), 'models', 'direccionesViento.js')));
 //console.log('ATENTION: ' + ClimaBasicOps.clearData);
 
+//Numero de entradas en la base de datos
+const numEntries = 1000;
+
 //Lista con las direcciones del viento.
 //const direccionesViento = ["N","S","E","W","NW","NE","SW","SE"]
 
@@ -136,13 +139,16 @@ module.exports = {
         ClimaBasicOps.clearData();
         //Genero valores aleatorios
         var myval = getRandomWeather();
-        res.send('Esto es: ' + JSON.stringify(myval));
+        //Si el metodo es GET, es a traves del navegador
+        if (req.method == 'GET'){
+            res.send('Esto es: ' + JSON.stringify(myval));
+        }
         //Enviar POST para registrar
         //sendPost(myval);
         //En lugar de utilizar peticiones POST
         //usaremos los métodos proporcionados por
         //mongoose
-        for(i=0;i<10;i++)
+        for(i=0;i<numEntries;i++)
         {
             if(i>0)
             {
@@ -159,6 +165,11 @@ module.exports = {
                 //console.log('COMPROBAR: ' + JSON.stringify(myval));
                 console.log('CREACION: ' + datos);   
             });
+        }
+        console.log("RESET FINISHED!");
+        //Si el metodo es POST, es a traves de la aplicacion
+        if (req.method == 'POST'){
+            res.send('RESET FINISHED');
         }
     }
 

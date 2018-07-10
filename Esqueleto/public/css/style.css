@@ -171,3 +171,8 @@ input[type=text] {
     vertical-align: middle;
     font-size: 20px;
 }
+
+#textoDialogo
+{
+    text-align: center;
+}

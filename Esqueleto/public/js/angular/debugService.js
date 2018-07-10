@@ -11,4 +11,5 @@ app.service('debugService',function()
     this.statustext = "";
     this.headers = "";
     this.resData = "";
+    this.resetStatus = "";
 });

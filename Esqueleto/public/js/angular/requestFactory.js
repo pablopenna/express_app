@@ -1,5 +1,5 @@
-app.factory('requestService',['$http','entriesService','debugService', 'urlService',
-function($http, entriesService, debugService, urlService)
+app.factory('requestService',['$http','entriesService','debugService', 'urlService','dialogService',
+function($http, entriesService, debugService, urlService, dialogService)
 {
     var factory = {};
 
@@ -168,6 +168,11 @@ function($http, entriesService, debugService, urlService)
         entriesService.setEntryResponseComp(id, areRespEqual);
     }
 
+    /** RESET */
+
+    //Inicializo el dialogo reset
+    const idDialogReset = "resetDialogo";
+    dialogService.initDialog(idDialogReset);
 
     /**Petición al servidor para resetear la base de datos.
      * Por defecto es '/reset'.
@@ -177,16 +182,26 @@ function($http, entriesService, debugService, urlService)
         console.log("postDataReset() - url: " + url);
         //Call the services 
         //$http.post('/ops/mediaLluvia')
+        debugService.resetStatus = "Reiniciando...";
+        dialogService.setDialogText("Reiniciando...",idDialogReset);
         $http.post(url)
         .then(function onSuccess(response) 
         {
             console.log("RESET response: " + response);
             console.log(response);
+            debugService.resetStatus = response.data;
+            //Muestro Dialogo
+            dialogService.setDialogText(response.data,idDialogReset);
+            dialogService.showDialog(idDialogReset);
         },
         function onError(response) 
         {
             console.log("RESET response ERROR: " + response);
             console.log(response);
+            debugService.resetStatus = response.data;
+            //Muestro Dialogo
+            dialogService.setDialogText(response.data,idDialogReset);
+            dialogService.showDialog(idDialogReset);
         });
     };
 

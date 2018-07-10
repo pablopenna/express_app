@@ -37,7 +37,7 @@
     <div id="topbar">
     <h2>
         <img id="logo" src="/image/Esqueleto.png">
-        <span>Esqueleto</span>
+        <span id="titulo">Esqueleto</span>
     </h2>
     </div>
     <div ng-app="MainApp" ng-controller="MainCtrl" custom-resize-directive>
@@ -106,6 +106,7 @@
                     <p>RESPUESTA: {{debugService.resData}}</p>
                     <p>Parsed URL: {{debuggedURL}}</p>
                     <p>entriesService.entries: {{entriesService.entries}}</p>
+                    <p>Estado Reset: {{debugService.resetStatus}}</p>
                 </div>
                 
             </div>
@@ -117,6 +118,12 @@
             <div id="compGraph" class="graphDiv">
             </div>
             <div id="diffGraph" class="graphDiv">
+            </div>
+        </div>
+        <!--DIALOGO RESET-->
+        <div id="resetDialogo">
+            <div id="textoDialogo">
+                Lorem ipsum
             </div>
         </div>
     </div>
