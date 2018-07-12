@@ -83,6 +83,7 @@ module.exports = function () {
     //Accesible mediante POST
     app.route('/ops/mediaLluvia').post(controllers.ops.mediaProbLluvia.mediaLluvia);
     app.route('/ops/maxLluvia').post(controllers.ops.maxProbLluvia.maxLluvia);
+    app.route('/ops/minLluvia').post(controllers.ops.minProbLluvia.minLluvia);
     app.route('/ops/random').post(controllers.ops.random.getRandom);
     app.route('/ops/random/:urlVar').post(controllers.ops.random.getRandom);
     //Prueba

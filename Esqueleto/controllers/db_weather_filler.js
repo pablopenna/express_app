@@ -6,7 +6,7 @@ var direccionesViento = require(path.resolve(__dirname, path.join(process.cwd(),
 //console.log('ATENTION: ' + ClimaBasicOps.clearData);
 
 //Numero de entradas en la base de datos
-const numEntries = 1000;
+const numEntries = 10;
 
 //Lista con las direcciones del viento.
 //const direccionesViento = ["N","S","E","W","NW","NE","SW","SE"]
