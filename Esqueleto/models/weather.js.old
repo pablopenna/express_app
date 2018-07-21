@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 //lista con las direcciones del viento
-//var path = require('path');
-//var direccionesViento = require(path.resolve(__dirname, path.join(process.cwd(), 'models', 'direccionesViento.js')));
+var path = require('path');
+var direccionesViento = require(path.resolve(__dirname, path.join(process.cwd(), 'models', 'direccionesViento.js')));
 //console.log('DIRECCIONES: ' + direccionesViento);
 //defino Schema 
 var Schema = mongoose.Schema
@@ -33,14 +33,6 @@ var weatherSchema = new Schema(
             min: 0,
             max: 100
         },
-        //Precipitaciones (litros/m²)
-        precipitaciones: {
-            type: Number,
-            required: true,
-            default: 0,
-            min: 0,
-            max: 300
-        },
         //Humedad relativa.
         //de 0 a 100 (porcentaje)
         humedad: {
@@ -51,31 +43,42 @@ var weatherSchema = new Schema(
             max: 100
         },
         //Velocidad del viento en
-        //km/h. Min 0 max 999
+        //km/h. Min 0 max 9999
         velViento: {
             type: Number,
             required: true,
             default: 0,
             min: 0,
-            max: 999
+            max: 9999
         },
-        //Temperatura.
-        //-40 - 60
+        //Direccion del viento.
+        //[N,S,E,W,NW,NE,SW,SE]
+        dirViento: {
+            type: String,
+            required: true,
+            //default
+            uppercase: true,
+            //enum: ["N","S","E","W","NW","NE","SW","SE"],
+            enum: direccionesViento,
+            default: "N"
+        },
+        //Temperaturas media, maxima y minima.
         temp:{
-            type: Number,
-            required: true,
-            default: 0,
-            min: -40,
-            max: 60
-        },
-        //Presión atmosférica en hectopascales (hPa)
-        //940 - 1050
-        presion: {
-            type: Number,
-            required: true,
-            default: 0,
-            min: 940,
-            max: 1050
+            media : {
+                type: Number,
+                required: true,
+                default: 0
+            },
+            max: {
+                type: Number,
+                required: true,
+                default: 0
+            },
+            min : {
+                type: Number,
+                required: true,
+                default: 0
+            }
         }
 });
 

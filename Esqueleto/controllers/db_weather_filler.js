@@ -47,6 +47,12 @@ function getRandomProbLluvia(){
     return getRandom(0,100);
 }
 
+/*Cantidad de precipitaciones aleatoria.
+Min 0 Max 300 */
+function getRandomPrecipitaciones(){
+    return getRandom(0,300);
+}
+
 /*Humedad aleatoria.
 Min 0 Max 100 */
 function getRandomHumedad(){
@@ -54,9 +60,9 @@ function getRandomHumedad(){
 }
 
 /*Velocidad de viento aleatoria.
-Min 0 Max 150 (El modelo permite hasta 9999) */
+Min 0 Max 150 (El modelo permite hasta 999) */
 function getRandomVelViento(){
-    return getRandom(0,150);
+    return getRandom(0,999);
 }
 
 /*Dirección viento aleatoria.
@@ -92,6 +98,12 @@ function getRandomTemp(){
     return temp;
 }
 
+/*Presion atmosférica aleatoria.
+Min 940 Max 1050 (hPa)*/
+function getRandomPresion(){
+    return getRandom(940,1050);
+}
+
 /*Wrapper de todas las funciones. Devolverá
 un objeto JSON con los campos y sus valores
 aleatorios para crear una instancia del modelo
@@ -101,13 +113,13 @@ function getRandomWeather(){
     var randomWeather = {};
     randomWeather['dia'] = getRandomDate();
     randomWeather['probLluvia'] = getRandomProbLluvia();
+    randomWeather['precipitaciones'] = getRandomPrecipitaciones();
     randomWeather['humedad'] = getRandomHumedad();
     randomWeather['velViento'] = getRandomVelViento();
-    randomWeather['dirViento'] = getRandomDirViento();
-    //randomWeather['temp.media'] = getRandomTemp();
-    //randomWeather['temp.max'] = getRandomTemp();
-    //randomWeather['temp.min'] = getRandomTemp();
-    randomWeather['temp'] = getAllRandomTemps();
+    randomWeather['temp'] = getRandomTemp();
+    randomWeather['presion'] = getRandomPresion();
+    //randomWeather['dirViento'] = getRandomDirViento();
+    //randomWeather['temp'] = getAllRandomTemps();
     return randomWeather;
 }
 
