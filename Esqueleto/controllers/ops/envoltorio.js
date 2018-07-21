@@ -40,7 +40,6 @@ module.exports = {
                 //de que se hayan especificado varios separados por espacios
                 var resultadoOP = funcion(datos, campo.split(" ")[0]);
                 //Metemos resultado en json
-                console.log("funcion: " + String(funcion));
                 var res = {"op" : String(funcion).split(/[ (]/)[1]+" "+campo
                 ,"res" : resultadoOP};
                 console.log("RES ENVOLTORIO: " + res);

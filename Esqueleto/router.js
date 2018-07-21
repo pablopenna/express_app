@@ -81,6 +81,8 @@ module.exports = function () {
     //Accesible desde navegador
     app.route('/ops/mediaLluvia').get(controllers.ops.mediaProbLluvia.mediaLluvia);
     //Accesible mediante POST
+    /**MEDIAS*/
+    //Probabilidad de lluvia
     app.route('/ops/mediaLluvia').post(controllers.ops.mediaProbLluvia.mediaLluvia);
     app.route('/ops/mediaArmLluvia').post(controllers.ops.mediaProbLluvia.mediaArmLluvia);
     app.route('/ops/mediaGeoLluvia').post(controllers.ops.mediaProbLluvia.mediaGeoLluvia);
@@ -88,6 +90,33 @@ module.exports = function () {
     app.route('/ops/newMediaArmLluvia').post(controllers.ops.mediaProbLluvia.newMediaArmLluvia);
     app.route('/ops/newMediaGeoLluvia').post(controllers.ops.mediaProbLluvia.newMediaGeoLluvia);
 
+    //Precipitaciones
+    app.route('/ops/mediaPrec').post(controllers.ops.mediasPrecipitaciones.mediaPrecipitaciones);
+    app.route('/ops/mediaArmPrec').post(controllers.ops.mediasPrecipitaciones.mediaArmPrecipitaciones);
+    app.route('/ops/mediaGeoPrec').post(controllers.ops.mediasPrecipitaciones.mediaGeoPrecipitaciones);
+
+    //Humedad relativa
+    app.route('/ops/mediaHumedad').post(controllers.ops.mediasHumedad.mediaHumedad);
+    app.route('/ops/mediaArmHumedad').post(controllers.ops.mediasHumedad.mediaArmHumedad);
+    app.route('/ops/mediaGeoHumedad').post(controllers.ops.mediasHumedad.mediaGeoHumedad);
+
+    //Presion
+    app.route('/ops/mediaPresion').post(controllers.ops.mediasPresion.mediaPresion);
+    app.route('/ops/mediaArmPresion').post(controllers.ops.mediasPresion.mediaArmPresion);
+    app.route('/ops/mediaGeoPresion').post(controllers.ops.mediasPresion.mediaGeoPresion);
+
+    //Temperatura
+    app.route('/ops/mediaTemp').post(controllers.ops.mediasTemp.mediaTemp);
+    app.route('/ops/mediaArmTemp').post(controllers.ops.mediasTemp.mediaArmTemp);
+    app.route('/ops/mediaGeoTemp').post(controllers.ops.mediasTemp.mediaGeoTemp);
+
+    //Velocidad Viento
+    app.route('/ops/mediaVelViento').post(controllers.ops.mediasVelViento.mediaVelViento);
+    app.route('/ops/mediaArmVelViento').post(controllers.ops.mediasVelViento.mediaArmVelViento);
+    app.route('/ops/mediaGeoVelViento').post(controllers.ops.mediasVelViento.mediaGeoVelViento);
+
+
+    //Misc.
     app.route('/ops/maxLluvia').post(controllers.ops.maxProbLluvia.maxLluvia);
     app.route('/ops/minLluvia').post(controllers.ops.minProbLluvia.minLluvia);
     app.route('/ops/random').post(controllers.ops.random.getRandom);

@@ -16,7 +16,7 @@ module.exports = {
     /**Recibe los datos de la base de datos como parámetro
      * y los emplea para calcular la media del campo
      * especificado como parámetro.
-     * Como campo reibirá uno de los campos de la
+     * Como campo recibirá uno de los campos de la
      * base de datos:
      * ['dia','probLluvia','precipitaciones',
      * 'humedad','velViento','temp','presion']
@@ -57,8 +57,10 @@ module.exports = {
             console.log("ELEMENTO["+campo+"]: " + element[campo]);
             //Si el numero actual es 0, dividire entre 0
             //y dará infinito. Para evitar esto, si
-            //el valor actual es 0, lo ignoraremos
-            if(element[campo] != 0)
+            //el valor actual es 0, lo ignoraremos.
+            //La media armonica no puede calcularse para valores
+            //negativos, por lo que ignoreremos estos ultimos
+            if(element[campo] > 0)
             {
                 sumatorio += 1/element[campo];
                 numElementos++;
@@ -101,7 +103,10 @@ module.exports = {
             //y la media sera 0 ya que al multiplicar
             //el resto de elementos por 0 seguira siendo 0.
             //Para evitar esto, si el valor actual es 0, lo ignoraremos.
-            if(element[campo] != 0)
+
+            //Tampoco puede calcularse para valores negativos, por lo
+            //que los ignoraremos. (Los logaritmos no pued aplicarse a numeros negativos)
+            if(element[campo] > 0)
             {
                 sumatorio += Math.log10(element[campo]);
                 numElementos++;
