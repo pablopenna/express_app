@@ -9,6 +9,8 @@ var envoltorio = require(path.resolve(__dirname,
 var filtroAnio = require(path.resolve(__dirname, 
     path.join(process.cwd(), 'controllers', 'ops', 'envoltorio.js'))
 )['filtroAnio'];
+//Modulo con medias
+var mediasWeather = require(path.resolve(__dirname, path.join(process.cwd(), 'controllers', 'ops', 'medias.js')));
 
 /**Recibe los datos de la base de datos como parámetro
  * y los emeplea para calcular la media del campo
@@ -29,7 +31,8 @@ function innerMediaLluvia(datos)
     console.log("LONG: " + numElementos);
     var media = sumatorio/numElementos;
     //meto la media en un json
-    var resultado = {"op" : "Media Prob. Lluvia","res" : media};
+    //var resultado = {"op" : "Media Prob. Lluvia","res" : media};
+    var resultado = media;
     console.log("INNER_MEDIA: " + resultado);
     return resultado;
 }
@@ -60,7 +63,8 @@ function innerMediaArmonicaLluvia(datos)
     console.log("DIV: " + sumatorio);
     var media = numElementos/sumatorio;
     //meto la media en un json
-    var resultado = {"op" : "Media Armonica Prob. Lluvia","res" : media};
+    //var resultado = {"op" : "Media Armonica Prob. Lluvia","res" : media};
+    var resultado = media;
     console.log("INNER_MEDIA: " + resultado);
     return resultado;
 }
@@ -114,7 +118,8 @@ function innerMediaGeometricaLluvia(datos)
     console.log("MUL: " + logMedia);
     var media = Math.pow(10, logMedia);
     //meto la media en un json
-    var resultado = {"op" : "Media Geometrica Prob. Lluvia","res" : media};
+    //var resultado = {"op" : "Media Geometrica Prob. Lluvia","res" : media};
+    var resultado = media;
     console.log("INNER_MEDIA: " + resultado);
     return resultado;
 }
@@ -143,5 +148,29 @@ module.exports = {
         var filtro = {};
         //envoltorio(<campos>,<funcion>,<respuesta>,<filtro>)
         var datos = envoltorio("probLluvia",innerMediaGeometricaLluvia,res,filtro);
+    },
+    /** -- NEW -- */
+    newMediaLluvia : function(req, res)
+    {
+        //var filtro = filtroAnio(2014);
+        var filtro = {};
+        //envoltorio(<campos>,<funcion>,<respuesta>,<filtro>)
+        var datos = envoltorio("probLluvia dia",mediasWeather.mediaWeather,res,filtro);
+    },
+
+    newMediaArmLluvia : function(req, res)
+    {
+        //var filtro = filtroAnio(2014);
+        var filtro = {};
+        //envoltorio(<campos>,<funcion>,<respuesta>,<filtro>)
+        var datos = envoltorio("probLluvia",mediasWeather.mediaArmonicaWeather,res,filtro);
+    },
+
+    newMediaGeoLluvia : function(req, res)
+    {
+        //var filtro = filtroAnio(2014);
+        var filtro = {};
+        //envoltorio(<campos>,<funcion>,<respuesta>,<filtro>)
+        var datos = envoltorio("probLluvia",mediasWeather.mediaGeometricaWeather,res,filtro);
     }
 };

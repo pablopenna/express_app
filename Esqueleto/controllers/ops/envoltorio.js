@@ -36,7 +36,13 @@ module.exports = {
                 console.log("DATOS: " + datos);
                 //datos es un array con los objetos retornados por find
                 //res.send(datos);
-                var res = funcion(datos);
+                //Pasamos como parámetro solo el primer campo en caso
+                //de que se hayan especificado varios separados por espacios
+                var resultadoOP = funcion(datos, campo.split(" ")[0]);
+                //Metemos resultado en json
+                console.log("funcion: " + String(funcion));
+                var res = {"op" : String(funcion).split(/[ (]/)[1]+" "+campo
+                ,"res" : resultadoOP};
                 console.log("RES ENVOLTORIO: " + res);
                 respuesta.send(res);
             });
