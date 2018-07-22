@@ -115,6 +115,11 @@ module.exports = function () {
     app.route('/ops/mediaArmVelViento').post(controllers.ops.mediasVelViento.mediaArmVelViento);
     app.route('/ops/mediaGeoVelViento').post(controllers.ops.mediasVelViento.mediaGeoVelViento);
 
+    /**AÑO */
+    app.route('/ops/anio/mediaTemp').post(controllers.ops.anio.mediasAnioTemp.mediaTempAnio);
+    app.route('/ops/anio/mediaArmTemp').post(controllers.ops.anio.mediasAnioTemp.mediaArmTempAnio);
+    app.route('/ops/anio/mediaGeoTemp').post(controllers.ops.anio.mediasAnioTemp.mediaGeoTempAnio);
+
 
     //Misc.
     app.route('/ops/maxLluvia').post(controllers.ops.maxProbLluvia.maxLluvia);
