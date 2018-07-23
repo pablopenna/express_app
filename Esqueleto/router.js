@@ -81,7 +81,7 @@ module.exports = function () {
     //Accesible desde navegador
     app.route('/ops/mediaLluvia').get(controllers.ops.mediaProbLluvia.mediaLluvia);
     //Accesible mediante POST
-    /**MEDIAS*/
+    /**MEDIAS ABSOLUTAS*/
     //Probabilidad de lluvia
     app.route('/ops/mediaLluvia').post(controllers.ops.mediaProbLluvia.mediaLluvia);
     app.route('/ops/mediaArmLluvia').post(controllers.ops.mediaProbLluvia.mediaArmLluvia);
@@ -91,9 +91,9 @@ module.exports = function () {
     app.route('/ops/newMediaGeoLluvia').post(controllers.ops.mediaProbLluvia.newMediaGeoLluvia);
 
     //Precipitaciones
-    app.route('/ops/mediaPrec').post(controllers.ops.mediasPrecipitaciones.mediaPrecipitaciones);
-    app.route('/ops/mediaArmPrec').post(controllers.ops.mediasPrecipitaciones.mediaArmPrecipitaciones);
-    app.route('/ops/mediaGeoPrec').post(controllers.ops.mediasPrecipitaciones.mediaGeoPrecipitaciones);
+    app.route('/ops/mediaPrecipitaciones').post(controllers.ops.mediasPrecipitaciones.mediaPrecipitaciones);
+    app.route('/ops/mediaArmPrecipitaciones').post(controllers.ops.mediasPrecipitaciones.mediaArmPrecipitaciones);
+    app.route('/ops/mediaGeoPrecipitaciones').post(controllers.ops.mediasPrecipitaciones.mediaGeoPrecipitaciones);
 
     //Humedad relativa
     app.route('/ops/mediaHumedad').post(controllers.ops.mediasHumedad.mediaHumedad);
@@ -115,11 +115,53 @@ module.exports = function () {
     app.route('/ops/mediaArmVelViento').post(controllers.ops.mediasVelViento.mediaArmVelViento);
     app.route('/ops/mediaGeoVelViento').post(controllers.ops.mediasVelViento.mediaGeoVelViento);
 
-    /**AÑO */
+    /**MEDIAS X AÑO */
+    //Probabilidad Lluvia
+    app.route('/ops/anio/mediaProbLluvia').post(controllers.ops.anio.mediasAnioProbLluvia.mediaProbLluviaAnio);
+    app.route('/ops/anio/mediaArmProbLluvia').post(controllers.ops.anio.mediasAnioProbLluvia.mediaArmProbLluviaAnio);
+    app.route('/ops/anio/mediaGeoProbLluvia').post(controllers.ops.anio.mediasAnioProbLluvia.mediaGeoProbLluviaAnio);
+    //Precipitaciones
+    app.route('/ops/anio/mediaPrecipitaciones').post(controllers.ops.anio.mediasAnioPrecipitaciones.mediaPrecipitacionesAnio);
+    app.route('/ops/anio/mediaArmPrecipitaciones').post(controllers.ops.anio.mediasAnioPrecipitaciones.mediaArmPrecipitacionesAnio);
+    app.route('/ops/anio/mediaGeoPrecipitaciones').post(controllers.ops.anio.mediasAnioPrecipitaciones.mediaGeoPrecipitacionesAnio);
+    //Humedad relativa
+    app.route('/ops/anio/mediaHumedad').post(controllers.ops.anio.mediasAnioHumedad.mediaHumedadAnio);
+    app.route('/ops/anio/mediaArmHumedad').post(controllers.ops.anio.mediasAnioHumedad.mediaArmHumedadAnio);
+    app.route('/ops/anio/mediaGeoHumedad').post(controllers.ops.anio.mediasAnioHumedad.mediaGeoHumedadAnio);
+    //Presion
+    app.route('/ops/anio/mediaPresion').post(controllers.ops.anio.mediasAnioPresion.mediaPresionAnio);
+    app.route('/ops/anio/mediaArmPresion').post(controllers.ops.anio.mediasAnioPresion.mediaArmPresionAnio);
+    app.route('/ops/anio/mediaGeoPresion').post(controllers.ops.anio.mediasAnioPresion.mediaGeoPresionAnio);
+    //Temperatura
     app.route('/ops/anio/mediaTemp').post(controllers.ops.anio.mediasAnioTemp.mediaTempAnio);
     app.route('/ops/anio/mediaArmTemp').post(controllers.ops.anio.mediasAnioTemp.mediaArmTempAnio);
     app.route('/ops/anio/mediaGeoTemp').post(controllers.ops.anio.mediasAnioTemp.mediaGeoTempAnio);
+    //Velocidad Viento
+    app.route('/ops/anio/mediaVelViento').post(controllers.ops.anio.mediasAnioVelViento.mediaVelVientoAnio);
+    app.route('/ops/anio/mediaArmVelViento').post(controllers.ops.anio.mediasAnioVelViento.mediaArmVelVientoAnio);
+    app.route('/ops/anio/mediaGeoVelViento').post(controllers.ops.anio.mediasAnioVelViento.mediaGeoVelVientoAnio);
 
+    /**MEDIAS X MES */
+    //Probabilidad Lluvia
+    //Precipitaciones
+    //Humedad relativa
+    //Presion
+    //Temperatura
+    //Velocidad Viento
+    /**MEDIAS X SEMANA */
+    //Probabilidad Lluvia
+    //Precipitaciones
+    //Humedad relativa
+    //Presion
+    //Temperatura
+    //Velocidad Viento
+    /**MEDIAS X DIA */
+    //Probabilidad Lluvia
+    //Precipitaciones
+    //Humedad relativa
+    //Presion
+    //Temperatura
+    //Velocidad Viento
 
     //Misc.
     app.route('/ops/maxLluvia').post(controllers.ops.maxProbLluvia.maxLluvia);
