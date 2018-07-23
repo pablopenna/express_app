@@ -41,7 +41,7 @@ function innerMaxLluvia(datos)
     });
     console.log("INNER_MAX_LLUVIA: " + maxLluvia);
     //meto el maximo en un json
-    var resultado = {"op" : "Maximo Prob. Lluvia","res" : maxLluvia};
+    var resultado = {"label" : "Maximo Prob. Lluvia","data" : maxLluvia};
     return resultado;
 }
 

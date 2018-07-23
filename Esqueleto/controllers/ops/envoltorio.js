@@ -40,8 +40,8 @@ module.exports = {
                 //de que se hayan especificado varios separados por espacios
                 var resultadoOP = funcion(datos, campo.split(" ")[0]);
                 //Metemos resultado en json
-                var res = {"op" : String(funcion).split(/[ (]/)[1]+" "+campo
-                ,"res" : resultadoOP};
+                var res = {"label" : String(funcion).split(/[ (]/)[1]+" "+campo
+                ,"data" : resultadoOP};
                 console.log("RES ENVOLTORIO: " + res);
                 respuesta.send(res);
             });

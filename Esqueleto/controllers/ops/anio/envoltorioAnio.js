@@ -75,11 +75,18 @@ module.exports = {
 
                 //Iterar a través del objeto
                 var resVector = {};
+                //APLICAR FUNCION
                 //Itero a través de las 'claves' del diccionario.
                 //Cada una de ellas se correspondera con un año
                 for (var year in dataDict) {
                     if (dataDict.hasOwnProperty(year)) {
                         // do stuff
+                        //la funcion 'funcion' se recibe como parametros.
+                        //Será una de las tres medias. Recibe como primer 
+                        //parámetro los datos a utilizar y como segundo el campo
+                        //de los datos del cual deberá hallar la media.
+                        //En res tendremos la media del año 'year' y del 
+                        //primer campo contenido en 'campo'
                         var res = funcion(dataDict[year], campo.split(" ")[0])
                         console.log("Anio "+year+" : " + res);
                         //Añado solucion al objecto que contiene los resultados
@@ -89,26 +96,26 @@ module.exports = {
                 console.log("RESULTADO DEFINITIVO");
                 console.log(resVector);
 
+                //PARSEAR LOS DATOS PARA CREAR MENSAJE RESPUESTA.
                 var resMsg = {};
-                resMsg['op'] = [];
-                resMsg['res'] = [];
+                /*
+                resMsg['label'] = [];
+                resMsg['data'] = [];
                 for (var key in resVector) {
                     if (resVector.hasOwnProperty(key)) {
                         // do stuff
-                        resMsg['op'].push(key);
-                        resMsg['res'].push(resVector[key]);
+                        resMsg['label'].push(key);
+                        resMsg['data'].push(resVector[key]);
                     }
                 }
+                */
+                rellenarMensajeRespuesta(resMsg, resVector);
+                //Añado descripcion
+                resMsg["descr"] = String(funcion).split(/[ (]/)[1]
+                +" "+campo.split(" ")[0]
+                +" por Año" ;
+                //Envio respuesta
                 respuesta.send(resMsg);
-                //res.send(datos);
-                //Pasamos como parámetro solo el primer campo en caso
-                //de que se hayan especificado varios separados por espacios
-                //var resultadoOP = funcion(datos, campo.split(" ")[0]);
-                //Metemos resultado en json
-                //var res = {"op" : String(funcion).split(/[ (]/)[1]+" "+campo
-                //,"res" : resultadoOP};
-                //console.log("RES ENVOLTORIO: " + res);
-                //respuesta.send(res);
             });
     },
     /**Devuelve filtro de Mongoose para la fecha indicada.
@@ -120,5 +127,27 @@ module.exports = {
         const fechaMax = new Date(String(fecha+1));
         const filtro = {dia :{$gt: fechaMin, $lt: fechaMax}};
         return filtro;
+    }
+}
+
+/**FUNCIONES INTERNAS */
+
+/**Dada la variable (objeto javascript) resMsg que será el mensaje a 
+ * devolver y resVector que es otro objecto (~diccionario) que contiene
+ * los datos de la respuesta, metemos los datos de esta última variable
+ * en el mensaje de respuesta de forma que lo entienda el front-end.
+ * En 'label' meteremos los datos del eje X (~leyenda) y en 'data'
+ * los datos obtenidos de realizar las operaciones (eje Y).
+ */
+function rellenarMensajeRespuesta(resMsg, resVector)
+{
+    resMsg['label'] = [];
+    resMsg['data'] = [];
+    for (var key in resVector) {
+        if (resVector.hasOwnProperty(key)) {
+            // do stuff
+            resMsg['label'].push(key);
+            resMsg['data'].push(resVector[key]);
+        }
     }
 }

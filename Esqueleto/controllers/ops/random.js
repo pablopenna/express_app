@@ -7,13 +7,14 @@ module.exports =
         console.log("La variable en la url: " + req.params.urlVar);
         var numero = parseInt(Math.random()*100);
         var numero2 = 100;
-        var envelopee = {"op" : "Random"+String(numero),
-            "res" : [numero2, numero2
+        var envelopee = {"descr" : "Numeros pseudoaleatorios",
+            "label" : "Random"+String(numero),
+            "data" : [numero2, numero2
             ,parseInt(numero*Math.random()/50)
         ]};
         if(req.params.urlVar != undefined)
         {
-            envelopee['res'].push(req.params.urlVar);
+            envelopee["data"].push(req.params.urlVar);
         }
         res.send(envelopee);
     }

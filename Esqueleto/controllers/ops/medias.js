@@ -36,7 +36,7 @@ module.exports = {
         console.log("LONG: " + numElementos);
         var media = sumatorio/numElementos;
         //meto la media en un json
-        //var resultado = {"op" : "Media " + campo,"res" : media};
+        //var resultado = {"label" : "Media " + campo,"data" : media};
         var resultado = media;
         console.log("INNER_MEDIA: " + resultado);
         return resultado;
@@ -70,7 +70,7 @@ module.exports = {
         console.log("DIV: " + sumatorio);
         var media = numElementos/sumatorio;
         //meto la media en un json
-        //var resultado = {"op" : "Media Armonica "+campo,"res" : media};
+        //var resultado = {"label" : "Media Armonica "+campo,"data" : media};
         var resultado = media;
         console.log("INNER_MEDIA_AMONICA: " + resultado);
         return resultado;
@@ -128,7 +128,7 @@ module.exports = {
         console.log("MUL: " + logMedia);
         var media = Math.pow(10, logMedia);
         //meto la media en un json
-        //var resultado = {"op" : "Media Geometrica "+campo,"res" : media};
+        //var resultado = {"label" : "Media Geometrica "+campo,"data" : media};
         var resultado = media;
         console.log("INNER_MEDIA_GEOMETRICA: " + resultado);
         return resultado;

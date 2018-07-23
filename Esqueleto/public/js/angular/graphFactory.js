@@ -92,8 +92,8 @@ app.factory('graphService', ['entriesService',function (entriesService) {
         //Datos locales
         var localRes = entriesService.getEntryLocalResponse(ind);
         if(remoteRes == null) remoteRes = {};
-        var datosXlocal = localRes['op'];
-        var datosYlocal = localRes['res'];
+        var datosXlocal = localRes['label'];
+        var datosYlocal = localRes['data'];
         var fixedData = factory.fixGraphData(datosXlocal,datosYlocal)
         datosXlocal = fixedData[0];
         datosYlocal = fixedData[1];
@@ -102,8 +102,8 @@ app.factory('graphService', ['entriesService',function (entriesService) {
         var remoteRes = entriesService.getEntryRemoteResponse(ind);
         //En caso de ser null lo inicializo para que no salte error.
         if(remoteRes == null) remoteRes = {};
-        var datosXremoto = remoteRes['op'];
-        var datosYremoto = remoteRes['res'];
+        var datosXremoto = remoteRes['label'];
+        var datosYremoto = remoteRes['data'];
         fixedData = factory.fixGraphData(datosXremoto,datosYremoto)
         datosXremoto = fixedData[0];
         datosYremoto = fixedData[1];
@@ -115,8 +115,10 @@ app.factory('graphService', ['entriesService',function (entriesService) {
         console.log("datosXr - " + datosXremoto);
         console.log("datosYr - " + datosYremoto);
         
-        //LAYOUT
-        var myLayout = factory.getScatterLayout(datosXlocal[0]);
+        //LAYOUT. La funcion recibe como parámetro el titulop a poner a la grafica.
+        //En este caso emplearemos el campo 'descr' de la respuesta.
+        //var myLayout = factory.getScatterLayout(datosXlocal[0]);
+        var myLayout = factory.getScatterLayout(localRes);
         //Grafica comparativa
         factory.crearGraficaComp(factory.graphElem,datosXlocal,datosYlocal,
             datosXremoto,datosYremoto,'bar',myLayout);
@@ -353,6 +355,39 @@ app.factory('graphService', ['entriesService',function (entriesService) {
     /*Devuelve layout para la gráfica simple
     con los números registrados en la base de datos.*/
     factory.getScatterLayout = function(myTitle = 'Comparación') {
+        //Como parametro puede recibir respuesta local con los datos
+        //para obtener titulo
+        //Si se ha recibido respuesta, saco datos de ella
+        if(myTitle != 'Comparación')
+        {
+            //Si la respuesta tiene campo 'descr',
+            //obtenenmos el titulo de ahi
+            if(myTitle['descr'] != undefined)
+            {
+                myTitle = myTitle['descr'];
+            }
+            else if(myTitle['label']!=undefined &&
+                myTitle['label'].length > 0)
+            {
+                //myTitle['label'] puede ser un string o un array
+                if(typeof myTitle['label'] == "string")
+                {
+                    //string
+                    myTitle = myTitle['label'];
+                }
+
+                else
+                {
+                    //array
+                    myTitle = myTitle['label'][0];
+                }
+                
+            }
+            else
+            {
+                myTitle = 'Comparación';
+            }
+        }
         //Layout
         var myLayout = {
             //agrupadors

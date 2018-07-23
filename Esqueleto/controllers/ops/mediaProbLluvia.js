@@ -31,7 +31,7 @@ function innerMediaLluvia(datos)
     console.log("LONG: " + numElementos);
     var media = sumatorio/numElementos;
     //meto la media en un json
-    //var resultado = {"op" : "Media Prob. Lluvia","res" : media};
+    //var resultado = {"label" : "Media Prob. Lluvia","data" : media};
     var resultado = media;
     console.log("INNER_MEDIA: " + resultado);
     return resultado;
@@ -63,7 +63,7 @@ function innerMediaArmonicaLluvia(datos)
     console.log("DIV: " + sumatorio);
     var media = numElementos/sumatorio;
     //meto la media en un json
-    //var resultado = {"op" : "Media Armonica Prob. Lluvia","res" : media};
+    //var resultado = {"label" : "Media Armonica Prob. Lluvia","data" : media};
     var resultado = media;
     console.log("INNER_MEDIA: " + resultado);
     return resultado;
@@ -118,7 +118,7 @@ function innerMediaGeometricaLluvia(datos)
     console.log("MUL: " + logMedia);
     var media = Math.pow(10, logMedia);
     //meto la media en un json
-    //var resultado = {"op" : "Media Geometrica Prob. Lluvia","res" : media};
+    //var resultado = {"label" : "Media Geometrica Prob. Lluvia","data" : media};
     var resultado = media;
     console.log("INNER_MEDIA: " + resultado);
     return resultado;

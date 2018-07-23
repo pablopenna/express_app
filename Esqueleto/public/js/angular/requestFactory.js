@@ -155,9 +155,9 @@ function($http, entriesService, debugService, urlService, dialogService)
         console.log("COMPARANDO...");
         const resp1 = JSON.stringify(entriesService.getEntryLocalResponse(id));
         const resp2 = JSON.stringify(entriesService.getEntryRemoteResponse(id));
-        //Variables que contendrán sólo el atributo 'res' de las respuestas.
-        const resResp1 = JSON.stringify(entriesService.getEntryLocalResponse(id)['res']);
-        const resResp2 = JSON.stringify(entriesService.getEntryRemoteResponse(id)['res']);
+        //Variables que contendrán sólo el atributo 'data' de las respuestas.
+        const resResp1 = JSON.stringify(entriesService.getEntryLocalResponse(id)['data']);
+        const resResp2 = JSON.stringify(entriesService.getEntryRemoteResponse(id)['data']);
         console.log("json resp1: " + resp1);
         console.log("json resp2: " + resp2);
         console.log("json res1: " + resResp1);
