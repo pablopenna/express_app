@@ -5,10 +5,6 @@ var ModeloClima = require(path.resolve(__dirname, path.join(process.cwd(), 'mode
 var envoltorio = require(path.resolve(__dirname, 
     path.join(process.cwd(), 'controllers', 'ops', 'anio', 'envoltorioAnio.js'))
 )['envoltorioAnio'];
-//Importo función filtroAnio() en envoltorioAnio.js
-var filtroAnio = require(path.resolve(__dirname, 
-    path.join(process.cwd(), 'controllers', 'ops', 'anio', 'envoltorioAnio.js'))
-)['filtroAnio'];
 //Modulo con medias
 var mediasWeather = require(path.resolve(__dirname, path.join(process.cwd(), 'controllers', 'ops', 'medias.js')));
 
@@ -23,24 +19,30 @@ module.exports = {
      */
     mediaHumedadAnio : function(req, res)
     {
-        //var filtro = filtroAnio(2014);
-        var filtro = {};
+        //res.locals.filtro estará al menos inicializado a '{}' mediante
+        //un middleware.
+        var filtro = res.locals.filtro;
         //envoltorio(<campos>,<funcion>,<respuesta>,<filtro>)
         var datos = envoltorio("humedad",mediasWeather.mediaWeather,res,filtro);
     },
 
     mediaArmHumedadAnio : function(req, res)
     {
-        //var filtro = filtroAnio(2014);
-        var filtro = {};
+        console.log("año de middle: " + res.locals.userYear);
+        console.log("filtro de middle: ");
+        console.log(res.locals.filtro);
+        //res.locals.filtro estará al menos inicializado a '{}' mediante
+        //un middleware.
+        var filtro = res.locals.filtro;
         //envoltorio(<campos>,<funcion>,<respuesta>,<filtro>)
         var datos = envoltorio("humedad",mediasWeather.mediaArmonicaWeather,res,filtro);
     },
 
     mediaGeoHumedadAnio : function(req, res)
     {
-        //var filtro = filtroAnio(2014);
-        var filtro = {};
+        //res.locals.filtro estará al menos inicializado a '{}' mediante
+        //un middleware.
+        var filtro = res.locals.filtro;
         //envoltorio(<campos>,<funcion>,<respuesta>,<filtro>)
         var datos = envoltorio("humedad",mediasWeather.mediaGeometricaWeather,res,filtro);
     }

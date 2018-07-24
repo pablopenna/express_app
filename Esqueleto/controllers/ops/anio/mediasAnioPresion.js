@@ -5,10 +5,6 @@ var ModeloClima = require(path.resolve(__dirname, path.join(process.cwd(), 'mode
 var envoltorio = require(path.resolve(__dirname, 
     path.join(process.cwd(), 'controllers', 'ops', 'anio', 'envoltorioAnio.js'))
 )['envoltorioAnio'];
-//Importo función filtroAnio() en envoltorioAnio.js
-var filtroAnio = require(path.resolve(__dirname, 
-    path.join(process.cwd(), 'controllers', 'ops', 'anio', 'envoltorioAnio.js'))
-)['filtroAnio'];
 //Modulo con medias
 var mediasWeather = require(path.resolve(__dirname, path.join(process.cwd(), 'controllers', 'ops', 'medias.js')));
 
@@ -23,24 +19,27 @@ module.exports = {
      */
     mediaPresionAnio : function(req, res)
     {
-        //var filtro = filtroAnio(2014);
-        var filtro = {};
+        //res.locals.filtro estará al menos inicializado a '{}' mediante
+        //un middleware.
+        var filtro = res.locals.filtro;
         //envoltorio(<campos>,<funcion>,<respuesta>,<filtro>)
         var datos = envoltorio("presion",mediasWeather.mediaWeather,res,filtro);
     },
 
     mediaArmPresionAnio : function(req, res)
     {
-        //var filtro = filtroAnio(2014);
-        var filtro = {};
+        //res.locals.filtro estará al menos inicializado a '{}' mediante
+        //un middleware.
+        var filtro = res.locals.filtro;
         //envoltorio(<campos>,<funcion>,<respuesta>,<filtro>)
         var datos = envoltorio("presion",mediasWeather.mediaArmonicaWeather,res,filtro);
     },
 
     mediaGeoPresionAnio : function(req, res)
     {
-        //var filtro = filtroAnio(2014);
-        var filtro = {};
+        //res.locals.filtro estará al menos inicializado a '{}' mediante
+        //un middleware.
+        var filtro = res.locals.filtro;
         //envoltorio(<campos>,<funcion>,<respuesta>,<filtro>)
         var datos = envoltorio("presion",mediasWeather.mediaGeometricaWeather,res,filtro);
     }

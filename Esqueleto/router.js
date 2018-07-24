@@ -116,30 +116,74 @@ module.exports = function () {
     app.route('/ops/mediaGeoVelViento').post(controllers.ops.mediasVelViento.mediaGeoVelViento);
 
     /**MEDIAS X AÑO */
+    //Operaciones filtros
+    var filtroOps = require(path.resolve(__dirname, path.join(process.cwd(),
+        'controllers', 'ops', 'filtros', 'filtroOps')));
+    //Inicializar filtro
+    app.use(function(req, res, next) {
+        //Inicializo la variable filtro
+        res.locals.filtro = {};
+        next();
+    });
+    //Obtener AÑO de la URL
+    app.use('/ops/anio/:tipoMedia/:Anio',function(req, res, next) {
+        console.log("MIDDLE: " + req.params.tipoMedia);
+        console.log("MIDDLE: " + req.params.Anio);
+        //Obtengo año especificado por cliente.
+        //Si no se ha especificado año, no modificare
+        //la variable res.locals.filtro, la cual
+        //ya esta inicializada por el middleware anterior.
+        res.locals.userYear = req.params.Anio;
+        if(res.locals.userYear != undefined 
+            && !isNaN(parseInt(res.locals.userYear)))
+        {
+            res.locals.filtro = filtroOps.filtroAnio(parseInt(res.locals.userYear));
+        }
+        next();
+    });
     //Probabilidad Lluvia
     app.route('/ops/anio/mediaProbLluvia').post(controllers.ops.anio.mediasAnioProbLluvia.mediaProbLluviaAnio);
     app.route('/ops/anio/mediaArmProbLluvia').post(controllers.ops.anio.mediasAnioProbLluvia.mediaArmProbLluviaAnio);
     app.route('/ops/anio/mediaGeoProbLluvia').post(controllers.ops.anio.mediasAnioProbLluvia.mediaGeoProbLluviaAnio);
+    app.route('/ops/anio/mediaProbLluvia/:Anio').post(controllers.ops.anio.mediasAnioProbLluvia.mediaProbLluviaAnio);
+    app.route('/ops/anio/mediaArmProbLluvia/:Anio').post(controllers.ops.anio.mediasAnioProbLluvia.mediaArmProbLluviaAnio);
+    app.route('/ops/anio/mediaGeoProbLluvia/:Anio').post(controllers.ops.anio.mediasAnioProbLluvia.mediaGeoProbLluviaAnio);
+    
     //Precipitaciones
     app.route('/ops/anio/mediaPrecipitaciones').post(controllers.ops.anio.mediasAnioPrecipitaciones.mediaPrecipitacionesAnio);
     app.route('/ops/anio/mediaArmPrecipitaciones').post(controllers.ops.anio.mediasAnioPrecipitaciones.mediaArmPrecipitacionesAnio);
     app.route('/ops/anio/mediaGeoPrecipitaciones').post(controllers.ops.anio.mediasAnioPrecipitaciones.mediaGeoPrecipitacionesAnio);
+    app.route('/ops/anio/mediaPrecipitaciones/:Anio').post(controllers.ops.anio.mediasAnioPrecipitaciones.mediaPrecipitacionesAnio);
+    app.route('/ops/anio/mediaArmPrecipitaciones/:Anio').post(controllers.ops.anio.mediasAnioPrecipitaciones.mediaArmPrecipitacionesAnio);
+    app.route('/ops/anio/mediaGeoPrecipitaciones/:Anio').post(controllers.ops.anio.mediasAnioPrecipitaciones.mediaGeoPrecipitacionesAnio);
     //Humedad relativa
     app.route('/ops/anio/mediaHumedad').post(controllers.ops.anio.mediasAnioHumedad.mediaHumedadAnio);
     app.route('/ops/anio/mediaArmHumedad').post(controllers.ops.anio.mediasAnioHumedad.mediaArmHumedadAnio);
     app.route('/ops/anio/mediaGeoHumedad').post(controllers.ops.anio.mediasAnioHumedad.mediaGeoHumedadAnio);
+    app.route('/ops/anio/mediaHumedad/:Anio').post(controllers.ops.anio.mediasAnioHumedad.mediaHumedadAnio);
+    app.route('/ops/anio/mediaArmHumedad/:Anio').post(controllers.ops.anio.mediasAnioHumedad.mediaArmHumedadAnio);
+    app.route('/ops/anio/mediaGeoHumedad/:Anio').post(controllers.ops.anio.mediasAnioHumedad.mediaGeoHumedadAnio);
     //Presion
     app.route('/ops/anio/mediaPresion').post(controllers.ops.anio.mediasAnioPresion.mediaPresionAnio);
     app.route('/ops/anio/mediaArmPresion').post(controllers.ops.anio.mediasAnioPresion.mediaArmPresionAnio);
     app.route('/ops/anio/mediaGeoPresion').post(controllers.ops.anio.mediasAnioPresion.mediaGeoPresionAnio);
+    app.route('/ops/anio/mediaPresion/:Anio').post(controllers.ops.anio.mediasAnioPresion.mediaPresionAnio);
+    app.route('/ops/anio/mediaArmPresion/:Anio').post(controllers.ops.anio.mediasAnioPresion.mediaArmPresionAnio);
+    app.route('/ops/anio/mediaGeoPresion/:Anio').post(controllers.ops.anio.mediasAnioPresion.mediaGeoPresionAnio);
     //Temperatura
     app.route('/ops/anio/mediaTemp').post(controllers.ops.anio.mediasAnioTemp.mediaTempAnio);
     app.route('/ops/anio/mediaArmTemp').post(controllers.ops.anio.mediasAnioTemp.mediaArmTempAnio);
     app.route('/ops/anio/mediaGeoTemp').post(controllers.ops.anio.mediasAnioTemp.mediaGeoTempAnio);
+    app.route('/ops/anio/mediaTemp/:Anio').post(controllers.ops.anio.mediasAnioTemp.mediaTempAnio);
+    app.route('/ops/anio/mediaArmTemp/:Anio').post(controllers.ops.anio.mediasAnioTemp.mediaArmTempAnio);
+    app.route('/ops/anio/mediaGeoTemp/:Anio').post(controllers.ops.anio.mediasAnioTemp.mediaGeoTempAnio);
     //Velocidad Viento
     app.route('/ops/anio/mediaVelViento').post(controllers.ops.anio.mediasAnioVelViento.mediaVelVientoAnio);
     app.route('/ops/anio/mediaArmVelViento').post(controllers.ops.anio.mediasAnioVelViento.mediaArmVelVientoAnio);
     app.route('/ops/anio/mediaGeoVelViento').post(controllers.ops.anio.mediasAnioVelViento.mediaGeoVelVientoAnio);
+    app.route('/ops/anio/mediaVelViento/:Anio').post(controllers.ops.anio.mediasAnioVelViento.mediaVelVientoAnio);
+    app.route('/ops/anio/mediaArmVelViento/:Anio').post(controllers.ops.anio.mediasAnioVelViento.mediaArmVelVientoAnio);
+    app.route('/ops/anio/mediaGeoVelViento/:Anio').post(controllers.ops.anio.mediasAnioVelViento.mediaGeoVelVientoAnio);
 
     /**MEDIAS X MES */
     //Probabilidad Lluvia
@@ -171,7 +215,7 @@ module.exports = function () {
     //Prueba
     app.route('/ops/mediaLluvia2').post(controllers.ops.prototypeMediaProbLluvia.mediaLluvia);
     
-
+    
     /*FIN PRUEBAS*/
 
     /*Errores*/
