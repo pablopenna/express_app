@@ -206,6 +206,8 @@ app.factory('graphService', ['entriesService',function (entriesService) {
             y: datosYb
         }
         var traceC = factory.getDiffTrace(traceA,traceB,tipo);
+        console.log("TRAZA DIFF: ");
+        console.log(traceC);
         //Lista con todas las trazas
         var datos = [traceC];
         //Si se emplea Plotly.plot en lugar de 
@@ -291,7 +293,7 @@ app.factory('graphService', ['entriesService',function (entriesService) {
     {
         console.log("probando datos[a]: " + traceA['x']);
         var traceDiff = {
-            x: factory.getDataDiff(traceA['x'],traceB['x']),
+            x: factory.getLabelDiff(traceA['x'],traceB['x']),
             y: factory.getDataDiff(traceA['y'],traceB['y']),
             type: tipo,
             name: 'diff'
@@ -319,6 +321,40 @@ app.factory('graphService', ['entriesService',function (entriesService) {
         return datosDiff;
     }
 
+    /*Devuelve la lista que muestra la diferencia entre
+    las labels de las dos listas de datos. Empleado por getDiffTrace() para
+    obtener las diferencias entre las labels de datosX y datosY de las
+    dos trazas.*/
+    factory.getLabelDiff = function(datosA, datosB)
+    {
+        //DatosA son la resp local y datosB la remota
+        var datosDiff = [];
+        //Obtengo longitud maxima de ambas
+        var long = factory.getMax(datosA.length, datosB.length);
+        for(i=0;i<long;i++)
+        {
+            var labelDiff = datosA[i];
+            if(labelDiff == undefined)
+            {
+                labelDiff = datosB[i];
+            }
+            //puede causar problemas a la hora de que plotly interprete las labels.
+            //Si las entradas en la lista de labels son numeros, no introduciremos
+            //una cadena ya que plotly no dibujara datos para una label que no
+            //sea un numero.
+            if(datosA[i] != datosB[i] 
+                && datosA[i]!=undefined
+                && datosB[i]!=undefined
+                && isNaN(parseInt(labelDiff)))
+            {
+                labelDiff = datosA[i]+" - "+datosB[i];
+            }
+            //Asigno la diferencia
+            datosDiff[i] = labelDiff;
+        }
+        return datosDiff;
+    }
+
     /*Dado dos valores, devuelve el máximo.*/
     factory.getMax = function(a,b)
     {
@@ -337,6 +373,7 @@ app.factory('graphService', ['entriesService',function (entriesService) {
     factory.getDiff = function(a,b)
     {
         var diff = a-b;
+        console.log("La diff de " + a + " - " + b + " es: " + diff);
         //si diff es NaN indicara que a o b es undefined.
         if(isNaN(diff))
         {

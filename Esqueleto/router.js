@@ -186,9 +186,36 @@ module.exports = function () {
     app.route('/ops/anio/mediaGeoVelViento/:Anio').post(controllers.ops.anio.mediasAnioVelViento.mediaGeoVelVientoAnio);
 
     /**MEDIAS X MES */
+    //Obtener MES de la URL
+    app.use('/ops/mes/:tipoMedia/:Anio/:Mes',function(req, res, next) {
+        console.log("MIDDLE - op: " + req.params.tipoMedia);
+        console.log("MIDDLE - año: " + req.params.Anio);
+        console.log("MIDDLE - mes: " + req.params.Mes);
+        //Obtengo año especificado por cliente.
+        //Si no se ha especificado año, no modificare
+        //la variable res.locals.filtro, la cual
+        //ya esta inicializada por el middleware anterior.
+        res.locals.userMonth = req.params.Mes;
+        //Año
+        res.locals.userYear = req.params.Anio;
+        if(res.locals.userMonth != undefined 
+            && !isNaN(parseInt(res.locals.userMonth))
+            && res.locals.userYear != undefined 
+            && !isNaN(parseInt(res.locals.userYear)))
+        {
+            res.locals.filtro = filtroOps.filtroMes(
+                parseInt(res.locals.userMonth),
+                parseInt(res.locals.userYear));
+        }
+
+       
+        next();
+    });
     //Probabilidad Lluvia
     //Precipitaciones
     //Humedad relativa
+    app.route('/ops/mes/mediaHumedad').post(controllers.ops.mes.mediasMesHumedad.mediaHumedadMes);
+    app.route('/ops/mes/mediaHumedad/:Anio/:Mes').post(controllers.ops.mes.mediasMesHumedad.mediaHumedadMes);
     //Presion
     //Temperatura
     //Velocidad Viento
