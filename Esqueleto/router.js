@@ -4,6 +4,12 @@ var app = require(path.join(process.cwd(), 'server'));
 var fs = require('fs');
 var glob = require('glob');
 
+//Operaciones filtros
+var filtroMiddle = require(path.resolve(__dirname, path.join(process.cwd(),
+'controllers', 'middleware', 'middlewareOps.js')));
+
+
+
 //CORS
 var cors = require('cors')
 //---
@@ -63,6 +69,13 @@ module.exports = function () {
     //No funciona. testFunc2() no esta declarado (undefined)
     //app.route('/test2').get(controllers.test.testFunc2);
 
+    /*
+     ____  ____  
+    |  _ \| __ ) 
+    | | | |  _ \ 
+    | |_| | |_) |
+    |____/|____/ 
+    */
     //DB
     app.route('/db').get(controllers.db_worker.getData);
     //app.route('/db').post(controllers.db_worker.setData);
@@ -81,6 +94,14 @@ module.exports = function () {
     //Accesible desde navegador
     app.route('/ops/mediaLluvia').get(controllers.ops.mediaProbLluvia.mediaLluvia);
     //Accesible mediante POST
+    /*
+     ____                 
+    | __ )  __ _ ___  ___ 
+    |  _ \ / _` / __|/ _ \
+    | |_) | (_| \__ \  __/
+    |____/ \__,_|___/\___|
+                        
+    */
     /**MEDIAS ABSOLUTAS*/
     //Probabilidad de lluvia
     app.route('/ops/mediaLluvia').post(controllers.ops.mediaProbLluvia.mediaLluvia);
@@ -115,32 +136,21 @@ module.exports = function () {
     app.route('/ops/mediaArmVelViento').post(controllers.ops.mediasVelViento.mediaArmVelViento);
     app.route('/ops/mediaGeoVelViento').post(controllers.ops.mediasVelViento.mediaGeoVelViento);
 
+    /*
+        _     /\/|       
+       / \   |/\/   ___  
+      / _ \ | '_ \ / _ \ 
+     / ___ \| | | | (_) |
+    /_/   \_\_| |_|\___/                   
+    */
     /**MEDIAS X AÑO */
     //Operaciones filtros
     var filtroOps = require(path.resolve(__dirname, path.join(process.cwd(),
         'controllers', 'ops', 'filtros', 'filtroOps')));
     //Inicializar filtro
-    app.use(function(req, res, next) {
-        //Inicializo la variable filtro
-        res.locals.filtro = {};
-        next();
-    });
+    app.use(filtroMiddle.initFiltro);
     //Obtener AÑO de la URL
-    app.use('/ops/anio/:tipoMedia/:Anio',function(req, res, next) {
-        console.log("MIDDLE: " + req.params.tipoMedia);
-        console.log("MIDDLE: " + req.params.Anio);
-        //Obtengo año especificado por cliente.
-        //Si no se ha especificado año, no modificare
-        //la variable res.locals.filtro, la cual
-        //ya esta inicializada por el middleware anterior.
-        res.locals.userYear = req.params.Anio;
-        if(res.locals.userYear != undefined 
-            && !isNaN(parseInt(res.locals.userYear)))
-        {
-            res.locals.filtro = filtroOps.filtroAnio(parseInt(res.locals.userYear));
-        }
-        next();
-    });
+    app.use('/ops/anio/:tipoMedia/:Anio',filtroMiddle.genFiltroAnio);
     //Probabilidad Lluvia
     app.route('/ops/anio/mediaProbLluvia').post(controllers.ops.anio.mediasAnioProbLluvia.mediaProbLluviaAnio);
     app.route('/ops/anio/mediaArmProbLluvia').post(controllers.ops.anio.mediasAnioProbLluvia.mediaArmProbLluviaAnio);
@@ -185,40 +195,67 @@ module.exports = function () {
     app.route('/ops/anio/mediaArmVelViento/:Anio').post(controllers.ops.anio.mediasAnioVelViento.mediaArmVelVientoAnio);
     app.route('/ops/anio/mediaGeoVelViento/:Anio').post(controllers.ops.anio.mediasAnioVelViento.mediaGeoVelVientoAnio);
 
+    /*
+     __  __           
+    |  \/  | ___  ___ 
+    | |\/| |/ _ \/ __|
+    | |  | |  __/\__ \
+    |_|  |_|\___||___/
+    */
     /**MEDIAS X MES */
     //Obtener MES de la URL
-    app.use('/ops/mes/:tipoMedia/:Anio/:Mes',function(req, res, next) {
-        console.log("MIDDLE - op: " + req.params.tipoMedia);
-        console.log("MIDDLE - año: " + req.params.Anio);
-        console.log("MIDDLE - mes: " + req.params.Mes);
-        //Obtengo año especificado por cliente.
-        //Si no se ha especificado año, no modificare
-        //la variable res.locals.filtro, la cual
-        //ya esta inicializada por el middleware anterior.
-        res.locals.userMonth = req.params.Mes;
-        //Año
-        res.locals.userYear = req.params.Anio;
-        if(res.locals.userMonth != undefined 
-            && !isNaN(parseInt(res.locals.userMonth))
-            && res.locals.userYear != undefined 
-            && !isNaN(parseInt(res.locals.userYear)))
-        {
-            res.locals.filtro = filtroOps.filtroMes(
-                parseInt(res.locals.userMonth),
-                parseInt(res.locals.userYear));
-        }
-
-       
-        next();
-    });
+    app.use('/ops/mes/:tipoMedia/:Anio/:Mes',filtroMiddle.genFiltroMes);
     //Probabilidad Lluvia
+    app.route('/ops/mes/mediaProbLluvia').post(controllers.ops.mes.mediasMesProbLluvia.mediaProbLluviaMes);
+    app.route('/ops/mes/mediaProbLluvia/:Anio/:Mes').post(controllers.ops.mes.mediasMesProbLluvia.mediaProbLluviaMes);
+    app.route('/ops/mes/mediaArmProbLluvia').post(controllers.ops.mes.mediasMesProbLluvia.mediaArmProbLluviaMes);
+    app.route('/ops/mes/mediaArmProbLluvia/:Anio/:Mes').post(controllers.ops.mes.mediasMesProbLluvia.mediaArmProbLluviaMes);
+    app.route('/ops/mes/mediaGeoProbLluvia').post(controllers.ops.mes.mediasMesProbLluvia.mediaGeoProbLluviaMes);
+    app.route('/ops/mes/mediaGeoProbLluvia/:Anio/:Mes').post(controllers.ops.mes.mediasMesProbLluvia.mediaGeoProbLluviaMes);
     //Precipitaciones
+    app.route('/ops/mes/mediaPrecipitaciones').post(controllers.ops.mes.mediasMesPrecipitaciones.mediaPrecipitacionesMes);
+    app.route('/ops/mes/mediaPrecipitaciones/:Anio/:Mes').post(controllers.ops.mes.mediasMesPrecipitaciones.mediaPrecipitacionesMes);
+    app.route('/ops/mes/mediaArmPrecipitaciones').post(controllers.ops.mes.mediasMesPrecipitaciones.mediaArmPrecipitacionesMes);
+    app.route('/ops/mes/mediaArmPrecipitaciones/:Anio/:Mes').post(controllers.ops.mes.mediasMesPrecipitaciones.mediaArmPrecipitacionesMes);
+    app.route('/ops/mes/mediaGeoPrecipitaciones').post(controllers.ops.mes.mediasMesPrecipitaciones.mediaGeoPrecipitacionesMes);
+    app.route('/ops/mes/mediaGeoPrecipitaciones/:Anio/:Mes').post(controllers.ops.mes.mediasMesPrecipitaciones.mediaGeoPrecipitacionesMes);
     //Humedad relativa
     app.route('/ops/mes/mediaHumedad').post(controllers.ops.mes.mediasMesHumedad.mediaHumedadMes);
     app.route('/ops/mes/mediaHumedad/:Anio/:Mes').post(controllers.ops.mes.mediasMesHumedad.mediaHumedadMes);
+    app.route('/ops/mes/mediaArmHumedad').post(controllers.ops.mes.mediasMesHumedad.mediaArmHumedadMes);
+    app.route('/ops/mes/mediaArmHumedad/:Anio/:Mes').post(controllers.ops.mes.mediasMesHumedad.mediaArmHumedadMes);
+    app.route('/ops/mes/mediaGeoHumedad').post(controllers.ops.mes.mediasMesHumedad.mediaGeoHumedadMes);
+    app.route('/ops/mes/mediaGeoHumedad/:Anio/:Mes').post(controllers.ops.mes.mediasMesHumedad.mediaGeoHumedadMes);
     //Presion
+    app.route('/ops/mes/mediaPresion').post(controllers.ops.mes.mediasMesPresion.mediaPresionMes);
+    app.route('/ops/mes/mediaPresion/:Anio/:Mes').post(controllers.ops.mes.mediasMesPresion.mediaPresionMes);
+    app.route('/ops/mes/mediaArmPresion').post(controllers.ops.mes.mediasMesPresion.mediaArmPresionMes);
+    app.route('/ops/mes/mediaArmPresion/:Anio/:Mes').post(controllers.ops.mes.mediasMesPresion.mediaArmPresionMes);
+    app.route('/ops/mes/mediaGeoPresion').post(controllers.ops.mes.mediasMesPresion.mediaGeoPresionMes);
+    app.route('/ops/mes/mediaGeoPresion/:Anio/:Mes').post(controllers.ops.mes.mediasMesPresion.mediaGeoPresionMes);
     //Temperatura
+    app.route('/ops/mes/mediaTemp').post(controllers.ops.mes.mediasMesTemp.mediaTempMes);
+    app.route('/ops/mes/mediaTemp/:Anio/:Mes').post(controllers.ops.mes.mediasMesTemp.mediaTempMes);
+    app.route('/ops/mes/mediaArmTemp').post(controllers.ops.mes.mediasMesTemp.mediaArmTempMes);
+    app.route('/ops/mes/mediaArmTemp/:Anio/:Mes').post(controllers.ops.mes.mediasMesTemp.mediaArmTempMes);
+    app.route('/ops/mes/mediaGeoTemp').post(controllers.ops.mes.mediasMesTemp.mediaGeoTempMes);
+    app.route('/ops/mes/mediaGeoTemp/:Anio/:Mes').post(controllers.ops.mes.mediasMesTemp.mediaGeoTempMes);
     //Velocidad Viento
+    app.route('/ops/mes/mediaVelViento').post(controllers.ops.mes.mediasMesVelViento.mediaVelVientoMes);
+    app.route('/ops/mes/mediaVelViento/:Anio/:Mes').post(controllers.ops.mes.mediasMesVelViento.mediaVelVientoMes);
+    app.route('/ops/mes/mediaArmVelViento').post(controllers.ops.mes.mediasMesVelViento.mediaArmVelVientoMes);
+    app.route('/ops/mes/mediaArmVelViento/:Anio/:Mes').post(controllers.ops.mes.mediasMesVelViento.mediaArmVelVientoMes);
+    app.route('/ops/mes/mediaGeoVelViento').post(controllers.ops.mes.mediasMesVelViento.mediaGeoVelVientoMes);
+    app.route('/ops/mes/mediaGeoVelViento/:Anio/:Mes').post(controllers.ops.mes.mediasMesVelViento.mediaGeoVelVientoMes);
+
+    /* 
+      ____                                   
+     / ___|  ___ _ __ ___   __ _ _ __   __ _ 
+     \___ \ / _ \ '_ ` _ \ / _` | '_ \ / _` |
+      ___) |  __/ | | | | | (_| | | | | (_| |
+     |____/ \___|_| |_| |_|\__,_|_| |_|\__,_|
+                                         
+    */
     /**MEDIAS X SEMANA */
     //Probabilidad Lluvia
     //Precipitaciones
@@ -226,6 +263,14 @@ module.exports = function () {
     //Presion
     //Temperatura
     //Velocidad Viento
+
+    /*
+     ____  __      
+    |  _ \/_/ __ _ 
+    | | | | |/ _` |
+    | |_| | | (_| |
+    |____/|_|\__,_|
+    */
     /**MEDIAS X DIA */
     //Probabilidad Lluvia
     //Precipitaciones
@@ -234,17 +279,28 @@ module.exports = function () {
     //Temperatura
     //Velocidad Viento
 
+    /*
+      __  __ _            
+     |  \/  (_)___  ___   
+     | |\/| | / __|/ __|  
+     | |  | | \__ \ (__ _ 
+     |_|  |_|_|___/\___(_)
+    */
     //Misc.
     app.route('/ops/maxLluvia').post(controllers.ops.maxProbLluvia.maxLluvia);
     app.route('/ops/minLluvia').post(controllers.ops.minProbLluvia.minLluvia);
     app.route('/ops/random').post(controllers.ops.random.getRandom);
     app.route('/ops/random/:urlVar').post(controllers.ops.random.getRandom);
-    //Prueba
-    app.route('/ops/mediaLluvia2').post(controllers.ops.prototypeMediaProbLluvia.mediaLluvia);
-    
-    
+     
     /*FIN PRUEBAS*/
 
+    /*
+     _____                              
+    | ____|_ __ _ __ ___  _ __ ___  ___ 
+    |  _| | '__| '__/ _ \| '__/ _ \/ __|
+    | |___| |  | | | (_) | | |  __/\__ \
+    |_____|_|  |_|  \___/|_|  \___||___/
+    */
     /*Errores*/
     app.use(function (err, req, res, next) {
         console.error(err.stack);

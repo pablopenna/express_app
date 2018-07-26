@@ -21,10 +21,10 @@ function($http, entriesService, debugService, urlService, dialogService)
     {
         var data = urlService.checkURL(url);
         //Petición Remota
-        var miUrl = data['protocol']+data['host']+data['pathname'];
+        var miUrl = data['protocol']+data['host']+data['pathname']+data['search'];
         factory.postdata(id,miUrl);
         //Petición Local
-        var localUrl = data['protocol']+'localhost:3000'+data['pathname'];
+        var localUrl = data['protocol']+'localhost:3000'+data['pathname']+data['search'];
         factory.postdata(id,localUrl);
         //Ambas respuestas se han registrado dentro de la funcion postdata().
         //Se emplean las variables factory.localResponse y factory.remoteResponse

@@ -5,6 +5,9 @@ module.exports =
 {
     getRandom : function(req, res){
         console.log("La variable en la url: " + req.params.urlVar);
+        console.log("La query en la url: " + req.query.var);
+        console.log(req.query);
+
         var numero = parseInt(Math.random()*100);
         var numero2 = 100;
         var envelopee = {"descr" : "Numeros pseudoaleatorios",
@@ -15,6 +18,10 @@ module.exports =
         if(req.params.urlVar != undefined)
         {
             envelopee["data"].push(req.params.urlVar);
+        }
+        if(req.query.var != undefined)
+        {
+            envelopee["data"].push(req.query.var);
         }
         res.send(envelopee);
     }
