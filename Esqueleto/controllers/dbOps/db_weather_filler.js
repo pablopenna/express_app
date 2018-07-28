@@ -1,7 +1,7 @@
 //var MiModelo = require('../models/weather.js');
 var path = require('path');
 var ModeloClima = require(path.resolve(__dirname, path.join(process.cwd(), 'models', 'weather.js')));
-var ClimaBasicOps = require(path.resolve(__dirname, path.join(process.cwd(), 'controllers', 'db_worker_weather.js')));
+var ClimaBasicOps = require(path.resolve(__dirname, path.join(process.cwd(), 'controllers', 'dbOps', 'db_worker_weather.js')));
 var direccionesViento = require(path.resolve(__dirname, path.join(process.cwd(), 'models', 'direccionesViento.js')));
 //console.log('ATENTION: ' + ClimaBasicOps.clearData);
 

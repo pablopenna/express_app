@@ -23,7 +23,7 @@ module.exports = {
     */
     getData : function(req,res,next)
     {
-        MiModelo.find({}).exec(function(err, datos)
+        MiModelo.find({}).sort({dia: 1}).exec(function(err, datos)
         {
             //console.log('RESULTADO: ' + datos);
             if (err)

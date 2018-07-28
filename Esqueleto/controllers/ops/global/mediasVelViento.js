@@ -1,14 +1,10 @@
-/**Medias de las precipitaciones */
+/**Medias de la velocidad del viento.*/
 var path = require('path');
 var ModeloClima = require(path.resolve(__dirname, path.join(process.cwd(), 'models', 'weather.js')));
 //Importo función envoltorio() en envoltorio.js
 var envoltorio = require(path.resolve(__dirname, 
-    path.join(process.cwd(), 'controllers', 'ops', 'envoltorio.js'))
+    path.join(process.cwd(), 'controllers', 'ops', 'global', 'envoltorio.js'))
 )['envoltorio'];
-//Importo función filtroAnio() en envoltorio.js
-var filtroAnio = require(path.resolve(__dirname, 
-    path.join(process.cwd(), 'controllers', 'ops', 'envoltorio.js'))
-)['filtroAnio'];
 //Modulo con medias
 var mediasWeather = require(path.resolve(__dirname, path.join(process.cwd(), 'controllers', 'ops', 'medias.js')));
 
@@ -21,27 +17,24 @@ module.exports = {
      * ['dia','probLluvia','precipitaciones',
      * 'humedad','velViento','temp','presion']
      */
-    mediaPrecipitaciones : function(req, res)
+    mediaVelViento : function(req, res)
     {
-        //var filtro = filtroAnio(2014);
         var filtro = {};
         //envoltorio(<campos>,<funcion>,<respuesta>,<filtro>)
-        var datos = envoltorio("precipitaciones",mediasWeather.mediaWeather,res,filtro);
+        var datos = envoltorio("velViento",mediasWeather.mediaWeather,res,filtro);
     },
 
-    mediaArmPrecipitaciones : function(req, res)
+    mediaArmVelViento : function(req, res)
     {
-        //var filtro = filtroAnio(2014);
         var filtro = {};
         //envoltorio(<campos>,<funcion>,<respuesta>,<filtro>)
-        var datos = envoltorio("precipitaciones",mediasWeather.mediaArmonicaWeather,res,filtro);
+        var datos = envoltorio("velViento",mediasWeather.mediaArmonicaWeather,res,filtro);
     },
 
-    mediaGeoPrecipitaciones : function(req, res)
+    mediaGeoVelViento : function(req, res)
     {
-        //var filtro = filtroAnio(2014);
         var filtro = {};
         //envoltorio(<campos>,<funcion>,<respuesta>,<filtro>)
-        var datos = envoltorio("precipitaciones",mediasWeather.mediaGeometricaWeather,res,filtro);
+        var datos = envoltorio("velViento",mediasWeather.mediaGeometricaWeather,res,filtro);
     }
 };

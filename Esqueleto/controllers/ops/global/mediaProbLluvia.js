@@ -3,12 +3,8 @@ var path = require('path');
 var ModeloClima = require(path.resolve(__dirname, path.join(process.cwd(), 'models', 'weather.js')));
 //Importo función envoltorio() en envoltorio.js
 var envoltorio = require(path.resolve(__dirname, 
-    path.join(process.cwd(), 'controllers', 'ops', 'envoltorio.js'))
+    path.join(process.cwd(), 'controllers', 'ops', 'global', 'envoltorio.js'))
 )['envoltorio'];
-//Importo función filtroAnio() en envoltorio.js
-var filtroAnio = require(path.resolve(__dirname, 
-    path.join(process.cwd(), 'controllers', 'ops', 'envoltorio.js'))
-)['filtroAnio'];
 //Modulo con medias
 var mediasWeather = require(path.resolve(__dirname, path.join(process.cwd(), 'controllers', 'ops', 'medias.js')));
 
@@ -126,7 +122,7 @@ function innerMediaGeometricaLluvia(datos)
 
 module.exports = {
     /**prueba */
-    mediaLluvia : function(req, res)
+    oldMediaLluvia : function(req, res)
     {
         //var filtro = filtroAnio(2014);
         var filtro = {};
@@ -134,7 +130,7 @@ module.exports = {
         var datos = envoltorio("probLluvia dia",innerMediaLluvia,res,filtro);
     },
 
-    mediaArmLluvia : function(req, res)
+    oldMediaArmLluvia : function(req, res)
     {
         //var filtro = filtroAnio(2014);
         var filtro = {};
@@ -142,7 +138,7 @@ module.exports = {
         var datos = envoltorio("probLluvia",innerMediaArmonicaLluvia,res,filtro);
     },
 
-    mediaGeoLluvia : function(req, res)
+    oldMediaGeoLluvia : function(req, res)
     {
         //var filtro = filtroAnio(2014);
         var filtro = {};
@@ -150,7 +146,7 @@ module.exports = {
         var datos = envoltorio("probLluvia",innerMediaGeometricaLluvia,res,filtro);
     },
     /** -- NEW -- */
-    newMediaLluvia : function(req, res)
+    mediaLluvia : function(req, res)
     {
         //var filtro = filtroAnio(2014);
         var filtro = {};
@@ -158,7 +154,7 @@ module.exports = {
         var datos = envoltorio("probLluvia dia",mediasWeather.mediaWeather,res,filtro);
     },
 
-    newMediaArmLluvia : function(req, res)
+    mediaArmLluvia : function(req, res)
     {
         //var filtro = filtroAnio(2014);
         var filtro = {};
@@ -166,7 +162,7 @@ module.exports = {
         var datos = envoltorio("probLluvia",mediasWeather.mediaArmonicaWeather,res,filtro);
     },
 
-    newMediaGeoLluvia : function(req, res)
+    mediaGeoLluvia : function(req, res)
     {
         //var filtro = filtroAnio(2014);
         var filtro = {};

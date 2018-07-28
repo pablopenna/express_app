@@ -3,52 +3,46 @@ var path = require('path');
 var ModeloClima = require(path.resolve(__dirname, path.join(process.cwd(), 'models', 'weather.js')));
 //Importo función envoltorio() en envoltorio.js
 var envoltorio = require(path.resolve(__dirname, 
-    path.join(process.cwd(), 'controllers', 'ops', 'envoltorio.js'))
+    path.join(process.cwd(), 'controllers', 'ops', 'global', 'envoltorio.js'))
 )['envoltorio'];
-//Importo función filtroAnio() en envoltorio.js
-var filtroAnio = require(path.resolve(__dirname, 
-    path.join(process.cwd(), 'controllers', 'ops', 'envoltorio.js'))
-)['filtroAnio'];
-//Importo función getCurrentFuncName() en envoltorio.js
-var getCurrentFuncName = require(path.resolve(__dirname, 
-    path.join(process.cwd(), 'controllers', 'ops', 'envoltorio.js'))
-)['getCurrentFuncName'];
+
 
 /**Recibe los datos de la base de datos como parámetro
  * y los emeplea para calcular el máximo del campo
  * 'probLluvia'.
  */
-function innerMaxLluvia(datos)
+function innerMinLluvia(datos)
 {
     //datos es un array con los objetos retornados por find
     var esPrimerEntrada=true;
-    var maxLluvia = 0;
+    var minLluvia = 101;
     datos.forEach( element => {
         var entrada = element['probLluvia'];
         console.log("ELEMENTO[lluvia]: " + entrada);
         if(esPrimerEntrada)
         {
             esPrimerEntrada=false;
-            maxLluvia = entrada;
+            minLluvia = entrada;
         }
         else
         {
-            if(entrada > maxLluvia)
+            if(entrada < minLluvia)
             {
-                maxLluvia = entrada;
+                minLluvia = entrada;
             }
         }
     });
-    console.log("INNER_MAX_LLUVIA: " + maxLluvia);
+    console.log("INNER_MIN_LLUVIA: " + minLluvia);
     //meto el maximo en un json
-    var resultado = {"label" : "Maximo Prob. Lluvia","data" : maxLluvia};
+    var resultado = {"label" : "Minimo Prob. Lluvia","data" : minLluvia};
     return resultado;
 }
 
 module.exports = 
 {
-    maxLluvia : function(req, res){
+    minLluvia : function(req, res){
         const filtro = {};
-        envoltorio("probLluvia",innerMaxLluvia,res,filtro);
+        //envoltorio(campo, funcion, respuesta, filtro={})
+        envoltorio("probLluvia",innerMinLluvia,res,filtro);
     }
 }

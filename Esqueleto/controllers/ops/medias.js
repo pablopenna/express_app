@@ -1,15 +1,6 @@
 /**Media de la probabilidad de lluvia () */
 var path = require('path');
 var ModeloClima = require(path.resolve(__dirname, path.join(process.cwd(), 'models', 'weather.js')));
-//Importo función envoltorio() en envoltorio.js
-var envoltorio = require(path.resolve(__dirname, 
-    path.join(process.cwd(), 'controllers', 'ops', 'envoltorio.js'))
-)['envoltorio'];
-//Importo función filtroAnio() en envoltorio.js
-var filtroAnio = require(path.resolve(__dirname, 
-    path.join(process.cwd(), 'controllers', 'ops', 'envoltorio.js'))
-)['filtroAnio'];
-
 
 
 module.exports = {

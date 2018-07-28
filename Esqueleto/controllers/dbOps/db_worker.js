@@ -1,5 +1,6 @@
 //var express = require('express');
-var MiModelo = require('../models/model_test.js');
+var path = require('path');
+var MiModelo = require(path.resolve(__dirname, path.join(process.cwd(), 'models', 'model_test.js')));
 
 //exporto la instancia router con las rutas y los
 //métodos definidors. Importaremos esta intancia en
