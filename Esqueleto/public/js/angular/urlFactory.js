@@ -85,6 +85,31 @@ app.factory('urlService', function()
         return urlData['hostname']=='localhost';
     }
 
+    /**Dado una url como un objecto, devuelve una cadena
+     * con los datos de la URL.
+     */
+    factory.urlToString = function(url)
+    {
+        console.log("heyo: " + url);
+        var cadena = url['protocol']+url['host']+url['pathname']+url['search'];
+        console.log("cad: " + cadena);
+        return cadena;
+    }
+
+    /**Transforma la url indicada en una url a localhost en el puerto 3000.*/
+    factory.urlToLocal = function(url)
+    {
+        //Copio el objeto url recibido de forma que obtengo
+        //uno nuevo en el que puedo realizar cambios sin 
+        //alterar el original
+        var localUrl = Object.assign({},url);
+        //realizo cambios en la copia
+        localUrl['hostname']='localhost';
+        localUrl['port']='3000';
+        localUrl['host']= localUrl['hostname']+':'+localUrl['port'];
+        //retorno la copia
+        return localUrl;
+    }
 
     factory.method1 = function(){
         window.alert("SOY EL FATORY URL!");
