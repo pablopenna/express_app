@@ -176,3 +176,22 @@ input[type=text] {
 {
     text-align: center;
 }
+
+/*Estilo para las páginas de errores (404, 500...)*/
+.errorDiv{
+    text-align: center;
+    border: 3px solid #C0B283;
+    border-radius: 5px;
+    display: block;
+    margin: 10px 5%;
+}
+
+.errorText
+{
+    padding: 0 10;
+}
+
+.errorCode
+{
+    font-weight: bold;
+}

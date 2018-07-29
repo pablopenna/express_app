@@ -7,12 +7,13 @@ Si se declaran de la forma tradicional 'function <nombre_funcion> () no
 será accesible desde router.js'*/
 
 module.exports = {
+    //Provoca error interno. Borrar el '+b' en el push.
     testFunc : function (req, res)
     {   
         var lista=[];
         for(i=0;i<10;i++)
         {
-            lista.push(i);
+            lista.push(i+b);
         }
         console.log('LISTA: ' + lista);
         res.render('test/test',

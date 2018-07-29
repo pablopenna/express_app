@@ -3,12 +3,24 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>500 - Error Interno</title>
+    <title>500 - Internal Server Error</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-    <script src="/js/jquery.js"></script>
+    <!--<link rel="stylesheet" type="text/css" media="screen" href="main.css" />-->
+    <!--Estilo-->
+    <LINK href="/css/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-    500 - Error Interno del Servidor
+        <div id="topbar">
+                <h2>
+                    <img id="logo" src="/image/Esqueleto.png">
+                    <span id="titulo">Error 500</span>
+                </h2>
+            </div>
+            <div class="errorDiv">
+                <p class="errorText"> 
+                    <span class="errorCode">500</span>
+                    - Se ha producido un error interno en el servidor al procesar la petición.
+                </p>
+            </div>
 </body>
 </html>
