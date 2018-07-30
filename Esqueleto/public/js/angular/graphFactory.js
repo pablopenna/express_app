@@ -238,7 +238,8 @@ app.factory('graphService', ['entriesService',function (entriesService) {
         //PARCHE, si datosY es undefined, le doy el valor 'empty'
         if(datosY==undefined)
         {
-            datosY = [0];
+            //datosY = [0];
+            datosY = [];
         }
         
         if(typeof datosY != "object")
@@ -255,18 +256,18 @@ app.factory('graphService', ['entriesService',function (entriesService) {
             //con tantos indices como elementos haya en 
             //datos Y
             datosX=[];
+            /*
             contador = 0;
             for(i in datosY)
             {
                 datosX.push(++contador);
             }
+            */
         }
 
         if(typeof datosX != "object")
         {
-            //datosY no es una lista. Lo meto en una.
-            //Enfocado principalmente a datos Y por si solo
-            //hay uno
+            //Si datosX no es una lista, lo meto en una.
             datosX = [datosX];
         }
 
