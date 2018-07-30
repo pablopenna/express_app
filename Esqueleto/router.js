@@ -148,9 +148,9 @@ module.exports = function () {
     var filtroOps = require(path.resolve(__dirname, path.join(process.cwd(),
         'controllers', 'ops', 'filtros', 'filtroOps')));
     //Inicializar filtro
-    app.use(filtroMiddle.initFiltro);
+    app.use(filtroMiddle.initFiltro); 
     //Obtener AÑO de la URL
-    app.use('/ops/anio/:tipoMedia/:Anio',filtroMiddle.genFiltroAnio);
+    app.use('/ops/anio/*',filtroMiddle.genFiltroAnio);
     //Probabilidad Lluvia
     app.route('/ops/anio/mediaProbLluvia').post(controllers.ops.anio.mediasAnioProbLluvia.mediaProbLluviaAnio);
     app.route('/ops/anio/mediaArmProbLluvia').post(controllers.ops.anio.mediasAnioProbLluvia.mediaArmProbLluviaAnio);
@@ -204,7 +204,7 @@ module.exports = function () {
     */
     /**MEDIAS X MES */
     //Obtener MES de la URL
-    app.use('/ops/mes/:tipoMedia/:Anio/:Mes',filtroMiddle.genFiltroMes);
+    app.use('/ops/mes/*',filtroMiddle.genFiltroMes);
     //Probabilidad Lluvia
     app.route('/ops/mes/mediaProbLluvia').post(controllers.ops.mes.mediasMesProbLluvia.mediaProbLluviaMes);
     app.route('/ops/mes/mediaProbLluvia/:Anio/:Mes').post(controllers.ops.mes.mediasMesProbLluvia.mediaProbLluviaMes);

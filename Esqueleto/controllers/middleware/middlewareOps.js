@@ -4,49 +4,72 @@ var path = require('path');
 filtroOps = require(path.resolve(__dirname, path.join(process.cwd(),
 'controllers', 'ops', 'filtros', 'filtroOps.js')));
 
+function initFiltro(req, res, next) {
+    //Inicializo la variable filtro
+    res.locals.filtro = {};
+    res.locals.filtro1 = 'inicializado';
+    next();
+}
+
+function genFiltroAnio(req, res, next) {
+    console.log("MIDDLE: ?anio: " + req.query.anio);
+    //Obtengo año especificado por cliente.
+    //Si no se ha especificado año, no modificare
+    //la variable res.locals.filtro, la cual
+    //ya esta inicializada por el middleware anterior.
+    res.locals.userYear = req.query.anio;
+    if(res.locals.userYear != undefined 
+        && !isNaN(parseInt(res.locals.userYear)))
+    {
+        res.locals.filtro = filtroOps.filtroAnio(parseInt(res.locals.userYear));
+    }
+    next();
+}
+
+function genFiltroMes(req, res, next) {
+    console.log("MIDDLE: ?anio: " + req.query.anio);
+    console.log("MIDDLE: ?mes: " + req.query.mes);
+    //Obtengo año especificado por cliente.
+    //Si no se ha especificado año, no modificare
+    //la variable res.locals.filtro, la cual
+    //ya esta inicializada por el middleware anterior.
+    res.locals.userMonth = req.query.mes;
+    //Año
+    res.locals.userYear = req.query.anio;
+    if(res.locals.userMonth != undefined 
+        && !isNaN(parseInt(res.locals.userMonth))
+        && res.locals.userYear != undefined 
+        && !isNaN(parseInt(res.locals.userYear)))
+    {
+        res.locals.filtro = filtroOps.filtroMes(
+            parseInt(res.locals.userMonth),
+            parseInt(res.locals.userYear));
+    }
+    next();
+}
+
+
 module.exports = 
 {
-    initFiltro: function(req, res, next) {
-        //Inicializo la variable filtro
-        res.locals.filtro = {};
-        res.locals.filtro1 = 'inicializado';
-        next();
-    },
-    genFiltroAnio: function(req, res, next) {
-        console.log("MIDDLE: " + req.params.tipoMedia);
-        console.log("MIDDLE: " + req.params.Anio);
-        //Obtengo año especificado por cliente.
-        //Si no se ha especificado año, no modificare
-        //la variable res.locals.filtro, la cual
-        //ya esta inicializada por el middleware anterior.
-        res.locals.userYear = req.params.Anio;
-        if(res.locals.userYear != undefined 
-            && !isNaN(parseInt(res.locals.userYear)))
-        {
-            res.locals.filtro = filtroOps.filtroAnio(parseInt(res.locals.userYear));
-        }
-        next();
-    },
-    genFiltroMes: function(req, res, next) {
-        console.log("MIDDLE - op: " + req.params.tipoMedia);
-        console.log("MIDDLE - año: " + req.params.Anio);
-        console.log("MIDDLE - mes: " + req.params.Mes);
-        //Obtengo año especificado por cliente.
-        //Si no se ha especificado año, no modificare
-        //la variable res.locals.filtro, la cual
-        //ya esta inicializada por el middleware anterior.
-        res.locals.userMonth = req.params.Mes;
-        //Año
-        res.locals.userYear = req.params.Anio;
-        if(res.locals.userMonth != undefined 
-            && !isNaN(parseInt(res.locals.userMonth))
-            && res.locals.userYear != undefined 
-            && !isNaN(parseInt(res.locals.userYear)))
-        {
-            res.locals.filtro = filtroOps.filtroMes(
-                parseInt(res.locals.userMonth),
-                parseInt(res.locals.userYear));
-        }
-        next();
+    initFiltro: initFiltro,
+    genFiltroAnio: genFiltroAnio,
+    genFiltroMes: genFiltroMes,
+
+    /**Funcion que engloba a las anteriores.
+     * 
+     * Será la que se llame como middleware.
+     * 
+     * No se emplea ya que hace asincrono, y se ejecuta a
+     * la vez que los cálculos de la media. Por esto, da error
+     * al intentar cambiar el header porque ya se ha enviado.
+     * 
+     * Es más sencillo añadir las diferentes funciones
+     * como middleware.
+     */
+    getUserFilter: function(req, res, next)
+    {
+        initFiltro(req,res,next);
+        genFiltroAnio(req,res,next);
+        genFiltroMes(req,res,next);
     }
 }
