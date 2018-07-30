@@ -257,11 +257,13 @@ module.exports = function () {
                                          
     */
     /**MEDIAS X SEMANA */
+    app.use('/ops/semana/*',filtroMiddle.genFiltroMes);
     //Probabilidad Lluvia
     //Precipitaciones
     //Humedad relativa
     //Presion
     //Temperatura
+    app.route('/ops/semana/mediaTemp').post(controllers.ops.semana.mediasSemanaTemp.mediaTempSemana);
     //Velocidad Viento
 
     /*
@@ -291,6 +293,8 @@ module.exports = function () {
     app.route('/ops/minLluvia').post(controllers.ops.global.minProbLluvia.minLluvia);
     app.route('/ops/random').post(controllers.ops.random.getRandom);
     app.route('/ops/random/:urlVar').post(controllers.ops.random.getRandom);
+    //numero semana
+    app.route('/week/:dia/:mes/:anio').post(controllers.ops.semana.testSemana.testWeek);
      
     /*FIN PRUEBAS*/
 
