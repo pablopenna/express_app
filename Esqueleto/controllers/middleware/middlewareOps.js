@@ -48,12 +48,64 @@ function genFiltroMes(req, res, next) {
     next();
 }
 
+/**Obtiene parametros de la URL y genera filtro
+ * conforme a ellos.
+ * Esta funcion no requiere de la operacion initFiltro
+ * ya que inicializa el filtro por su cuenta
+ */
+function genFiltroDefinitivo(req, res, next) {
+
+    //Inicializo filtro. Se quedara con este valor
+    //en caso de que el usuario no especifique ningun
+    //mes o año.
+    res.locals.filtro = {};
+
+    //DEBUG
+    console.log("MIDDLE: ?anio: " + req.query.anio);
+    console.log("MIDDLE: ?mes: " + req.query.mes);
+
+    //Obtengo año especificado por cliente.
+    //Si no se ha especificado año, no modificare
+    //la variable res.locals.filtro, la cual
+    //ya esta inicializada por el middleware anterior.
+    res.locals.userMonth = req.query.mes;
+    //Año
+    res.locals.userYear = req.query.anio;
+
+    //Si se ha especificado año...
+    if(res.locals.userYear != undefined 
+        && !isNaN(parseInt(res.locals.userYear)))
+    {
+        //Si se ha especificado mes, calculare
+        //resultados para el mes del año especificado
+        if(res.locals.userMonth != undefined 
+            && !isNaN(parseInt(res.locals.userMonth)))
+            
+        {
+            res.locals.filtro = filtroOps.filtroMes(
+                parseInt(res.locals.userMonth),
+                parseInt(res.locals.userYear));
+        }
+        //Si no se ha especificado mes, calculo
+        //resultados para el año indicado
+        else
+        {
+            res.locals.filtro = filtroOps.filtroAnio(
+                parseInt(res.locals.userYear));
+        }
+    }
+
+    //Paso a siguiente funcion. Obligatorio al ser middleware.
+    next();
+}
+
 
 module.exports = 
 {
     initFiltro: initFiltro,
     genFiltroAnio: genFiltroAnio,
     genFiltroMes: genFiltroMes,
+    genFiltro: genFiltroDefinitivo,
 
     /**Funcion que engloba a las anteriores.
      * 
