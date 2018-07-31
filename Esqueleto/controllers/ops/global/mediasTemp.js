@@ -19,7 +19,8 @@ module.exports = {
      */
     mediaTemp : function(req, res)
     {
-        var filtro = {};
+        //var filtro = {};
+        var filtro = res.locals.filtro;
         //envoltorio(<campos>,<funcion>,<respuesta>,<filtro>)
         var datos = envoltorio("temp",mediasWeather.mediaWeather,res,filtro);
     },

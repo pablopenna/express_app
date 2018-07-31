@@ -23,10 +23,19 @@ var ModeloClima = require(path.resolve(__dirname, path.join(process.cwd(), 'mode
 module.exports = {
     envoltorio :function(campo, funcion, respuesta, filtro={})
     {
+        //Si el campo "dia" no se encuentra dentro de la cadena 'campos' lo 
+        //añadimos, ya que emplearemos el campo dia (contiene la fecha) para
+        //aplicar filtros por fechas.
+        if(String(campo).indexOf("dia") == -1)
+        {
+            campo += " dia"
+        }
+        console.log("FILTRO: ");
+        console.log(filtro);
         ModeloClima
             //campo = probLluvia
             //~ .find(filtro).select{probLluvia : 1}.exec(function(datos){...})
-            .find(filtro, campo, function(err,datos)
+            .find(filtro, campo,{sort: {dia: 1}}, function(err,datos)
             {
                 if (err)
                 {

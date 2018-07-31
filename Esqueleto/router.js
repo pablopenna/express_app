@@ -91,6 +91,8 @@ module.exports = function () {
     app.route('/reset').post(controllers.dbOps.db_weather_filler.resetDB);
     //---
     //OPERACIONES
+    //FILTRO
+    app.use(filtroMiddle.genFiltro); 
     //Accesible desde navegador
     app.route('/ops/mediaLluvia').get(controllers.ops.global.mediaProbLluvia.mediaLluvia);
     //Accesible mediante POST
@@ -148,9 +150,9 @@ module.exports = function () {
     var filtroOps = require(path.resolve(__dirname, path.join(process.cwd(),
         'controllers', 'ops', 'filtros', 'filtroOps')));
     //Inicializar filtro
-    app.use(filtroMiddle.initFiltro); 
+    //app.use(filtroMiddle.initFiltro); 
     //Obtener AÑO de la URL
-    app.use('/ops/anio/*',filtroMiddle.genFiltroAnio);
+    //app.use('/ops/anio/*',filtroMiddle.genFiltroAnio);
     //Probabilidad Lluvia
     app.route('/ops/anio/mediaProbLluvia').post(controllers.ops.anio.mediasAnioProbLluvia.mediaProbLluviaAnio);
     app.route('/ops/anio/mediaArmProbLluvia').post(controllers.ops.anio.mediasAnioProbLluvia.mediaArmProbLluviaAnio);
@@ -204,7 +206,7 @@ module.exports = function () {
     */
     /**MEDIAS X MES */
     //Obtener MES de la URL
-    app.use('/ops/mes/*',filtroMiddle.genFiltroMes);
+    //app.use('/ops/mes/*',filtroMiddle.genFiltroMes);
     //Probabilidad Lluvia
     app.route('/ops/mes/mediaProbLluvia').post(controllers.ops.mes.mediasMesProbLluvia.mediaProbLluviaMes);
     app.route('/ops/mes/mediaProbLluvia/:Anio/:Mes').post(controllers.ops.mes.mediasMesProbLluvia.mediaProbLluviaMes);
@@ -257,7 +259,7 @@ module.exports = function () {
                                          
     */
     /**MEDIAS X SEMANA */
-    app.use('/ops/semana/*',filtroMiddle.genFiltroMes);
+    //app.use('/ops/semana/*',filtroMiddle.genFiltroMes);
     //Probabilidad Lluvia
     //Precipitaciones
     //Humedad relativa
@@ -288,6 +290,7 @@ module.exports = function () {
      | |  | | \__ \ (__ _ 
      |_|  |_|_|___/\___(_)
     */
+    app.route('/meta/:periodo/:tipoMedia/:campo').post(controllers.ops.metaEnvoltorio.metaEnvoltorio);
     //Misc.
     app.route('/ops/maxLluvia').post(controllers.ops.global.maxProbLluvia.maxLluvia);
     app.route('/ops/minLluvia').post(controllers.ops.global.minProbLluvia.minLluvia);
