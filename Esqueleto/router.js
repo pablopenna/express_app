@@ -266,8 +266,10 @@ module.exports = function () {
     //Presion
     //Temperatura
     app.route('/ops/semana/mediaTemp').post(controllers.ops.semana.mediasSemanaTemp.mediaTempSemana);
+    app.route('/ops/semana/mediaArmTemp').post(controllers.ops.semana.mediasSemanaTemp.mediaArmTempSemana);
+    app.route('/ops/semana/mediaGeoTemp').post(controllers.ops.semana.mediasSemanaTemp.mediaGeoTempSemana);
     //Velocidad Viento
-
+  
     /*
      ____  __      
     |  _ \/_/ __ _ 
@@ -281,6 +283,9 @@ module.exports = function () {
     //Humedad relativa
     //Presion
     //Temperatura
+    app.route('/ops/dia/mediaTemp').post(controllers.ops.dia.mediasDiaTemp.mediaTempDia);
+    app.route('/ops/dia/mediaArmTemp').post(controllers.ops.dia.mediasDiaTemp.mediaArmTempDia);
+    app.route('/ops/dia/mediaGeoTemp').post(controllers.ops.dia.mediasDiaTemp.mediaGeoTempDia);
     //Velocidad Viento
 
     /*

@@ -16,12 +16,11 @@ var envoltorioMes = require(path.resolve(__dirname,
 var envoltorioSemana = require(path.resolve(__dirname, 
     path.join(process.cwd(), 'controllers', 'ops', 'semana', 'envoltorioSemana.js'))
 )['envoltorioSemana'];
-/*
 //Importo función envoltorioDia() en envoltorioDia.js
 var envoltorioDia = require(path.resolve(__dirname, 
     path.join(process.cwd(), 'controllers', 'ops', 'dia', 'envoltorioDia.js'))
 )['envoltorioDia'];
-*/
+
 //Modulo con medias
 var mediasWeather = require(path.resolve(__dirname, path.join(process.cwd(),
 'controllers', 'ops', 'medias.js')));
@@ -107,7 +106,7 @@ module.exports =
                 miEnvoltorio = envoltorioSemana;
                 break;
             case 'dia':
-                //miEnvoltorio = envoltorioDia;
+                miEnvoltorio = envoltorioDia;
                 break;
         }
         //MEDIA
