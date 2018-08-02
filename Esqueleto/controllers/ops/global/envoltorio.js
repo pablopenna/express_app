@@ -49,20 +49,10 @@ module.exports = {
                 //de que se hayan especificado varios separados por espacios
                 var resultadoOP = funcion(datos, campo.split(" ")[0]);
                 //Metemos resultado en json
-                var res = {"label" : String(funcion).split(/[ (]/)[1]+" "+campo
+                var res = {"label" : String(funcion).split(/[ (]/)[1]+" "+campo.split(" ")[0]
                 ,"data" : resultadoOP};
                 console.log("RES ENVOLTORIO: " + res);
                 respuesta.send(res);
             });
-    },
-    /**Devuelve filtro de Mongoose para la fecha indicada.
-     * Pensado para recibir un año como paŕametro.
-    */
-    filtroAnio : function(fecha)
-    {
-        const fechaMin = new Date(String(fecha));
-        const fechaMax = new Date(String(fecha+1));
-        const filtro = {dia :{$gt: fechaMin, $lt: fechaMax}};
-        return filtro;
     }
 }

@@ -3,7 +3,9 @@
  */
 var path = require('path');
 var ModeloClima = require(path.resolve(__dirname, path.join(process.cwd(), 'models', 'weather.js')));
-
+//Plantilla envoltorio: envoltorioBase.js
+var envoltorioBase = require(path.resolve(__dirname, path.join(process.cwd(),
+    'controllers', 'ops', 'envoltorioBase.js')))['envoltorioBase'];
 
 //---
 
@@ -82,11 +84,23 @@ module.exports = {
                 //Envio respuesta
                 respuesta.send(resMsg);
             });
+    },
+    newEnvoltorioDia: function(campo, funcion, respuesta, filtro={})
+    {
+        console.log("THIS IS THE NEW WAVE MAHBOI");
+        envoltorioBase(campo, funcion, respuesta, filtro, getDia, "dia");
     }
 }
 
 /**FUNCIONES INTERNAS */
+//Dado un elemento de la lista de entradas en la base
+//de datos, obtiene la unidad de tiempo indicada
+function getDia(elemento)
+{
+    return elemento['dia'].getDate();
+}
 
+//-------------
 /**Recibe los datos de la consulta a la base de datos.
  * Todos los datos están en la misma lista.
  * También recibe como parámetro un objeto vacío, el 
@@ -175,10 +189,20 @@ function rellenarMensajeRespuestaDia(resMsg, resDict, campo, filtro, funcion)
     if(resMsg['label'].length == 0
         && resMsg['data'].length == 0)
     {
-        //Intento obtener año solicitado de la variable 'filtro'
+        //Intento obtener dia solicitado de la variable 'filtro'
         //const filtro = {dia :{$gt: fechaMin, $lt: fechaMax}};
-        resMsg['label'].push(filtro['dia']['$gt'].getMonth());
-        resMsg['data'].push(null);
+        var fechaFiltroMax = filtro['dia']['$gt'];
+        var fechaFiltroMin = filtro['dia']['$lt'];
+        var diaMax = fechaFiltroMax.getDate();
+        var diaMin = fechaFiltroMin.getDate();
+        for(i=diaMin;i<=diaMax;i++)
+        {
+            //Meto las semanas del que se encuentren
+            //en el periodo definido por el filtro con
+            //resultado vacio.
+            resMsg['label'].push(i);
+            resMsg['data'].push(null);
+        }
     }
     //Añado descripcion
     resMsg["descr"] = String(funcion).split(/[ (]/)[1]

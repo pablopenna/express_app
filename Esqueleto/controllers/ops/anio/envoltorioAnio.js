@@ -3,7 +3,9 @@
  */
 var path = require('path');
 var ModeloClima = require(path.resolve(__dirname, path.join(process.cwd(), 'models', 'weather.js')));
-
+//Plantilla envoltorio: envoltorioBase.js
+var envoltorioBase = require(path.resolve(__dirname, path.join(process.cwd(),
+    'controllers', 'ops', 'envoltorioBase.js')))['envoltorioBase'];
 
 //---
 
@@ -81,19 +83,17 @@ module.exports = {
                 respuesta.send(resMsg);
             });
     },
-    /**Devuelve filtro de Mongoose para la fecha indicada.
-     * Pensado para recibir un año como paŕametro.
-    */
-    filtroAnio : function(fecha)
+    newEnvoltorioAnio: function (campo, funcion, respuesta, filtro={})
     {
-        //var a = new Date(2018,0,1,1,0,0) 
-        //a -> Date 2018-01-01T00:00:00.000Z
-        //String(a) -> "Mon Jan 01 2018 01:00:00 GMT+0100 (CET)"
-        const fechaMin = new Date(String(fecha));
-        const fechaMax = new Date(String(fecha+1));
-        const filtro = {dia :{$gt: fechaMin, $lt: fechaMax}};
-        return filtro;
+        console.log("THIS IS THE NEW WAVE MAHBOI");
+        envoltorioBase(campo, funcion, respuesta, filtro, getAnio, "anio");
     }
+}
+
+function getAnio(elemento)
+{
+    var anioActual = elemento['dia'].getFullYear();
+    return anioActual;
 }
 
 /**FUNCIONES INTERNAS */

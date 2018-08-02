@@ -7,19 +7,19 @@ var envoltorioGlobal = require(path.resolve(__dirname,
 //Importo función envoltorioAnio() en envoltorioAnio.js
 var envoltorioAnio = require(path.resolve(__dirname, 
     path.join(process.cwd(), 'controllers', 'ops', 'anio', 'envoltorioAnio.js'))
-)['envoltorioAnio'];
+)['newEnvoltorioAnio'];
 //Importo función envoltorioMes() en envoltorioMes.js
 var envoltorioMes = require(path.resolve(__dirname, 
     path.join(process.cwd(), 'controllers', 'ops', 'mes', 'envoltorioMes.js'))
-)['envoltorioMes'];
+)['newEnvoltorioMes'];
 //Importo función envoltorioSemana() en envoltorioSemana.js
 var envoltorioSemana = require(path.resolve(__dirname, 
     path.join(process.cwd(), 'controllers', 'ops', 'semana', 'envoltorioSemana.js'))
-)['envoltorioSemana'];
+)['newEnvoltorioSemana'];
 //Importo función envoltorioDia() en envoltorioDia.js
 var envoltorioDia = require(path.resolve(__dirname, 
     path.join(process.cwd(), 'controllers', 'ops', 'dia', 'envoltorioDia.js'))
-)['envoltorioDia'];
+)['newEnvoltorioDia'];
 
 //Modulo con medias
 var mediasWeather = require(path.resolve(__dirname, path.join(process.cwd(),
