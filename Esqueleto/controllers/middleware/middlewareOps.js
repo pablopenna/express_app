@@ -1,9 +1,30 @@
 var path = require('path');
-//Necesitan utilizar las funciones en controllers/ops/filtros/filtroOps.js
+//Necesitan utilizar las funciones en controllers/meta/generarFiltros.js
 //para, a partir del año y/o mes especificado, generar el filtro adecuado.
-filtroOps = require(path.resolve(__dirname, path.join(process.cwd(),
-'controllers', 'ops', 'filtros', 'filtroOps.js')));
+crearFiltro = require(path.resolve(__dirname, path.join(process.cwd(),
+'controllers', 'meta', 'generarFiltros.js')));
 
+/**
+ * En este fichero js se encuentran las funciones a emplear por el middleware.
+ * 
+ * Estas funciones recopilarán la información de la 'query string' de la 
+ * URL (...?var1=10&var2=0).
+ * 
+ * En este caso, las únicas variables de las que se tomará valor serán
+ * 'anio' y 'mes'. Si el cliente especifica el valor de estas variables
+ * en la 'query string' de la url.
+ * 
+ * P.ej: '/meta/mes/media/temp?anio=2015'. Tomará el valor 2015 de la var 'anio' y
+ * empleará las funciones definidas en controllers/meta/generarFiltros.js para
+ * crear un filtro para ese año.
+ * 
+ * El filtro generado se emplea a la hora de realizar la consulta a la base de datos,
+ * de forma que nos devuelva datos sólo para el período especificado.
+ * 
+ * 
+ */
+
+ //UNUSED
 function initFiltro(req, res, next) {
     //Inicializo la variable filtro
     res.locals.filtro = {};
@@ -11,6 +32,7 @@ function initFiltro(req, res, next) {
     next();
 }
 
+//UNUSED
 function genFiltroAnio(req, res, next) {
     console.log("MIDDLE: ?anio: " + req.query.anio);
     //Obtengo año especificado por cliente.
@@ -21,11 +43,12 @@ function genFiltroAnio(req, res, next) {
     if(res.locals.userYear != undefined 
         && !isNaN(parseInt(res.locals.userYear)))
     {
-        res.locals.filtro = filtroOps.filtroAnio(parseInt(res.locals.userYear));
+        res.locals.filtro = crearFiltro.filtroAnio(parseInt(res.locals.userYear));
     }
     next();
 }
 
+//UNUSED
 function genFiltroMes(req, res, next) {
     console.log("MIDDLE: ?anio: " + req.query.anio);
     console.log("MIDDLE: ?mes: " + req.query.mes);
@@ -41,7 +64,7 @@ function genFiltroMes(req, res, next) {
         && res.locals.userYear != undefined 
         && !isNaN(parseInt(res.locals.userYear)))
     {
-        res.locals.filtro = filtroOps.filtroMes(
+        res.locals.filtro = crearFiltro.filtroMes(
             parseInt(res.locals.userMonth),
             parseInt(res.locals.userYear));
     }
@@ -82,7 +105,7 @@ function genFiltroDefinitivo(req, res, next) {
             && !isNaN(parseInt(res.locals.userMonth)))
             
         {
-            res.locals.filtro = filtroOps.filtroMes(
+            res.locals.filtro = crearFiltro.filtroMes(
                 parseInt(res.locals.userMonth),
                 parseInt(res.locals.userYear));
         }
@@ -90,7 +113,7 @@ function genFiltroDefinitivo(req, res, next) {
         //resultados para el año indicado
         else
         {
-            res.locals.filtro = filtroOps.filtroAnio(
+            res.locals.filtro = crearFiltro.filtroAnio(
                 parseInt(res.locals.userYear));
         }
     }

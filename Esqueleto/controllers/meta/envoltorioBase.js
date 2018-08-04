@@ -1,5 +1,72 @@
-module.exports={
-    /**Recibe los datos de la consulta a la base de datos.
+/**Modelo de Mongoose que emplearan todas las funciones llamadas desde envoltorio.
+ * En este caso, ModeloClima.
+ */
+var path = require('path');
+var ModeloClima = require(path.resolve(__dirname, path.join(process.cwd(), 'models', 'weather.js')));
+
+
+module.exports = {
+    envoltorioBase :function envoltorioBase(campo, funcion, respuesta, filtro={},
+    getTimeUnit, timeUnitName)
+    {
+        //console.log("campo init: " + campo);
+        //console.log("filtro envdia:");
+        //console.log(filtro);
+        //Si el campo "dia" no se encuentra dentro de la cadena 'campos' lo 
+        //añadimos, ya que emplearemos el campo dia para ordenar.
+        if(String(campo).indexOf("dia") == -1)
+        {
+            campo += " dia"
+        }
+        //console.log("campos: " + campo);
+
+        ModeloClima
+            //campo = probLluvia
+            //~ .find(filtro).select{probLluvia : 1}.exec(function(datos){...})
+            //Con 'sort' ordenamos los datos por fecha ascendente.
+            .find(filtro, campo, {sort: {dia: 1}}, function(err,datos)
+            {
+                if (err)
+                {
+                    console.log("ERROR: " + err);
+                    return err;
+                }
+                //console.log("DATOS: " + datos);
+                //datos es un array con los objetos retornados por find
+
+                //diccionario con los datos segun fechas.
+                //Los años seran las claves. Por cada año tendre un
+                //vector con los diferentes datos de ese año
+                var dataDict = {}
+                //Clasifico los datos en la lista 'datos'
+                //por años, almacenándolos en 'dataDict'.
+                clasificarDatosTiempo(datos, dataDict, getTimeUnit);
+                //console.log("LISTA DEF:");
+                //console.log(dataDict);
+                //---
+
+                //Iterar a través del objeto
+                var resDict = {};
+                //Proceso los datos en dataDict por año aplicando
+                //la función especificada y almaceno resultados
+                //en resDict, clasificados también por año.
+                procesarDatosTiempo(dataDict, resDict, campo, funcion);
+                //console.log("RESULTADO DEFINITIVO");
+                //console.log(resDict);
+
+                //PARSEAR LOS DATOS PARA CREAR MENSAJE RESPUESTA.
+                var resMsg = {};
+                //Rellenar resMsg con un formato adecuado para
+                //el front-end empleando los datos en resDict.
+                rellenarMensajeRespuesta(resMsg, resDict, campo, filtro, funcion, timeUnitName);
+                //Envio respuesta
+                respuesta.send(resMsg);
+            });
+    }
+}
+
+/**FUNCIONES INTERNAS */
+ /**Recibe los datos de la consulta a la base de datos.
      * Todos los datos están en la misma lista.
      * 
      * También recibe como parámetro un objeto vacío, el 
@@ -13,7 +80,7 @@ module.exports={
      * 'getTimeUnit' es una funcion que se emplea para,
      * dada una entrada de los datos, obtener la unidad de tiempo.
      */
-    clasificarDatosTiempo: function clasificarDatosTiempo(datos, dataDict,getTimeUnit)
+    function clasificarDatosTiempo(datos, dataDict,getTimeUnit)
     {
         datos.forEach(element =>
         {
@@ -28,7 +95,7 @@ module.exports={
             //para el año en el que etan registrados los datos
             dataDict[unidadTiempoActual].push(element);
         });
-    },
+    }
 
     /**Procesa los datos en dataDict (contiene los datos en bruto
      * clasificados por año) y los procesa empleando la función
@@ -42,7 +109,7 @@ module.exports={
      * tenemos que operar con las fechas. El primer campo que
      * se encuentre en esta cadena es el que se empleará
      * para calcular la media.*/
-    procesarDatosTiempo: function procesarDatosTiempo(dataDict, resDict, campo, funcion)
+    function procesarDatosTiempo(dataDict, resDict, campo, funcion)
     {
         //APLICAR FUNCION
         //Itero a través de las 'claves' del diccionario.
@@ -62,7 +129,7 @@ module.exports={
                 resDict[timeUnit] = res;
             }
         }
-    },
+    }
 
     /**Dada la variable (objeto javascript) resMsg que será el mensaje a 
      * devolver y resDict que es otro objecto (~diccionario) que contiene
@@ -82,7 +149,7 @@ module.exports={
      * 
      * 'timeUnit' es una cadena que indica la unidad de tiempo. P.ej: 'mes', 'dia', 'semana'...
      */
-    rellenarMensajeRespuesta: function rellenarMensajeRespuesta(resMsg, resDict,
+    function rellenarMensajeRespuesta(resMsg, resDict,
         campo, filtro, funcion, timeUnit)
     {
         resMsg['label'] = [];
@@ -105,4 +172,3 @@ module.exports={
         +" "+campo.split(" ")[0]
         +" por " + timeUnit;
     }
-}

@@ -3,9 +3,6 @@
  */
 var path = require('path');
 var ModeloClima = require(path.resolve(__dirname, path.join(process.cwd(), 'models', 'weather.js')));
-//Plantilla envoltorio: envoltorioBase.js
-var envoltorioBase = require(path.resolve(__dirname, path.join(process.cwd(),
-    'controllers', 'ops', 'envoltorioBase.js')))['envoltorioBase'];
 
 //---
 
@@ -82,18 +79,7 @@ module.exports = {
                 //Envio respuesta
                 respuesta.send(resMsg);
             });
-    },
-    newEnvoltorioAnio: function (campo, funcion, respuesta, filtro={})
-    {
-        console.log("THIS IS THE NEW WAVE MAHBOI");
-        envoltorioBase(campo, funcion, respuesta, filtro, getAnio, "anio");
     }
-}
-
-function getAnio(elemento)
-{
-    var anioActual = elemento['dia'].getFullYear();
-    return anioActual;
 }
 
 /**FUNCIONES INTERNAS */

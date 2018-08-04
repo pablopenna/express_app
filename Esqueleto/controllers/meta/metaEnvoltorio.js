@@ -2,37 +2,39 @@ var path = require('path');
 var ModeloClima = require(path.resolve(__dirname, path.join(process.cwd(), 'models', 'weather.js')));
 //Importo función envoltorioAnio() en envoltorioAnio.js
 var envoltorioGlobal = require(path.resolve(__dirname, 
-    path.join(process.cwd(), 'controllers', 'ops', 'global', 'envoltorio.js'))
+    path.join(process.cwd(), 'controllers', 'meta', 'envoltorioTodo.js'))
 )['envoltorio'];
 //Importo función envoltorioAnio() en envoltorioAnio.js
 var envoltorioAnio = require(path.resolve(__dirname, 
-    path.join(process.cwd(), 'controllers', 'ops', 'anio', 'envoltorioAnio.js'))
-)['newEnvoltorioAnio'];
+    path.join(process.cwd(), 'controllers', 'meta', 'envoltorioAnio.js'))
+)['envoltorioAnio'];
 //Importo función envoltorioMes() en envoltorioMes.js
 var envoltorioMes = require(path.resolve(__dirname, 
-    path.join(process.cwd(), 'controllers', 'ops', 'mes', 'envoltorioMes.js'))
-)['newEnvoltorioMes'];
+    path.join(process.cwd(), 'controllers', 'meta', 'envoltorioMes.js'))
+)['envoltorioMes'];
 //Importo función envoltorioSemana() en envoltorioSemana.js
 var envoltorioSemana = require(path.resolve(__dirname, 
-    path.join(process.cwd(), 'controllers', 'ops', 'semana', 'envoltorioSemana.js'))
-)['newEnvoltorioSemana'];
+    path.join(process.cwd(), 'controllers', 'meta', 'envoltorioSemana.js'))
+)['envoltorioSemana'];
 //Importo función envoltorioDia() en envoltorioDia.js
 var envoltorioDia = require(path.resolve(__dirname, 
-    path.join(process.cwd(), 'controllers', 'ops', 'dia', 'envoltorioDia.js'))
-)['newEnvoltorioDia'];
+    path.join(process.cwd(), 'controllers', 'meta', 'envoltorioDia.js'))
+)['envoltorioDia'];
 
 //Modulo con medias
 var mediasWeather = require(path.resolve(__dirname, path.join(process.cwd(),
-'controllers', 'ops', 'medias.js')));
+'controllers', 'meta', 'medias.js')));
 
-
-function esCampoValido(campo, esMinuscula=false)
+/**Dado el nombre de un campo, comprueba si el mismo se encuentra
+ * en el modelo de la base de datos.
+ */
+function esCampoValido(campo, caseSensitive=true)
 {
     //Obtengo lista campos del modelo
     //lista con los campos
     var listaCampos = [];
     ModeloClima.schema.eachPath(function(path){
-        if(esMinuscula)
+        if(!caseSensitive)
         {
             listaCampos.push(path.toLowerCase());
         }
@@ -43,6 +45,10 @@ function esCampoValido(campo, esMinuscula=false)
     });
     console.log("· campos: "+listaCampos);
     //Compruebo si el campo especificado se encuentra en el.
+    if(!caseSensitive)
+    {
+        campo = campo.toLowerCase()
+    }
     var campoValido = listaCampos.indexOf(campo) >= 0; 
     return campoValido;
 }
