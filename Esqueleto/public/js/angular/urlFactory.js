@@ -19,16 +19,16 @@ app.factory('urlService', function()
     //URLS
     /**Para parsear una cadena y sacar info si es URL */
     factory.parseURL = function(href) {
-        var match = href.match(/^((https?\:)\/\/)?(([^:\/?#]*)(?:\:([0-9]+))?)([\/]{0,1}[^?#]*)(\?[^#]*|)(#.*|)$/);
+        var match = href.match(/^(https?\:\/\/)?(([^:\/?#]*)(?:\:([0-9]+))?)([\/]{0,1}[^?#]*)(\?[^#]*|)(#.*|)$/);
         var data = {
             href: href,
-            protocol: match[2],
-            host: match[3],
-            hostname: match[4],
-            port: match[5],
-            pathname: match[6],
-            search: match[7],
-            hash: match[8]
+            protocol: match[1],
+            host: match[2],
+            hostname: match[3],
+            port: match[4],
+            pathname: match[5],
+            search: match[6],
+            hash: match[7]
             //Los relevantes en mi caso
             //son hostname, port y pathname
             //hostname + port = host
