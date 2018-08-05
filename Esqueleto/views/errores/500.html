@@ -10,17 +10,15 @@
     <LINK href="/css/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-        <div id="topbar">
-                <h2>
-                    <img id="logo" src="/image/Esqueleto.png">
-                    <span id="titulo">Error 500</span>
-                </h2>
-            </div>
-            <div class="errorDiv">
-                <p class="errorText"> 
-                    <span class="errorCode">500</span>
-                    - Se ha producido un error interno en el servidor al procesar la petición.
-                </p>
-            </div>
+    <%- include ../topbar.ejs -%>
+    <div class="errorDiv">
+        <h2>
+            <span id="titulo">Error 500</span>
+        </h2>
+        <p class="errorText"> 
+            <span class="errorCode">500</span>
+            - Se ha producido un error interno en el servidor al procesar la petición.
+        </p>
+    </div>
 </body>
 </html>

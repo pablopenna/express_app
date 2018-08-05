@@ -34,12 +34,13 @@
     <!--__-->
 </head>
 <body>
-    <div id="topbar">
+    <!--<div id="topbar">
     <h2>
         <img id="logo" src="/image/Esqueleto.png">
         <span id="titulo">Esqueleto</span>
     </h2>
-    </div>
+    </div>-->
+    <%- include topbar.ejs -%>
     <div ng-app="MainApp" ng-controller="MainCtrl" custom-resize-directive>
         <p ng-show="showDebug">ANCHURA {{width}}</p>
         <div id="tempWrapper">
