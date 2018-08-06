@@ -57,7 +57,9 @@ module.exports = app;
 //indicamos la direccion del archivo routes
 require(path.resolve(__dirname, path.join(process.cwd(), 'router')))();
 
+//puerto
+var server_port = process.env.PORT || configuracion.port;
 
-app.listen(configuracion.port, () => {
-    console.log(`Escuchando en puerto:${configuracion.port}`);
+app.listen(server_port, () => {
+    console.log(`Escuchando en puerto:${server_port}`);
 });

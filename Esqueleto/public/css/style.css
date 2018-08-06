@@ -172,8 +172,6 @@ input[type=text] {
 }
 
 #topbar #topLinks{
-    text-align: right;
-    display: inline-block;
     float: right;
 }
 
@@ -181,9 +179,9 @@ input[type=text] {
     color: #F4F4F4;
     text-align: right;
     text-decoration: none;
-    font-size: 24px;
+    font-size: 16px;
     display: inline-block;
-    padding: 14px 12px;
+    padding: 22px 12px;
     /*border: solid 1px;*/
     font-weight: bold;
 }
