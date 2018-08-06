@@ -25,7 +25,7 @@ app.set('view engine', 'html');
 //sentencia para definir la ruta de los html
 app.use(express.static(path.resolve(__dirname, path.join(process.cwd(), 'public'))));
 
-//añadimos los elementos requeridos por express De este modo después podemos utilizar variables como #{config.title} dentro de nuestras plantillas.
+//aï¿½adimos los elementos requeridos por express De este modo despuï¿½s podemos utilizar variables como #{config.title} dentro de nuestras plantillas.
 app.use(require('serve-favicon')(path.resolve(__dirname, path.join(process.cwd(), 'public', 'image','favicon.ico'))));
 app.use(require('morgan')('combined'));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -37,7 +37,7 @@ app.use(require('cookie-parser')());
 app.locals.settings = app.get('settings');
 //definimos una variable de sesion de la app
 var sess = {
-    secret: 'Cookie Pump Verder Proyect web',
+    secret: 'cadenasecreta',
     cookie: {},
     resave: true,
     saveUninitialized: true,

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Ayuda</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--<link rel="stylesheet" type="text/css" media="screen" href="main.css" />-->
+    <!--Estilo-->
+    <LINK href="/css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <%- include topbar.ejs -%>
+    <div class="textDiv">
+        <h2>
+            <span id="titulo">Ayuda</span>
+        </h2>
+        <p> 
+            <p><span class="errorCode">Esqueleto</span>
+            es una aplicación para comparar las respuestas 
+            de dos equipos diferentes a una misma petición <b>POST</b>.
+            </p>
+            <p>La aplicación consta de una única página con varias entradas.
+                Cada entrada cuenta con los siguientes elementos:
+            </p>
+            <ul>
+                <li>
+                    <p><b>URL</b>: Caja de texto donde se proporcionará la dirección 
+                    a la que se realizará la petición remota. La aplicación realizará
+                    otra petición por su cuenta (la petición local), que será igual
+                    pero cambiando el hostname por la dirección del propio servidor
+                    ("localhost") y el puerto por el que está empleando el servidor 
+                    (por defecto, 3000).</p>
+                </li>
+                <li>
+                    <p><b>Botón 'Send'</b>: Al hacer clic, la aplicación enviará las peticiones
+                    local y remota y almacenará las respuestas recibidas a cada una.
+                    </p>
+                </li>
+                <li>
+                    <p><b>Botón 'Delete'</b>: Al hacer clic, borrará la entrada.</p>
+                </li>
+                <li>
+                    <p><b>Botón 'Graph'</b>: Al hacer clic, mostrará las diferencias entre las dos
+                    respuestas en forma de gráfica (si las hay).
+                    </p>
+                </li>
+            </ul>
+            <p>En la parte inferior de la página, debajo de las entradas,
+                disponemos de los siguientes elementos:
+            </p>
+            <ul>
+                <li>
+                    <p><b>Botón 'Add'</b>: crea una nueva entrada en la aplicación.</p>
+                </li>
+                <li>
+                    <p><b>Botón 'Reset'</b>: borra los datos en la base de datos e inserta unos nuevos
+                    generados aleatoriamente.
+                    </p>
+                </li>
+                <li>
+                    <p><b>Botón 'Debug'</b>: activa el modo debug. Hace que la aplicación muestre más datos
+                    referentes a su funcionamiento.
+                    </p>
+                </li>
+            </ul>
+        </p>
+    </div>
+</body>
+</html>

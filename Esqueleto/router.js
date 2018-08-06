@@ -63,9 +63,11 @@ module.exports = function () {
     /*Lo aceptable.*/
     //FRONT-END
     app.route('/').get(controllers.main_menu.menu);
+    app.route('/about').get(controllers.main_menu.about);
+    app.route('/help').get(controllers.main_menu.help);
     //Pruebas
     app.route('/home').get(controllers.wiki.home);
-    app.route('/about').get(controllers.wiki.about);
+    app.route('/about2').get(controllers.wiki.about);
     app.route('/test').get(controllers.test.testFunc);
     app.route('/ang').get(controllers.test.testAng);
     //No funciona. testFunc2() no esta declarado (undefined)
