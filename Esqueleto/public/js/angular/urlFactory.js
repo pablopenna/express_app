@@ -72,7 +72,11 @@ app.factory('urlService', function()
             //data['port']='3000';
             data['port']=factory.localPort;
         }
-        data['host']= data['hostname']+':'+data['port'];
+        data['host']= data['hostname'];
+        if(data['port']!='')
+        {
+            data['host']+=':'+data['port'];
+        }
 
         return data;
     }
@@ -120,7 +124,11 @@ app.factory('urlService', function()
         localUrl['hostname']=factory.localHost;
         //localUrl['port']='3000';
         localUrl['port']=factory.localPort;
-        localUrl['host']= localUrl['hostname']+':'+localUrl['port'];
+        localUrl['host']= localUrl['hostname'];
+        if(localUrl['port']!='')
+        {
+            localUrl['host']+=':'+localUrl['port'];
+        }
         //retorno la copia
         return localUrl;
     }
