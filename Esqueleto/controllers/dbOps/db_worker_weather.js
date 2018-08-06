@@ -6,16 +6,6 @@ var MiModelo = require(path.resolve(__dirname, path.join(process.cwd(), 'models'
 //métodos definidors. Importaremos esta intancia en
 //router.js para emplearla en la aplicación.
 module.exports = {
-    //Get data in the DB. Devuelve objeto Promise.
-    getAllData : async function() {
-        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function
-        const datos = await MiModelo.find().exec();
-
-        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map
-        const miLista = datos.map(dato => dato.numero)
-
-        return miLista;
-    },
 
     /* Get data from DB */
     /*Desde terminal:
@@ -80,17 +70,5 @@ module.exports = {
                 res.json(datos);
             }
         })
-    },
-
-    /*TEMPLATE*/
-    //Al utilizar la funcion asincrona getAllData(),
-    //esta funcion que la llama tambien debe ser asyncrona
-    //para esperar por el resultado.
-    renderDBTemplate : async function(req,res,next)
-    {
-        var datos = await getAllData();
-        console.log("THE TRUE TEST: <" + datos + ">");
-        
-        res.render('test/dbtest.html');
     }
 };

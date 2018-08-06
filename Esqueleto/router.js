@@ -65,13 +65,6 @@ module.exports = function () {
     app.route('/').get(controllers.main_menu.menu);
     app.route('/about').get(controllers.main_menu.about);
     app.route('/help').get(controllers.main_menu.help);
-    //Pruebas
-    app.route('/home').get(controllers.wiki.home);
-    app.route('/about2').get(controllers.wiki.about);
-    app.route('/test').get(controllers.test.testFunc);
-    app.route('/ang').get(controllers.test.testAng);
-    //No funciona. testFunc2() no esta declarado (undefined)
-    //app.route('/test2').get(controllers.test.testFunc2);
 
     /*
      ____  ____  
@@ -81,10 +74,6 @@ module.exports = function () {
     |____/|____/ 
     */
     //DB
-    app.route('/db').get(controllers.dbOps.db_worker.getData);
-    //app.route('/db').post(controllers.db_worker.setData);
-    //app.route('/db/render').get(controllers.db_worker.renderDBTemplate);
-
     app.route('/weather').get(controllers.dbOps.db_worker_weather.getData);
     app.route('/weather').post(controllers.dbOps.db_worker_weather.setData);
     app.route('/weather').delete(controllers.dbOps.db_worker_weather.clearData);
