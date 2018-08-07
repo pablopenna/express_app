@@ -227,3 +227,12 @@ input[type=text] {
 {
     font-weight: bold;
 }
+
+.textDiv #titulo
+{
+    text-align: center;
+}
+
+.code{
+    font-family: monospace;
+}

@@ -12,9 +12,9 @@
 <body>
     <%- include topbar.ejs -%>
     <div class="textDiv">
-        <h2>
-            <span id="titulo">Ayuda</span>
-        </h2>
+        <h1 id="titulo">Ayuda</h1>
+        
+        <h2>Interfaz</h2>
         <p> 
             <p><span class="errorCode">Esqueleto</span>
             es una aplicación para comparar las respuestas 
@@ -64,6 +64,108 @@
                     </p>
                 </li>
             </ul>
+        </p>
+
+        <h2>Datos</h2>
+        <p>La aplicación consta de una base de datos con información
+        meteorlógica. Los campos que componen cada documento de la base de datos son
+        los siguientes:
+        <ul>
+            <li><p><b>dia</b>: Fecha en la que se tomaron las medidas.</p></li>
+            <li><p><b>probLluvia</b>:Probabilidad de que llueva en la fecha
+            indicada por el campo 'Dia'. Tiene un valor comprendido entre 0 y 100.</p></li>
+            <li><p><b>precipitaciones</b>: Precipitaciones en la fecha indicada
+            por el campo 'dia'. Medido en litros por metro cuadrado.</p></li>
+            <li><p><b>humedad</b>: Humedad relativa en la fecha indicada
+            por el campo 'dia'. Valor comprendido entre 0 y 100.</p></li>
+            <li><p><b>velViento</b>: Velocidad del viento en la fecha indicada
+            por el campo 'dia'. Medido en kilómetros por hora.</p></li>
+            <li><p><b>temp</b>: Temperatura en la fecha indicada
+            por el campo 'dia'.</p></li>
+            <li><p><b>presion</b>: Presión atmosférica en la fecha indicada
+            por el campo 'dia'. Medido en hectopascales.</p></li>
+        </ul>
+        </p>
+
+        <h2>Operaciones</h2>
+        <p>Con los datos previamente expuestos, se podrán realizar las siguientes
+        operaciones:
+        <ul>
+            <li><p><b>Media Aritmética</b></p></li>
+            <li><p><b>Media Armónica</b></p></li>
+            <li><p><b>Media Geométrica</b></p></li>
+        </ul>
+        </p>
+
+        <h2>Peticiones</h2>
+        <p>
+            Finalmente, para realizar una petición con la aplicación,
+            se deberá emplear el siguiente formato en la URL:
+                <p class="code"> &lt;hostname[:port]&gt;
+                /meta/&lt;periodo&gt;/&lt;operacion&gt;/&lt;campo&gt;</p>
+            Siendo:
+            <ul>
+                <li><p><b>periodo</b>: Unidad de tiempo
+                en la que agrupar los datos. Puede ser una de las
+                siguientes:
+                    <ul>
+                        <li><p><b>global</b>: sin agrupar los datos por
+                        período de tiempo, muestra el resultado
+                        de realizar la operación con todos los datos
+                        a la vez.</p></li>
+                        <li><p><b>anio</b>: Agrupa los datos por año, empleando
+                        el campo 'dia'. Proporciona los resultados separados por 
+                        año.</p></li>
+                        <li><p><b>mes</b>: Agrupa los datos por mes, empleando
+                        el campo 'dia'. Proporciona los resultados separados por 
+                        mes.</p></li>
+                        <li><p><b>semana</b>: Agrupa los datos por semana, empleando
+                        el campo 'dia'. Proporciona los resultados separados por 
+                        semana.</p></li>
+                        <li><p><b>dia</b>: Agrupa los datos por día, empleando
+                        el campo 'dia'. Proporciona los resultados separados por 
+                        día.</p></li>
+                    </ul>
+                </p></li>
+                <li><p><b>operacion</b>: Operación a realizar
+                con los datos. Puede ser una de las siguientes:
+                    <ul>
+                        <li><p><b>media</b>: media aritmética.</p></li>
+                        <li><p><b>mediaArm</b>: media armónica.</p></li>
+                        <li><p><b>mediaGeo</b>: media geométrica.</p></li>
+                    </ul>
+                </p></li>
+                <li><p><b>campo</b>: campo a utilizar para realizar
+                el cálculo de las operaciones. Debe coincidir con alguno
+                de los enunciados en el apartado 'Datos'.</p></li>
+                <!--<li><p><b></b></p></li>-->
+            </ul>
+
+            <p>
+            Como nota final, pueden especificarse un año o un mes específico
+            añadiéndolos a la URL de la siguiente manera:
+            <ul><li><p class="code"> &lt;hostname[:port]&gt;/meta/&lt;periodo&gt;/&lt;operacion&gt;/&lt;campo&gt;<b>?anio=&lt;año&gt;</b></p></li></ul>
+            <ul><li style="list-style: none">o</li></ul>
+            <ul><li><p class="code"> &lt;hostname[:port]&gt;/meta/&lt;periodo&gt;/&lt;operacion&gt;/&lt;campo&gt;<b>?anio=&lt;año&gt;&amp;mes=&lt;mes&gt;</b></p></li></ul>
+            
+            </p>
+            
+            <p>
+            La peticón POST se enviará a la URL indicada así como
+            a la dirección del servidor (misma URL pero cambiando
+            hostname y port). P.ej: (Suponiendo que la aplicación
+            se está ejecutando en localhost en el puerto 3000)
+            <ul>
+                <li><p>remota:  192.168.1.38:5000/meta/anio/media/temp</p></li>
+                <li><p>local:   <b>localhost:3000</b>/meta/anio/media/temp</p></li>
+            </ul>
+            La aplicación almacenará la respuesta recibida para cada petición y
+            las comparará entre sí. Si coinciden, el círculo a la derecha
+            de la caja de texto con la URL se mostrará verde. En caso contrario,
+            rojo.
+
+            Se puede obtener una comparación más detallada pulsando en el botón 'Graph'.
+            </p>
         </p>
     </div>
 </body>
