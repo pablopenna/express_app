@@ -6,6 +6,7 @@ Muted Tones Theme:
     Charcoal: #373737
 */
 
+/*GENERAL*/
 body {
     /*Fondo*/
     background-color: #F4F4F4;
@@ -17,124 +18,7 @@ body {
     font-family: Verdana, Geneva, sans-serif;
 }
 
-#menuWrapper li{
-    list-style: none;
-}
-/*
-#menuWrapper {
-    -moz-column-count: 2; 
-    -webkit-column-count: 2; 
-    column-count: 2;
-
-}  
-
-#menuWrapper ul {
-    -webkit-column-break-inside: avoid;
-    -webkit-column-break-after: always;
-}
-*/
-
-#menuWrapper{
-    text-align: center;
-}
-.myMenuEntry {
-    border: 3px solid #C0B283;
-    border-radius: 5px;
-    display: block;
-    margin: 0 5%;
-    /*text-align: justify;*/
-    word-wrap:break-word;
-}
-.myMenuEntry *{
-    
-    margin: 10px;
-}
-
-input[type=button] {
-    /*color letra*/
-    color: #373737;
-    /*Borde*/
-    border:5px solid #DCD0C0;
-    /*Color fondo*/
-    background-color: #DCD0C0;
-    /*Redondeo boton*/
-    border-radius:8px;
-    /*Duracion transicion del efecto*/
-    transition-duration: 0.2s;
-    /*Cambia el cursor cuando lo ponemos encima*/
-    cursor: pointer;
-    /*padding. Espacio desde texto hasta bordes*/
-    padding: 5px 5px;
-    /*Espacio entre botones*/
-    margin: 5px 5px;
-    /*Anchura fija*/
-    display: inline-block;
-    width: 100px;
-/*height: 50px;*/
-}
-
-input[type=button]:hover {
-    /*color letra*/
-    color: #DCD0C0;
-    /*Borde*/
-    border:5px solid #373737;
-    /*Color fondo*/
-    background-color: #373737;
-    
-}
-
-input[type=text] {
-    /*color letra*/
-    color: #F4F4F4;
-    /*Borde*/
-    border:5px solid #DCD0C0;
-    /*Color fondo*/
-    background-color: #373737;
-    /*Redondeo boton*/
-    border-radius:8px;
-    /*padding. Espacio desde texto hasta bordes*/
-    padding: 5px 5px;
-    /*Espacio entre botones*/
-    margin: 5px 5px;
-    width: auto;
-/*height: 50px;*/
-}
-
-/* DIALOGS */
-
-.ui-dialog-buttonpane {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	float: center;
-}
-
-#dialogOkBoton
-{
-/*
-	height: 40px;
-	margin: 0 auto;
-	display: block;
-	width: 150px;
-*/
-	color: #F4F4F4;
-	background-color: #C0B283;
-}
-
-#dialogOkBoton:hover
-{
-	background-color: #DCD0C0;
-}
-
-/*Imagenes de los circulos*/
-.imgMark
-{
-    width: 20px;
-    height: 20px;
-    vertical-align: middle;
-}
-
-/*Barra superior*/
+/*BARRA SUPERIOR*/
 #logo
 {
     width:40px;
@@ -193,11 +77,131 @@ input[type=text] {
 
 /*---------------------*/
 
+/*MENU PRINCIPAL*/
+#menuWrapper li{
+    list-style: none;
+}
+/*
+#menuWrapper {
+    -moz-column-count: 2; 
+    -webkit-column-count: 2; 
+    column-count: 2;
+
+}  
+
+#menuWrapper ul {
+    -webkit-column-break-inside: avoid;
+    -webkit-column-break-after: always;
+}
+*/
+
+#menuWrapper{
+    text-align: center;
+}
+.myMenuEntry {
+    border: 3px solid #C0B283;
+    border-radius: 5px;
+    display: block;
+    margin: 0 5%;
+    /*text-align: justify;*/
+    word-wrap:break-word;
+}
+.myMenuEntry *{
+    
+    margin: 10px;
+}
+
+/*Imagenes de los circulos*/
+.imgMark
+{
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+}
+
+/* Numeracion de las entradas*/
 #indiceEntrada
 {
     float:left;
     vertical-align: middle;
     font-size: 20px;
+}
+    /* BOTONES */
+    input[type=button] {
+        /*color letra*/
+        color: #373737;
+        /*Borde*/
+        border:5px solid #DCD0C0;
+        /*Color fondo*/
+        background-color: #DCD0C0;
+        /*Redondeo boton*/
+        border-radius:8px;
+        /*Duracion transicion del efecto*/
+        transition-duration: 0.2s;
+        /*Cambia el cursor cuando lo ponemos encima*/
+        cursor: pointer;
+        /*padding. Espacio desde texto hasta bordes*/
+        padding: 5px 5px;
+        /*Espacio entre botones*/
+        margin: 5px 5px;
+        /*Anchura fija*/
+        display: inline-block;
+        width: 100px;
+    /*height: 50px;*/
+    }
+
+    input[type=button]:hover {
+        /*color letra*/
+        color: #DCD0C0;
+        /*Borde*/
+        border:5px solid #373737;
+        /*Color fondo*/
+        background-color: #373737;
+        
+    }
+
+    /* CAJAS TEXTO*/
+    input[type=text] {
+        /*color letra*/
+        color: #F4F4F4;
+        /*Borde*/
+        border:5px solid #DCD0C0;
+        /*Color fondo*/
+        background-color: #373737;
+        /*Redondeo boton*/
+        border-radius:8px;
+        /*padding. Espacio desde texto hasta bordes*/
+        padding: 5px 5px;
+        /*Espacio entre botones*/
+        margin: 5px 5px;
+        width: auto;
+    /*height: 50px;*/
+    }
+
+/* DIALOGS */
+
+.ui-dialog-buttonpane {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	float: center;
+}
+
+#dialogOkBoton
+{
+/*
+	height: 40px;
+	margin: 0 auto;
+	display: block;
+	width: 150px;
+*/
+	color: #F4F4F4;
+	background-color: #C0B283;
+}
+
+#dialogOkBoton:hover
+{
+	background-color: #DCD0C0;
 }
 
 #textoDialogo
@@ -205,7 +209,12 @@ input[type=text] {
     text-align: center;
 }
 
-/*Estilo para las páginas de errores (404, 500...)*/
+/*
+*
+*Estilo para las páginas de errores (404, 500...) y ayuda
+*
+*/
+
 .textDiv{
     border: 3px solid #C0B283;
     border-radius: 5px;
