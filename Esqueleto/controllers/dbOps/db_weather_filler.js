@@ -4,9 +4,16 @@ var ModeloClima = require(path.resolve(__dirname, path.join(process.cwd(), 'mode
 var ClimaBasicOps = require(path.resolve(__dirname, path.join(process.cwd(), 'controllers', 'dbOps', 'db_worker_weather.js')));
 var direccionesViento = require(path.resolve(__dirname, path.join(process.cwd(), 'models', 'direccionesViento.js')));
 //console.log('ATENTION: ' + ClimaBasicOps.clearData);
-
-//Numero de entradas en la base de datos
-const numEntries = 10;
+//Importamos app solo para obtener la config (numero de entradas en la base de datos)
+var app = require(path.join(process.cwd(), 'server'));
+//Numero de entradas obtenido del fichero config.js. Numero de entradas en la base de datos
+var numEntries = parseInt(app.locals.settings.database.numEntradas);
+if(numEntries == undefined || isNaN(numEntries))
+{
+    numEntries = 10;
+}
+//console.log(">>>>>>>Número de entradas en la BD definitva:");
+//console.log(numEntries);
 
 //Lista con las direcciones del viento.
 //const direccionesViento = ["N","S","E","W","NW","NE","SW","SE"]

@@ -1,5 +1,5 @@
 ﻿module.exports = {
-    name: "Comparador",
+    name: "Esqueleto",
     version: "0.0.0",
     description: "Aplicación en Express que hace y comprueba peticiones",
     domain: "",
@@ -14,6 +14,7 @@
         password: '123qwe',
         domain: 'ds016128.mlab.com',
         port: 16128,
-        name: 'express_mongo'
+        name: 'express_mongo',
+        numEntradas: 100
     }
 }
