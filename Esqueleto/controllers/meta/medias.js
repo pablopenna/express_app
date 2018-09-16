@@ -28,7 +28,8 @@ module.exports = {
         var media = sumatorio/numElementos;
         //meto la media en un json
         //var resultado = {"label" : "Media " + campo,"data" : media};
-        var resultado = media;
+        //redondeo dos decimales
+        var resultado = Math.round(media * 100)/100;
         console.log("INNER_MEDIA: " + resultado);
         return resultado;
     },
@@ -62,7 +63,8 @@ module.exports = {
         var media = numElementos/sumatorio;
         //meto la media en un json
         //var resultado = {"label" : "Media Armonica "+campo,"data" : media};
-        var resultado = media;
+        //redondeo dos decimales
+        var resultado = Math.round(media * 100)/100;
         console.log("INNER_MEDIA_AMONICA: " + resultado);
         return resultado;
     },
@@ -120,7 +122,8 @@ module.exports = {
         var media = Math.pow(10, logMedia);
         //meto la media en un json
         //var resultado = {"label" : "Media Geometrica "+campo,"data" : media};
-        var resultado = media;
+        //redondeo dos decimales
+        var resultado = Math.round(media * 100)/100;
         console.log("INNER_MEDIA_GEOMETRICA: " + resultado);
         return resultado;
     }
