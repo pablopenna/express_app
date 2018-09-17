@@ -49,6 +49,8 @@ console.log("WIKI.ABOUT: " + controllers.db_worker.setData);
 
 //Proceso para asociar las peticiones a los métodos del controlador
 module.exports = function () {
+    //CORS
+    app.use(cors());
     //añadimos el index
     //app.route('/').get(controllers.main.main);
     
@@ -58,8 +60,7 @@ module.exports = function () {
     app.route('/admin/edit/:id').get(auth.check, controllers.admin.edit);*/
     
     /*Pruebas*/
-    //CORS
-    app.use(cors());
+    
     /*Lo aceptable.*/
     //FRONT-END
     app.route('/').get(controllers.main_menu.menu);

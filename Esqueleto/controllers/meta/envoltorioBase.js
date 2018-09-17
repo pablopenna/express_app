@@ -6,6 +6,23 @@ var ModeloClima = require(path.resolve(__dirname, path.join(process.cwd(), 'mode
 
 
 module.exports = {
+    /**Función Envolotrio Genérica de la cual ~'heredarán' el resto de envoltorios
+     * para un periodo de tiempo dado (en realidad simplemente llamarán a esta
+     * función con unos parámetros específicos).
+     * 
+     * PARAMETROS:
+     * - 'campo': campo de la base de datos cuyos valores se emplearán
+     * para el cáclulo realizado por la función 'funcion'.
+     * - 'funcion': función a realizar con los datos (e.g.: media aritmética).
+     * - 'respuesta': Objeto respuesta (res) empleado por Express. Es necesario
+     * para enviar la respuesta al cliente con respuesta.send()
+     * - 'filtro': filtro empleado en la petición a la base de datos.
+     * - 'getTimeUnit': es una funcion que se emplea para,
+     * dada una entrada de los datos, obtener la unidad de tiempo.
+     * - 'timeUnitName': cadena con el nombre de la unidad de tiempo en
+     * la que se vana a grupar los datos. Se utiliza únicamente para indicar
+     * esto último en la respuesta que se le envía al cliente.
+     */
     envoltorioBase :function envoltorioBase(campo, funcion, respuesta, filtro={},
     getTimeUnit, timeUnitName)
     {

@@ -21,9 +21,9 @@ var envoltorioDia = require(path.resolve(__dirname,
     path.join(process.cwd(), 'controllers', 'meta', 'envoltorioDia.js'))
 )['envoltorioDia'];
 
-//Modulo con medias
+//Modulo con medias weather
 var mediasWeather = require(path.resolve(__dirname, path.join(process.cwd(),
-'controllers', 'meta', 'medias.js')));
+'controllers', 'meta', 'mediasWeather.js')));
 
 /**Dado el nombre de un campo, comprueba si el mismo se encuentra
  * en el modelo de la base de datos.
