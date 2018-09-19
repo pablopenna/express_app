@@ -185,7 +185,14 @@ module.exports = {
             console.log("RESPUESTA VACIA. unidad tiempo: " + timeUnit);
         }
         //Añado descripcion
-        resMsg["descr"] = String(funcion).split(/[ (]/)[1]
-        +" "+campo.split(" ")[0]
+        //Obtengo el nombre de la operacion realizada
+        var nombreOperacion = String(funcion).split(/[ (]/)[1];
+        //Elimino la subcadena "Weather"
+        nombreOperacion = nombreOperacion.replace(/weather/i,"");
+        //Obtengo el campo utilizado enel cálculo de la operación
+        var nombreCampo = campo.split(" ")[0];
+        //Compongo descripción completa.
+        resMsg["descr"] = nombreOperacion
+        +" "+nombreCampo
         +" por " + timeUnit;
     }

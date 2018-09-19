@@ -16,6 +16,8 @@ body {
     margin: 0;
     /*Fuente*/
     font-family: Verdana, Geneva, sans-serif;
+    /*Tamaño fuente*/
+    font-size: 16px;
 }
 
 /*BARRA SUPERIOR*/
@@ -50,8 +52,8 @@ body {
     1px 1px 0 #373737;
     display: inline-block;
     margin-top: 5px;
-
-    width: 0px;
+    /*width: 0px;*/
+    width: auto;
 
 }
 
@@ -146,8 +148,20 @@ body {
         margin: 5px 5px;
         /*Anchura fija*/
         display: inline-block;
-        width: 100px;
+        width: 120px;
     /*height: 50px;*/
+    }
+
+    .smallButton
+    {
+        height: 40px;
+        /*!important para forzar override*/
+        width: 40px !important;
+        padding: 0px 0px;
+        margin: 0px 0px;
+        border: 0px !important;
+        color: #DCD0C0 !important;
+        background-color: #373737 !important;
     }
 
     input[type=button]:hover {
@@ -176,6 +190,23 @@ body {
         margin: 5px 5px;
         width: auto;
     /*height: 50px;*/
+    }
+
+    /*SELECTs*/
+    select{
+        margin: 50px;
+        /*width: 150px;*/
+        width: auto;
+        padding: 5px 35px 5px 5px;
+        border:5px solid #DCD0C0;
+        border-radius:8px;
+        /*No mostrar flecha*/
+        -moz-appearance: none;
+        appearance: none;
+        /*Color de fondo y flecha personalizada*/
+        background: url(/image/flecha2.png) 96% / 20px no-repeat #373737;
+        /*color letra*/
+        color: #F4F4F4;
     }
 
 /* DIALOGS */
