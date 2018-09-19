@@ -12,6 +12,7 @@ function($http, entriesService, debugService, urlService, dialogService)
                   |_|                      
     */    
 
+    /**ANTIGUA*/
     /**Wrapper */
     /**Recibo también la id de la entrada (se supone que es clave primaria), de forma que puedo
      * acceder a la entrada que le corresponde en factorys,entries para almacenar en ellas
@@ -29,6 +30,43 @@ function($http, entriesService, debugService, urlService, dialogService)
         //Petición Local
         var localUrl = urlService.urlToString(urlService.urlToLocal(data));
         factory.postdata(id,localUrl);
+        //Ambas respuestas se han registrado dentro de la funcion postdata().
+        //Se emplean las variables factory.localResponse y factory.remoteResponse
+        //para almacenar las respuestas recibidas.    
+    }
+
+    /**Wrapper */
+    /**Recibo también la id de la entrada (se supone que es clave primaria).
+     * De ella obtengo los campos de la petición.
+     * Se envían dos peticiones:
+     *  - (alumno): localhost:3000
+     *  - (profesor): window.location.host
+     * 
+     * Esto es así ya que el alumno se conectará al front-end del profesor.
+     */
+    factory.enviarPeticionv2 = function(id)
+    {
+        /**La funcion urlService.urlToLocal(data) cambia
+         * el 'hostname' y el 'port' a window.location.hostname
+         * y window.location.port, es decir, transforma la direccion
+         * dada a la direccion del profesor.
+         * Crearemos la url para el alumno y con esta función obtendremos
+         * la url del profesor
+         */
+        const periodo = entriesService.getEntryAttr(id,'periodo');
+        const operacion = entriesService.getEntryAttr(id,'operacion');
+        const campo = entriesService.getEntryAttr(id,'campo');
+        var url = "http://localhost:3000/meta/"
+        +periodo+"/"+operacion+"/"+campo;
+        var data = urlService.checkURL(url);
+        console.log("brute data: ");
+        console.log(data);
+        //Petición Alumno
+        var alumnoUrl = urlService.urlToString(data);
+        factory.postdata(id,alumnoUrl);
+        //Petición Profesor
+        var profesorUrl = urlService.urlToString(urlService.urlToLocal(data));
+        factory.postdata(id,profesorUrl);
         //Ambas respuestas se han registrado dentro de la funcion postdata().
         //Se emplean las variables factory.localResponse y factory.remoteResponse
         //para almacenar las respuestas recibidas.    

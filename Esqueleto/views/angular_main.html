@@ -90,6 +90,8 @@
                     <input type="button" value="Send" 
                         ng-click="requestService.enviarPeticion(entriesService.entries[$index].id,
                         entriesService.entries[$index].url)"/>
+                    <input type="button" value="Send v2" 
+                        ng-click="requestService.enviarPeticionv2(entriesService.entries[$index].id)"/>
                     <!--Datos de debug de la entrada.-->
                     <div ng-show="showDebug">
                         <p>Address : {{entriesService.entries[$index].url}}</p>
