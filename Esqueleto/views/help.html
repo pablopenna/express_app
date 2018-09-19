@@ -16,34 +16,90 @@
         
         <h2>Interfaz</h2>
         <p> 
-            <p><span class="errorCode">Práctica API</span>
-            es una aplicación para comparar las respuestas 
-            de dos equipos diferentes a una misma petición <b>POST</b>.
+            <p>
+                <span class="errorCode">Práctica API</span>
+                es una aplicación para comparar las respuestas 
+                de dos equipos diferentes a una misma petición <b>POST</b>.
             </p>
-            <p>La aplicación consta de una única página con varias entradas.
+            <p>
+                La aplicación consta de una única página con varias entradas.
                 Cada entrada cuenta con los siguientes elementos:
             </p>
             <ul>
                 <li>
-                    <p><b>URL</b>: Caja de texto donde se proporcionará la dirección 
-                    a la que se realizará la petición remota. La aplicación realizará
-                    otra petición por su cuenta (la petición local), que será igual
-                    pero cambiando el hostname por la dirección del propio servidor
-                    ("localhost") y el puerto por el que está empleando el servidor 
-                    (por defecto, 3000).</p>
-                </li>
-                <li>
-                    <p><b>Botón 'Send'</b>: Al hacer clic, la aplicación enviará las peticiones
-                    local y remota y almacenará las respuestas recibidas a cada una.
+                    <p>
+                        <b>Selector Período</b>: Permite especificar el período
+                        en el que se agruparán los datos al realizar la operación
+                        especificada.
+                    </p>
+                    <p>
+                        Por ejemplo, si se selecciona 'Año', los datos se agruparán
+                        dependiendo del año en el que se haya registrado cada uno.
+                        Si se escoge 'Mes', se gruparán por meses, etc.
                     </p>
                 </li>
                 <li>
-                    <p><b>Botón 'Delete'</b>: Al hacer clic, borrará la entrada.</p>
+                    <p>
+                        <b>Selector Operación</b>: Permite especificar la operación de
+                        cálculo que se quiere realizar con los datos.
+                    </p>
+                    <p>
+                        Por ejemplo, si se selecciona 'Media Aritmética', se
+                        calculará la media aritmética de los datos disponibles,
+                        agrupados según el período indicado previamente.
+                    </p>
                 </li>
                 <li>
-                    <p><b>Botón 'Graph'</b>: Al hacer clic, mostrará las diferencias entre las dos
+                    <p>
+                        <b>Selector Campo</b>: Permite especificar el campo de 
+                        la base de datos que se empleara como dato para el 
+                        cálculo de la operación espeficada anteriormente.
+                    </p>
+                    <p>
+                        Por ejemplo, si se selecciona 'Temperatura', y suponiendo que
+                        como operación se ha seleccionado 'Media Aritmética',se
+                        calculará la media aritmética de las temperaturas almacenadas
+                        en la base de datos, agrupadas según el período indicado
+                        en la primera lista desplegable.
+                    </p>
+                </li>
+                <li>
+                    <p>
+                        <b>Botón 'Enviar'</b>: Al hacer clic, la aplicación enviará las peticiones
+                        local y remota y almacenará las respuestas recibidas a cada una.
+                    </p>
+                    <p>
+                        La aplicación considera como local (profesor) la petición a la dirección 
+                        'window.location.host', es decir, la dirección que figura en la barra
+                        de dirección del navegador. <b>El alumno se conectará al equipo del profesor
+                        a través del navegador para obtener el front-end de la aplicación.</b>
+                    </p>
+                    <p>
+                        La petición remota (alumno), se enviará a la dirección fija 'localhost:3000',
+                        por lo que <b>el alumno debe asegurarse que el back-end que haya implementado
+                        escuche en el puerto 3000.</b>
+                    </p>
+                    <p>
+                        Una vez que la aplicación reciba las respuestas del alumno y profesor, las 
+                        comparará e indicará si son iguales.
+                    </p>
+                </li>
+                <li>
+                    <p><b>Botón 'Gráficas'</b>: Al hacer clic, mostrará las diferencias entre las dos
                     respuestas en forma de gráfica (si las hay).
                     </p>
+                </li>
+                <li>
+                        <p>
+                            <b>Botón '+'</b> (Añadir entrada): Al hacer clic, se 
+                            añadirá una nueva entrada la entrada.
+                        </p>
+                </li>
+                <li>
+                        <p>
+                            <b>Botón '-'</b> (Eliminar entrada): Al hacer clic, 
+                            se borrará la entrada.
+                        </p>
                 </li>
             </ul>
             <p>En la parte inferior de la página, debajo de las entradas,
@@ -51,25 +107,67 @@
             </p>
             <ul>
                 <li>
-                    <p><b>Botón 'Add'</b>: crea una nueva entrada en la aplicación.</p>
-                </li>
-                <li>
-                    <p><b>Botón 'Reset'</b>: borra los datos en la base de datos e inserta unos nuevos
-                    generados aleatoriamente.
+                    <p>
+                        <b>Botón 'Crear Entrada'</b>: Al igual que el botón '+',
+                        añade una entrada al menú.
                     </p>
                 </li>
                 <li>
-                    <p><b>Botón 'Debug'</b>: activa el modo debug. Hace que la aplicación muestre más datos
-                    referentes a su funcionamiento.
+                    <p>
+                        <b>Botón 'Reiniciar BD'</b>: Borra los datos en la base de datos e inserta unos nuevos
+                        generados aleatoriamente.
+                    </p>
+                </li>
+                <li>
+                    <p>
+                        <b>Botón 'Modo Debug'</b>: Activa el modo debug.
+                        Hace que la aplicación muestre más datos
+                        referentes a su funcionamiento.
                     </p>
                 </li>
             </ul>
         </p>
 
-        <h2>Datos</h2>
-        <p>La aplicación consta de una base de datos con información
-        meteorlógica. Los campos que componen cada documento de la base de datos son
-        los siguientes:
+        <h2>Períodos</h2>
+        <p>
+            Los datos empleados en el cálculo de las operaciones
+            realizadas por la aplicación puede agruparse en los 
+            siguiente períodos de tiempo:
+                <ul>
+                    <li><p><b>global</b>: No se agrupan los datos por
+                    período de tiempo, muestra el resultado
+                    de realizar la operación con todos los datos
+                    a la vez.</p></li>
+                    <li><p><b>anio</b>: Agrupa los datos por año, empleando
+                    el campo 'dia'. Proporciona los resultados separados por 
+                    año.</p></li>
+                    <li><p><b>mes</b>: Agrupa los datos por mes, empleando
+                    el campo 'dia'. Proporciona los resultados separados por 
+                    mes.</p></li>
+                    <li><p><b>semana</b>: Agrupa los datos por semana, empleando
+                    el campo 'dia'. Proporciona los resultados separados por 
+                    semana.</p></li>
+                    <li><p><b>dia</b>: Agrupa los datos por día, empleando
+                    el campo 'dia'. Proporciona los resultados separados por 
+                    día.</p></li>
+                </ul>
+            </p>
+
+        <h2>Operaciones</h2>
+        <p>Con los datos previamente expuestos, se podrán realizar las siguientes
+        operaciones:
+        <ul>
+            <li><p><b>Media Aritmética</b></p></li>
+            <li><p><b>Media Armónica</b></p></li>
+            <li><p><b>Media Geométrica</b></p></li>
+        </ul>
+        </p>
+
+        <h2>Campos</h2>
+        <p>
+            La aplicación consta de una base de datos con información
+            meteorológica. Los campos que componen cada documento de la base de datos son
+            los siguientes:
         <ul>
             <li><p><b>dia</b>: Fecha en la que se tomaron las medidas.</p></li>
             <li><p><b>probLluvia</b>:Probabilidad de que llueva en la fecha
@@ -87,17 +185,14 @@
         </ul>
         </p>
 
-        <h2>Operaciones</h2>
-        <p>Con los datos previamente expuestos, se podrán realizar las siguientes
-        operaciones:
-        <ul>
-            <li><p><b>Media Aritmética</b></p></li>
-            <li><p><b>Media Armónica</b></p></li>
-            <li><p><b>Media Geométrica</b></p></li>
-        </ul>
-        </p>
-
         <h2>Peticiones</h2>
+        <p>
+            Ya no es necesario conocer el formato de la URL para las
+            peticiones ya que la aplicación lo maneja automáticamente.
+            El usuario (alumno) sólo tiene que especificar el período,
+            operación y campo mediante las listas desplegables.
+        </p>
+        <s>
         <p>
             Finalmente, para realizar una petición con la aplicación,
             se deberá emplear el siguiente formato en la URL:
@@ -109,7 +204,7 @@
                 en la que agrupar los datos. Puede ser una de las
                 siguientes:
                     <ul>
-                        <li><p><b>global</b>: sin agrupar los datos por
+                        <li><p><b>global</b>: No se agrupan los datos por
                         período de tiempo, muestra el resultado
                         de realizar la operación con todos los datos
                         a la vez.</p></li>
@@ -167,6 +262,7 @@
             Se puede obtener una comparación más detallada pulsando en el botón 'Graph'.
             </p>
         </p>
+        </s>
     </div>
 </body>
 </html>
