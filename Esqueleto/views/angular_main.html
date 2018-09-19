@@ -21,6 +21,7 @@
     <script src="/js/angular/requestFactory.js"></script>
     <script src="/js/angular/graphFactory.js"></script>
     <script src="/js/angular/resizeDirective.js"></script>
+    <script src="/js/angular/requestParamFactory.js"></script>
     <!--<script src="/js/crearGrafica.js"></script>-->
     <!--Estilo-->
     <LINK href="/css/style.css" rel="stylesheet" type="text/css">
@@ -58,6 +59,26 @@
                         <!--ng-blur="requestService.enviarPeticion(entriesService.entries[$index].id,
                             entriesService.entries[$index].url)"-->
                     >
+                    <!---->
+                    <span>Período:</span>
+                    <select 
+                        ng-model="entriesService.entries[$index].periodo"
+                        ng-init= "entriesService.entries[$index].periodo = requestParamService.listaPeriodos[0].valor"
+                        ng-options="periodo.valor as periodo.nombre for periodo in requestParamService.listaPeriodos">
+                    </select>
+                    <span>Operación:</span>
+                    <select 
+                        ng-model="entriesService.entries[$index].operacion"
+                        ng-init= "entriesService.entries[$index].operacion = requestParamService.listaOps[0].valor"
+                        ng-options="operacion.valor as operacion.nombre for operacion in requestParamService.listaOps">
+                    </select>
+                    <span>Campo:</span>
+                    <select 
+                        ng-model="entriesService.entries[$index].campo"
+                        ng-init= "entriesService.entries[$index].campo = requestParamService.listaCampos[0].valor"
+                        ng-options="campo.valor as campo.nombre for campo in requestParamService.listaCampos">
+                    </select>
+                    <!---->
                     <!--Imagenes para mostrar si las respuestas coinciden.-->
                     <img class="imgMark" 
                         src="/image/bolaverde.png" 
@@ -108,6 +129,33 @@
                     <p>Parsed URL: {{debuggedURL}}</p>
                     <p>entriesService.entries: {{entriesService.entries}}</p>
                     <p>Estado Reset: {{debugService.resetStatus}}</p>
+                    <p>-----</p>
+                    <p>Parametros: {{requestParamService}}</p>
+
+                    <select 
+                        ng-model="periodoElegido"
+                        ng-init= "periodoElegido = requestParamService.listaPeriodos[0]"
+                        ng-options="periodo.nombre for periodo in requestParamService.listaPeriodos">
+                    </select>
+                    <p>Name: {{periodoElegido.nombre}}</p>
+                    <p>Value: {{periodoElegido.valor}}</p>
+
+                    <select 
+                        ng-model="opElegido"
+                        ng-init= "opElegido = requestParamService.listaOps[0]"
+                        ng-options="op.nombre for op in requestParamService.listaOps">
+                    </select>
+                    <p>Name: {{opElegido.nombre}}</p>
+                    <p>Value: {{opElegido.valor}}</p>
+
+                    <select 
+                        ng-model="campoElegido"
+                        ng-init= "campoElegido = requestParamService.listaCampos[0]"
+                        ng-options="campo.nombre for campo in requestParamService.listaCampos">
+                    </select>
+                    <p>Name: {{campoElegido.nombre}}</p>
+                    <p>Value: {{campoElegido.valor}}</p>
+
                 </div>
                 
             </div>

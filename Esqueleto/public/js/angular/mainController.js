@@ -1,5 +1,5 @@
 app.controller('MainCtrl', function ($scope, entriesService, urlService,
-    debugService, requestService, graphService, dialogService) {
+    debugService, requestService, graphService, dialogService, requestParamService) {
     $scope.address = 'placeholder';
     $scope.lblMsg = null;
 
@@ -23,6 +23,9 @@ app.controller('MainCtrl', function ($scope, entriesService, urlService,
 
     //Servicio para utilizar dialogs
     $scope.dialogService = dialogService;
+
+    //Servicio con los diferentes parámetros para realizar peticiones al Back-End
+    $scope.requestParamService = requestParamService;
 
     //Al iniciar el controlador, inicializo el dialogo
     //para su uso posterior.

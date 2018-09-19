@@ -62,6 +62,11 @@ app.service('entriesService',function()
              * cláusula ng-repeat en la vista.
              */
             id: 'entry-' + this.entryCounter,
+            //---
+            periodo: 'placeholder',
+            operacion: 'placeholder',
+            campo: 'placeholder',
+            //---
             //name: '',
             /**Por ejemplo, al añadir este
              * atributo 'custom' el div que se corresponda
