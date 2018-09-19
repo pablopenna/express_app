@@ -44,12 +44,25 @@ module.exports = {
                 }
                 console.log("DATOS: " + datos);
                 //datos es un array con los objetos retornados por find
-                //res.send(datos);
+                
                 //Pasamos como parámetro solo el primer campo en caso
                 //de que se hayan especificado varios separados por espacios
                 var resultadoOP = funcion(datos, campo.split(" ")[0]);
+
+                //Añado descripcion
+                //Obtengo el nombre de la operacion realizada
+                var nombreOperacion = String(funcion).split(/[ (]/)[1];
+                //Elimino la subcadena "Weather"
+                nombreOperacion = nombreOperacion.replace(/weather/i,"");
+                //Obtengo el campo utilizado enel cálculo de la operación
+                var nombreCampo = campo.split(" ")[0];
+                //Compongo descripción completa.
+                var descripcion = nombreOperacion
+                +" "+nombreCampo
+                +" "+"global";
+
                 //Metemos resultado en json
-                var res = {"label" : String(funcion).split(/[ (]/)[1]+" "+campo.split(" ")[0]
+                var res = {"label" : descripcion
                 ,"data" : resultadoOP};
                 console.log("RES ENVOLTORIO: " + res);
                 respuesta.send(res);

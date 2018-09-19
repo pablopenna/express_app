@@ -147,7 +147,8 @@ app.factory('graphService', ['entriesService',function (entriesService) {
             x: datosXa,
             y: datosYa,
             type: tipo,
-            name: 'local'
+            //name: 'local'
+            name: 'profesor'
             //Para color barra
             //,marker: {color: '#000'}
             //Dibujar solo puntos, no lineas
@@ -158,7 +159,8 @@ app.factory('graphService', ['entriesService',function (entriesService) {
             x: datosXb,
             y: datosYb,
             type: tipo,
-            name: 'remoto'
+            //name: 'remoto'
+            name: 'alumno'
             //Para color barra
             //,marker: {color: '#000'}
             //Dibujar solo puntos, no lineas
