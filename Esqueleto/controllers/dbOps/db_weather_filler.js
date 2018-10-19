@@ -178,7 +178,6 @@ module.exports = {
                 if (err)
                 {
                     console.log("ERROR: " + err);
-                    res.send(err);
                     return err;
                 }
                 //console.log('COMPROBAR: ' + JSON.stringify(myval));

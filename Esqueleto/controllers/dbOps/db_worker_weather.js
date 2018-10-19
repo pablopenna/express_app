@@ -58,10 +58,6 @@ module.exports = {
             if (err)
             {
                 console.log("ERROR: " + err);
-                if(res!=undefined)
-                {
-                    res.send(err);
-                }
                 return err;
             }
             //Respuesta
